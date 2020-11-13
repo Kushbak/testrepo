@@ -2,13 +2,20 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Transactions;
+using FinanceManagmentApplication.DAL.Context;
+using FinanceManagmentApplication.DAL.Factories;
+using FinanceManagmentApplication.Filter;
+using FinanceManagmentApplication.Helpers;
 using FinanceManagmentApplication.Models.ErrorModels;
 using FinanceManagmentApplication.Models.TransactionModels;
 using FinanceManagmentApplication.Services.Contracts;
+using FinanceManagmentApplication.Wrappers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace FinanceManagmentApplication.Controllers
 {
@@ -17,12 +24,15 @@ namespace FinanceManagmentApplication.Controllers
     [Authorize]
     public class TransactionController : ControllerBase
     {
+        
+        
         private ITransactionService TransactionService { get; }
 
         public TransactionController(ITransactionService transactionService)
         {
             TransactionService = transactionService;
         }
+        
 
         [HttpPost]
         [Route("Create")]
@@ -41,12 +51,16 @@ namespace FinanceManagmentApplication.Controllers
 
         [HttpGet]
         [Route("Index")]
-        public async Task<ActionResult<List<TransactionIndexModel>>> Index()
+        public async Task<ActionResult<PagedResponse<List<TransactionIndexModel>>>> Index([FromQuery] PaginationFilter filter)
         {
-            return await TransactionService.GetAll();
+            return await TransactionService.IndexPagination(filter);
         }
 
-    
+        [HttpGet("{id}")]
+        public async Task<ActionResult<TransactionIndexModel>> Index(int Id)
+        {
+            return await TransactionService.GetAllById(Id);
+        }
         [HttpPut]
         [Route("Edit")]
         public async Task<IActionResult> Edit(TransactionEditModel model)
@@ -66,5 +80,8 @@ namespace FinanceManagmentApplication.Controllers
             return await TransactionService.GetEditModel(Id);
         }
         
+
+        
     }
 }
+

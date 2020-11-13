@@ -25,6 +25,7 @@ using Microsoft.IdentityModel.Tokens;
 using Swashbuckle.AspNetCore;
 using Newtonsoft.Json;
 using Microsoft.OpenApi.Models;
+using Microsoft.AspNetCore.Http;
 
 namespace FinanceManagmentApplication
 {
@@ -116,6 +117,8 @@ namespace FinanceManagmentApplication
             //;
 
             Mapper.Initialize(cfg => cfg.AddProfile(new MapperProfile()));
+            services.AddHttpContextAccessor();
+
 
         }
 
@@ -128,6 +131,7 @@ namespace FinanceManagmentApplication
             }
 
             app.UseHttpsRedirection();
+
 
             app.UseRouting();
 

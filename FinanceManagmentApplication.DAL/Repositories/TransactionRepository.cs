@@ -17,7 +17,17 @@ namespace FinanceManagmentApplication.DAL.Repositories
             DbSet = applicationDbContext.Transactions;
         }
 
-
+        public List<Transaction> GetPaginationTransactions(int PageNumber, int PageSize)
+        { 
+            return DbSet.Skip((PageNumber - 1) * PageSize)
+                       .Take(PageSize)
+                       .Include(i => i.Operation)
+                        .Include(i => i.Project)
+                        .Include(i => i.Score)
+                        .Include(i => i.CounterParty)
+                        .Include(i => i.Operation.OperationType)
+                       .ToList();
+        }
 
         public bool CheckToScore(int ScoreId)
         {
@@ -64,5 +74,15 @@ namespace FinanceManagmentApplication.DAL.Repositories
                 .ToList();
         }
 
+        public Transaction GetTransactionsToIndexById(int Id)
+        {
+            return DbSet.Where(i => i.Id == Id)
+                .Include(i => i.Operation)
+                .Include(i => i.Project)
+                .Include(i => i.Score)
+                .Include(i => i.CounterParty)
+                .Include(i => i.Operation.OperationType)
+                .FirstOrDefault();
+        }
     }
 }

@@ -75,6 +75,8 @@ namespace FinanceManagmentApplication
             CreateMap<TransactionCreateModel, Transaction>();
             CreateMap<TransactionEditModel, Transaction>();
             CreateMap<Transaction,TransactionEditModel>();
+
+
         }
 
         private void ScoreTransaction()

@@ -54,5 +54,10 @@ namespace FinanceManagmentApplication.DAL.Repositories
         {
             return await DbSet.CountAsync() > 0;
         }
+
+        public async Task<int> Count()
+        {
+            return await DbSet.CountAsync();
+        }
     }
 }

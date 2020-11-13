@@ -1,4 +1,6 @@
-﻿using FinanceManagmentApplication.Models.TransactionModels;
+﻿using FinanceManagmentApplication.Filter;
+using FinanceManagmentApplication.Models.TransactionModels;
+using FinanceManagmentApplication.Wrappers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,6 +14,8 @@ namespace FinanceManagmentApplication.Services.Contracts
         Task<Response> Create(TransactionCreateModel model, ClaimsPrincipal User);
 
         Task<List<TransactionIndexModel>> GetAll();
+     //   Task<List<TransactionIndexModel>> PaginationGetAll();
+        Task<TransactionIndexModel> GetAllById (int Id);
 
         Task<TransactionCreateModel> GetCreateModel();
 
@@ -20,5 +24,8 @@ namespace FinanceManagmentApplication.Services.Contracts
         Task<TransactionEditModel> GetEditModel(int Id);
 
         Task<TransactionDetailsModel> GetDetailsModel(int Id);
+
+        Task<PagedResponse<List<TransactionIndexModel>>>  IndexPagination(PaginationFilter filter);
+
     }
 }

@@ -1,6 +1,9 @@
 ﻿using AutoMapper;
+using FinanceManagmentApplication.DAL.Context;
 using FinanceManagmentApplication.DAL.Entities;
 using FinanceManagmentApplication.DAL.Factories;
+using FinanceManagmentApplication.Filter;
+using FinanceManagmentApplication.Helpers;
 using FinanceManagmentApplication.Models.CounterPartiesModel;
 using FinanceManagmentApplication.Models.ErrorModels;
 using FinanceManagmentApplication.Models.OperationModels;
@@ -9,11 +12,15 @@ using FinanceManagmentApplication.Models.ScoreModel;
 using FinanceManagmentApplication.Models.TransactionModels;
 using FinanceManagmentApplication.Services.Contracts;
 using Microsoft.AspNetCore.Identity;
-using System;
+using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using System.Net.WebSockets;
+using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
+using FinanceManagmentApplication.Wrappers;
 
 namespace FinanceManagmentApplication.Services
 {
@@ -21,7 +28,6 @@ namespace FinanceManagmentApplication.Services
     {
         private IUnitOfWorkFactory UnitOfWorkFactory { get; }
         private UserManager<User> UserManager { get; }
-
         public TransactionService(IUnitOfWorkFactory unitOfWorkFactory, UserManager<User> userManager)
         {
             UnitOfWorkFactory = unitOfWorkFactory;
@@ -119,7 +125,7 @@ namespace FinanceManagmentApplication.Services
         {
             using (var uow = UnitOfWorkFactory.Create())
             {
-                var Transaction = uow.Transactions.GetFullTransaction(Id);
+                var Transaction = await uow.Transactions.GetByIdAsync(Id);
                 var Model = Mapper.Map<TransactionDetailsModel>(Transaction);
                 return Model;
             }
@@ -127,16 +133,19 @@ namespace FinanceManagmentApplication.Services
 
 
 
+       
+
+
 
         public async Task<List<TransactionIndexModel>> GetAll()
         {
             using (var uow = UnitOfWorkFactory.Create())
             {
-                var Transactions =  uow.Transactions.GetTransactionsToIndex();
+                var Transactions = await uow.Transactions.GetAllAsync();
                 var Models = new List<TransactionIndexModel>();
                 foreach (var Transaction in Transactions)
                 {
-                    
+
                     var Model = Mapper.Map<TransactionIndexModel>(Transaction);
                     Models.Add(Model);
                 }
@@ -144,7 +153,7 @@ namespace FinanceManagmentApplication.Services
                 return Models;
             }
         }
-
+ 
         private bool validateSum(int TransactionSum, int ScoreSum, int OperationType)
         {
             int Income = 1;
@@ -159,6 +168,37 @@ namespace FinanceManagmentApplication.Services
         
         }
 
+        public async Task<TransactionIndexModel> GetAllById(int Id)
+        {
+            using (var uow = UnitOfWorkFactory.Create())
+            {
 
+                var Transaction = await uow.Transactions.GetByIdAsync(Id);
+                var Model = Mapper.Map<TransactionIndexModel>(Transaction);
+                return Model;
+               
+            }
+        }
+
+        public async Task<PagedResponse<List<TransactionIndexModel>>> IndexPagination(PaginationFilter filter)
+        {
+            using (var uow = UnitOfWorkFactory.Create())
+            {
+                var validFilter = new PaginationFilter(filter.PageNumber, filter.PageSize);
+                var pagedData = Mapper.Map<List<TransactionIndexModel>>(uow.Transactions.GetPaginationTransactions(filter.PageNumber, filter.PageSize));
+                var totalRecords = await uow.Transactions.Count();
+                var pagedReponse = PaginationHelper.CreatePagedReponse(pagedData, validFilter, totalRecords);
+
+                return pagedReponse;
+            }
+        }
+
+       
+
+       
     }
-}
+           
+            
+        }
+
+  
