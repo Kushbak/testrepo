@@ -55,7 +55,7 @@ namespace FinanceManagmentApplication.Controllers
         {
             return await OperationService.GetCreateModel();
         }
-        [HttpDelete("{id}")]
+        [HttpDelete]
         [Route("Delete")]
         public async Task<IActionResult> Delete(int id)
         {

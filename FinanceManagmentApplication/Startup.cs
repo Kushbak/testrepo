@@ -44,7 +44,7 @@ namespace FinanceManagmentApplication
 
             services.AddCors( c => c.AddPolicy("AllowPolicy", builder => builder.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod()));
           
-            var ConnectionString = "Host=satao.db.elephantsql.com;Port=5432;Database=ciwknvwy;Username=ciwknvwy;Password=Wy5bXX4cLYYKL4BBPemlyTgrh1qCT5lY";
+            var ConnectionString = "host=localhost;Port=5432;Database=Postgres;Username=postgres;Password=Iwantlove44";
 
             services.AddSwaggerGen(c =>
             {
@@ -132,6 +132,8 @@ namespace FinanceManagmentApplication
                 app.UseDeveloperExceptionPage();
             }
 
+            app.UseCors(builder => builder.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod());
+
             app.UseHttpsRedirection();
 
 
@@ -140,7 +142,7 @@ namespace FinanceManagmentApplication
             app.UseAuthentication();
             app.UseAuthorization();
 
-            app.UseCors(builder => builder.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod());
+            
 
             app.UseEndpoints(endpoints =>
             {
