@@ -1,6 +1,7 @@
 ﻿using FinanceManagmentApplication.DAL.Context;
 using FinanceManagmentApplication.DAL.Entities;
 using FinanceManagmentApplication.DAL.Repositories.Contracts;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
