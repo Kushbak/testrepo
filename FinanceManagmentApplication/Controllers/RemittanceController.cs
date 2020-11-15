@@ -39,7 +39,7 @@ namespace FinanceManagmentApplication.Controllers
 
         [HttpGet]
         [Route("Index")]
-        public async Task<PagedResponse<List<RemittanceIndexModel>>> Index(PaginationFilter paginationFilter)
+        public async Task<ActionResult<PagedResponse<List<RemittanceIndexModel>>>> Index([FromQuery] PaginationFilter paginationFilter)
         {
             var Result = await RemittanceService.IndexPagination(paginationFilter);
             return Result;
