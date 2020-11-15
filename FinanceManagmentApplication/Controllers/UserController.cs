@@ -8,15 +8,14 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Abstractions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Microsoft.AspNetCore.Authorization;
 
 namespace FinanceManagmentApplication.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("User")]
     [ApiController]
     public class UserController : ControllerBase
     {
-       
-
         private readonly IUnitOfWorkFactory UnitOfWorkFactory;
 
         public UserController( IUnitOfWorkFactory unitOfWorkFactory)
@@ -33,6 +32,14 @@ namespace FinanceManagmentApplication.Controllers
             {
                 return await uow.OperationTypes.GetAllAsync();
             }
+        }
+
+        [Authorize]
+        [HttpPost]
+        public async Task<IActionResult> Edit()
+        {   
+
+            return Ok();
         }
     }
 }

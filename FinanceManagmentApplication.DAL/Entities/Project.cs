@@ -10,6 +10,6 @@ namespace FinanceManagmentApplication.DAL.Entities
 
         public string Name { get; set; }
 
-        public IEnumerable<Transaction> Transactions { get; set; }
+        public IEnumerable<FinanceAction> Transactions { get; set; }
     }
 }

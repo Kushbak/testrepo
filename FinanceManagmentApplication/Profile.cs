@@ -9,6 +9,7 @@ using FinanceManagmentApplication.Models.OperationModels;
 using FinanceManagmentApplication.Models.OperationTypeModels;
 using FinanceManagmentApplication.Models.PaymentType;
 using FinanceManagmentApplication.Models.ProjectModels;
+using FinanceManagmentApplication.Models.RemittanceModels;
 using FinanceManagmentApplication.Models.ScoreModel;
 using FinanceManagmentApplication.Models.TransactionModels;
 using FinanceManagmentApplication.Models.UserModels;
@@ -24,9 +25,10 @@ namespace FinanceManagmentApplication
             UserMapping();
             OperationMapping();
             TransactionMapping();
-            ScoreTransaction();
+            ScoreMapper();
             PaymentTypeMapper();
             OperationTypeMapper();
+            RemittanceMapping();
         }
 
         private void ProjectMapping()
@@ -79,7 +81,7 @@ namespace FinanceManagmentApplication
 
         }
 
-        private void ScoreTransaction()
+        private void ScoreMapper()
         {
             CreateMap<Score, ScoreIndexModel>();
             CreateMap<Score, ScoreDetailsModel>()
@@ -87,6 +89,17 @@ namespace FinanceManagmentApplication
             CreateMap<ScoreCreateModel, Score>();
             CreateMap<ScoreEditModel, Score>();
             CreateMap<Score,ScoreEditModel>();
+        }
+
+        private void RemittanceMapping()
+        {
+            CreateMap<Remittance, RemittanceIndexModel>()
+               .ForMember(source => source.Score, target => target.MapFrom(src => src.Score.Code))
+               .ForMember(source => source.Score2, target => target.MapFrom(src => src.Score2.Code))
+               .ForMember(source => source.OperationName, target => target.MapFrom(src => src.Operation.Name))
+               .ForMember(source => source.ProjectName, target => target.MapFrom(src => src.Project.Name))
+               .ForMember(source => source.TransactionType, target => target.MapFrom(src => src.Operation.OperationType.Name));
+            CreateMap<RemittanceCreateModel, Remittance>();
         }
 
         private void PaymentTypeMapper()

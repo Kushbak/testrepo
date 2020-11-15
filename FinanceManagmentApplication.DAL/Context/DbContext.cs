@@ -13,7 +13,11 @@ namespace FinanceManagmentApplication.DAL.Context
 
         public DbSet<Score> Scores { get; set; }
 
+        public DbSet<FinanceAction> FinanceActions { get; set; }
+
         public DbSet<Transaction> Transactions { get; set; }
+
+        public DbSet<Remittance> Remittances { get; set; }
 
         public DbSet<Operation> Operations { get; set; }
 

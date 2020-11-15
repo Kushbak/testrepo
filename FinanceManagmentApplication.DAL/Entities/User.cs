@@ -9,6 +9,6 @@ namespace FinanceManagmentApplication.DAL.Entities
     {
         public IEnumerable<CounterParty> CounterParties { get; set; }
 
-        public IEnumerable<Transaction> Transactions { get; set; }
+        public IEnumerable<FinanceAction> Transactions { get; set; }
     }
 }

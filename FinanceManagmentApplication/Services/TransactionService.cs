@@ -100,7 +100,7 @@ namespace FinanceManagmentApplication.Services
                     return new Response { Status = StatusEnum.Error, Message = "Нет такого счета!" };
                 var _User = await UserManager.FindByNameAsync(User.Identity.Name);
                 Transaction.UserId = _User.Id;
-                Transaction.TransactionDate = Transaction.TransactionDate.ToLocalTime();
+                Transaction.ActionDate = Transaction.ActionDate.ToLocalTime();
                 await uow.Transactions.UpdateAsync(Transaction);
                 return new Response { Status = StatusEnum.Accept, Message = "Редактирование транзакции прошло успешно." };
 
@@ -188,6 +188,7 @@ namespace FinanceManagmentApplication.Services
                 var pagedData = Mapper.Map<List<TransactionIndexModel>>(uow.Transactions.GetPaginationTransactions(filter.PageNumber, filter.PageSize));
                 var totalRecords = await uow.Transactions.Count();
                 var pagedReponse = PaginationHelper.CreatePagedReponse(pagedData, validFilter, totalRecords);
+
 
                 return pagedReponse;
             }

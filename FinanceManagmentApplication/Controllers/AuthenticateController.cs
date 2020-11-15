@@ -14,7 +14,7 @@ using System.Threading.Tasks;
 
 namespace FinanceManagmentApplication.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("Authenticate")]
     [ApiController]
     public class AuthenticateController : ControllerBase
     {

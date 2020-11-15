@@ -11,7 +11,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace FinanceManagmentApplication.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("Project")]
     [ApiController]
     public class ProjectController : ControllerBase
     {

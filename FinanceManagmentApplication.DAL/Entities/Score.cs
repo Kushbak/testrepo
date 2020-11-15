@@ -19,7 +19,9 @@ namespace FinanceManagmentApplication.DAL.Entities
 
         public int Balance { get; set; }
 
-        public IEnumerable<Transaction> Transactions { get; set; }
+        public IEnumerable<FinanceAction> FinanceActions { get; set; }
+
+        public IEnumerable<Remittance> Remittances { get; set; }
 
     }
 }

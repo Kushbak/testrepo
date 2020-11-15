@@ -19,12 +19,11 @@ using Microsoft.EntityFrameworkCore;
 
 namespace FinanceManagmentApplication.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("Transaction")]
     [ApiController]
     [Authorize]
     public class TransactionController : ControllerBase
     {
-        
         
         private ITransactionService TransactionService { get; }
 

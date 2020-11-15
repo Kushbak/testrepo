@@ -163,7 +163,7 @@ namespace FinanceManagmentApplication.DAL.Seed
 
                             await repository.CreateAsync(new Transaction
                             {
-                                TransactionDate = DateTime.Now,
+                                ActionDate = DateTime.Now,
                                 Description = "Тестовые данные",
                                 Sum = rnd.Next(1, 10000),
                                 ProjectId = ProjectId,

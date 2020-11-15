@@ -13,7 +13,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace FinanceManagmentApplication.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("Operation")]
     [ApiController]
     public class OperationController : ControllerBase
     {
@@ -55,7 +55,7 @@ namespace FinanceManagmentApplication.Controllers
         {
             return await OperationService.GetCreateModel();
         }
-        [HttpDelete]
+        [HttpDelete("{id}")]
         [Route("Delete")]
         public async Task<IActionResult> Delete(int id)
         {

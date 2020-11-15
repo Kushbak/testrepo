@@ -14,6 +14,6 @@ namespace FinanceManagmentApplication.DAL.Entities
 
         public int OperationTypeId { get; set; }
 
-        public IEnumerable<Transaction> Transactions { get; set; }
+        public IEnumerable<FinanceAction> Transactions { get; set; }
     }
 }
