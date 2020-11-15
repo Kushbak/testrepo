@@ -20,6 +20,7 @@ namespace FinanceManagmentApplication.DAL.Context
         public IUserRepository Users { get; }
         public ICounterPartyRepository CounterParties { get; }
         public IRemittanceRepository Remittances { get; }
+        public IFinanceActionRepository FinanceActions { get; }
 
         public UnitOfWork(ApplicationDbContext applicationDbContext)
         {
@@ -33,6 +34,7 @@ namespace FinanceManagmentApplication.DAL.Context
             CounterParties = new CounterPartyRepository(applicationDbContext);
             Transactions = new TransactionRepository(applicationDbContext);
             Remittances = new RemittanceRepository(applicationDbContext);
+            FinanceActions = new FinanceActionRepository(applicationDbContext);
         }
 
         #region Disposable

@@ -40,7 +40,7 @@ namespace FinanceManagmentApplication.Services
         {
             using (var uow = UnitOfWorkFactory.Create())
             {
-                var Transactions = uow.Transactions.GetTransactionToOperation(Project.Id);
+                var Transactions = uow.FinanceActions.GetFinanceActionsToOperation(Project.Id);
                 var Model = Mapper.Map<ProjectFinanceModel>(Project);
 
                 foreach (var Transaction in Transactions)
