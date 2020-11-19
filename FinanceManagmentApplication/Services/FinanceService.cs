@@ -45,11 +45,11 @@ namespace FinanceManagmentApplication.Services
 
                 foreach (var Transaction in Transactions)
                 {
-                    if (Transaction.OperationId == 1)
+                    if (Transaction.Operation.OperationTypeId == 1)
                     {
                         Model.Income += Transaction.Sum;
                     }
-                    else if (Transaction.OperationId == 2)
+                    else if (Transaction.Operation.OperationTypeId == 2)
                     {
                         Model.Expense += Transaction.Sum;
                     }

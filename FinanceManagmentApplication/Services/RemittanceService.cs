@@ -117,7 +117,7 @@ namespace FinanceManagmentApplication.Services
 
             if (OperationType == Expense)
             {
-                return TransactionSum >= ScoreSum;
+                return TransactionSum <= ScoreSum;
             }
 
             return true;
