@@ -57,27 +57,21 @@ namespace FinanceManagmentApplication.Services
                     return new Response { Status = StatusEnum.Error, Message = "В переводе указан несуществующий счет" };
                 }
 
-                if (!uow.Operations.Check(model.OperationId))
-                {
-                    return new Response { Status = StatusEnum.Error, Message = "В переводе указана несуществующая операция!" };
-                }
-
-                if (!uow.Projects.Check(model.ProjectId))
-                {
-                    return new Response { Status = StatusEnum.Error, Message = "В переводе указан несуществующий проект!" };
-                }
                 var Score = await uow.Scores.GetByIdAsync(model.ScoreId);
                 var Score2 = await uow.Scores.GetByIdAsync(model.Score2Id);
-                var Operation = await uow.Operations.GetByIdAsync(model.OperationId);
 
-                if (!validateSum(model.Sum, Score.Balance, Operation.OperationTypeId) && !validateSum(model.Sum, Score2.Balance, Operation.OperationTypeId))
+                if (!validateSum(model.Sum, Score.Balance, 3) && !validateSum(model.Sum, Score2.Balance, 3))
                 {
                     return new Response { Status = StatusEnum.Error, Message = "На счету недостаточно денег!" };
                 }
 
                 model.UserId = _User.Id;
                 var Remittance = Mapper.Map<Remittance>(model);
+                Remittance.ProjectId = await uow.Projects.GetNullProjectId();
+                Remittance.OperationId = await uow.Operations.GetTransferOperationId();
                 await uow.Remittances.CreateAsync(Remittance);
+
+
                 return new Response { Status = StatusEnum.Accept, Message = "Перевод успешно создан." };
 
             }
@@ -91,8 +85,6 @@ namespace FinanceManagmentApplication.Services
             using (var uow = UnitOfWorkFactory.Create())
             {
                 var Model = new RemittanceCreateModel();
-                Model.Operations = Mapper.Map<List<OperationIndexModel>>(await uow.Operations.GetAllAsync());
-                Model.Projects = Mapper.Map<List<ProjectIndexModel>>(await uow.Projects.GetAllAsync());
                 Model.Scores = Mapper.Map<List<ScoreIndexModel>>(await uow.Scores.GetAllAsync());
                 return Model;
             }
@@ -112,10 +104,9 @@ namespace FinanceManagmentApplication.Services
 
         private bool validateSum(int TransactionSum, int ScoreSum, int OperationType)
         {
-            int Income = 1;
-            int Expense = 2;
+            int Transfer = 3;
 
-            if (OperationType == Expense)
+            if (OperationType == Transfer)
             {
                 return TransactionSum <= ScoreSum;
             }

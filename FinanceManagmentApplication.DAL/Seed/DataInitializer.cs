@@ -13,7 +13,7 @@ namespace FinanceManagmentApplication.DAL.Seed
     {
         public static async Task OperationTypeInitialize(IOperationTypeRepository repository)
         {
-            var Values = new string[] { "Доход", "Расход" };
+            var Values = new string[] { "Доход", "Расход", "Перевод" };
 
             var Types = await repository.GetAllAsync();
 
@@ -77,6 +77,7 @@ namespace FinanceManagmentApplication.DAL.Seed
             {
                 await Repository.CreateAsync(new CounterParty { IsCompany = true, Name = "ОсОО Таргет" });
                 await Repository.CreateAsync(new CounterParty { IsCompany = false, Name = "Аяна Каракаевна" });
+                await Repository.CreateAsync(new CounterParty { IsCompany = false, Name = "Без контрагента" });
             }
         }
 
@@ -129,6 +130,11 @@ namespace FinanceManagmentApplication.DAL.Seed
                     "Расходы на оплату аренды"
                 };
 
+            var TransferValue = new string[]
+                {
+                    "Внутренние переводы"
+                };
+
             var Operations = await Repository.GetAllAsync();
 
 
@@ -145,6 +151,14 @@ namespace FinanceManagmentApplication.DAL.Seed
                 if (Operations.Where(i => i.Name == Value).ToList().Count == 0)
                 {
                     await Repository.CreateAsync(new Operation { Name = Value, OperationTypeId = 2 });
+                }
+            }
+
+            foreach (var Value in TransferValue)
+            {
+                if (Operations.Where(i => i.Name == Value).ToList().Count == 0)
+                {
+                    await Repository.CreateAsync(new Operation { Name = Value, OperationTypeId = 3 });
                 }
             }
         }

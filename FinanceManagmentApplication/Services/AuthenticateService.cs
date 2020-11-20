@@ -22,11 +22,5 @@ namespace FinanceManagmentApplication.Services
             _configuration = configuration;
         }
 
-        public bool Login()
-        { 
-        
-        }
-
-        p
     }
 }

@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace FinanceManagmentApplication.DAL.Repositories
 {
@@ -17,6 +18,16 @@ namespace FinanceManagmentApplication.DAL.Repositories
         public bool Check(int Id)
         {
             return DbSet.Any(i => i.Id == Id);
+        }
+
+        public async Task<int> GetTransferOperationId()
+        {
+            var Operation = DbSet.Where(i => i.Name == "внутренние переводы").FirstOrDefault();
+            if (Operation == null)
+            {
+                await CreateAsync(new Operation { Name ="Внутренние переводы", OperationTypeId = 3});
+            }
+            return Operation.Id;
         }
     }
 }

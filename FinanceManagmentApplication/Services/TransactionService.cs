@@ -55,6 +55,10 @@ namespace FinanceManagmentApplication.Services
                 {
                     return new Response { Status = StatusEnum.Error, Message = "В транзакции указан несуществующий проект!" };
                 }
+                if (!uow.CounterParties.Check(model.CounterPartyId))
+                {
+                    return new Response { Status = StatusEnum.Error, Message = "В транзакции указан несуществующий контрагент!" };
+                }
                 var Score = await uow.Scores.GetByIdAsync(model.ScoreId);
                 var Operation = await uow.Operations.GetByIdAsync(model.OperationId);
 
@@ -62,7 +66,14 @@ namespace FinanceManagmentApplication.Services
                 {
                     return new Response { Status = StatusEnum.Error, Message = "На счету недостаточно денег!" };
                 }
-
+                if (model.CounterPartyId == 0)
+                {
+                    model.CounterPartyId = await uow.CounterParties.GetNullCounterParty();
+                }
+                if (model.ProjectId == 0)
+                {
+                    model.ProjectId = await uow.Projects.GetNullProjectId();
+                }
                 model.UserId = _User.Id;
                 var Transaction = Mapper.Map<Transaction>(model);
                 await uow.Transactions.CreateAsync(Transaction);
