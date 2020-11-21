@@ -21,7 +21,6 @@ namespace FinanceManagmentApplication.Controllers
 {
     [Route("Transaction")]
     [ApiController]
-    [Authorize]
     public class TransactionController : ControllerBase
     {
         

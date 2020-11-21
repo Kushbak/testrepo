@@ -108,6 +108,8 @@ namespace FinanceManagmentApplication
 
             services.AddScoped<IRemittanceService, RemittanceService>();
 
+            services.AddScoped<IAuthenticateService, AuthenticateService>();
+
             services.AddControllers();
 
             //services.AddMvc()

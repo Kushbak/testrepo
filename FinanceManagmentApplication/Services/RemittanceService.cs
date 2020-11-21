@@ -65,10 +65,10 @@ namespace FinanceManagmentApplication.Services
                     return new Response { Status = StatusEnum.Error, Message = "На счету недостаточно денег!" };
                 }
 
-                model.UserId = _User.Id;
                 var Remittance = Mapper.Map<Remittance>(model);
                 Remittance.ProjectId = await uow.Projects.GetNullProjectId();
                 Remittance.OperationId = await uow.Operations.GetTransferOperationId();
+                Remittance.UserId = _User.Id;
                 await uow.Remittances.CreateAsync(Remittance);
 
 
@@ -85,7 +85,6 @@ namespace FinanceManagmentApplication.Services
             using (var uow = UnitOfWorkFactory.Create())
             {
                 var Model = new RemittanceCreateModel();
-                Model.Scores = Mapper.Map<List<ScoreIndexModel>>(await uow.Scores.GetAllAsync());
                 return Model;
             }
         }

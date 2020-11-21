@@ -7,5 +7,8 @@ namespace FinanceManagmentApplication.Services.Contracts
 {
     public interface IAuthenticateService
     {
+        Task<TokenModel> Login(LoginModel model);
+
+        Task<Response> Register(RegisterModel model);
     }
 }

@@ -14,13 +14,9 @@ namespace FinanceManagmentApplication.Models.RemittanceModels
 
         public int Sum { get; set; }
 
-        public List<ScoreIndexModel> Scores { get; set; }
-
         public int ScoreId { get; set; }
 
         public int Score2Id { get; set; }
-
-        public int UserId { get; set; }
 
         public string Description { get; set; }
     }
