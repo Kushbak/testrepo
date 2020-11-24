@@ -37,13 +37,13 @@ namespace FinanceManagmentApplication.Controllers
             return Ok(Result);
         }
 
-        [HttpGet]
-        [Route("Index")]
-        public async Task<ActionResult<PagedResponse<List<RemittanceIndexModel>>>> Index([FromQuery] PaginationFilter paginationFilter)
-        {
-            var Result = await RemittanceService.IndexPagination(paginationFilter);
-            return Result;
-        }
+        //[HttpGet]
+        //[Route("Index")]
+        //public async Task<ActionResult<PagedResponse<List<RemittanceIndexModel>>>> Index(PaginationFilter paginationFilter)
+        //{
+        //    var Result = await RemittanceService.IndexPagination(paginationFilter);
+        //    return Result;
+        //}
 
     }
 }

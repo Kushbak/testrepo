@@ -24,7 +24,7 @@ using FinanceManagmentApplication.Wrappers;
 
 namespace FinanceManagmentApplication.Services
 {
-    public class TransactionService: ITransactionService
+    public class TransactionService : ITransactionService
     {
         private IUnitOfWorkFactory UnitOfWorkFactory { get; }
         private UserManager<User> UserManager { get; }
@@ -39,8 +39,8 @@ namespace FinanceManagmentApplication.Services
             using (var uow = UnitOfWorkFactory.Create())
             {
                 var _User = await UserManager.FindByNameAsync(User.Identity.Name);
-                
-                
+
+
                 if (!uow.Scores.Check(model.ScoreId))
                 {
                     return new Response { Status = StatusEnum.Error, Message = "В транзакции указан несуществующий счет" };
@@ -74,8 +74,8 @@ namespace FinanceManagmentApplication.Services
                 {
                     model.ProjectId = await uow.Projects.GetNullProjectId();
                 }
-                model.UserId = _User.Id;
                 var Transaction = Mapper.Map<Transaction>(model);
+                Transaction.UserId = _User.Id;
                 await uow.Transactions.CreateAsync(Transaction);
                 return new Response { Status = StatusEnum.Accept, Message = "Транзакция успешно создана." };
 
@@ -87,10 +87,6 @@ namespace FinanceManagmentApplication.Services
             using (var uow = UnitOfWorkFactory.Create())
             {
                 var Model = new TransactionCreateModel();
-                Model.Operations = Mapper.Map<List<OperationIndexModel>>(await uow.Operations.GetAllAsync());
-                Model.Projects = Mapper.Map<List<ProjectIndexModel>>(await uow.Projects.GetAllAsync());
-                Model.Scores = Mapper.Map<List<ScoreIndexModel>>(await uow.Scores.GetAllAsync());
-                Model.counterParties = Mapper.Map<List<CounterPartyIndexModel>>(await uow.CounterParties.GetAllAsync());
                 return Model;
             }
         }
@@ -99,7 +95,7 @@ namespace FinanceManagmentApplication.Services
         {
             using (var uow = UnitOfWorkFactory.Create())
             {
-             
+
                 var Transaction = Mapper.Map<Transaction>(model);
                 if (model == null)
                     return new Response { Status = StatusEnum.Error, Message = "ничего на сервер не отправлено" };
@@ -124,10 +120,6 @@ namespace FinanceManagmentApplication.Services
             {
                 var Transaction = await uow.Transactions.GetByIdAsync(Id);
                 var Model = Mapper.Map<TransactionEditModel>(Transaction);
-                Model.Operations = Mapper.Map<List<OperationIndexModel>>(await uow.Operations.GetAllAsync());
-                Model.Projects = Mapper.Map<List<ProjectIndexModel>>(await uow.Projects.GetAllAsync());
-                Model.Scores = Mapper.Map<List<ScoreIndexModel>>(await uow.Scores.GetAllAsync());
-                Model.counterParties = Mapper.Map<List<CounterPartyIndexModel>> (await uow.CounterParties.GetAllAsync());
                 return Model;
             }
         }
@@ -141,12 +133,6 @@ namespace FinanceManagmentApplication.Services
                 return Model;
             }
         }
-
-
-
-       
-
-
 
         public async Task<List<TransactionIndexModel>> GetAll()
         {
@@ -164,7 +150,7 @@ namespace FinanceManagmentApplication.Services
                 return Models;
             }
         }
- 
+
         private bool validateSum(int TransactionSum, int ScoreSum, int OperationType)
         {
             int Income = 1;
@@ -176,7 +162,7 @@ namespace FinanceManagmentApplication.Services
             }
 
             return true;
-        
+
         }
 
         public async Task<TransactionIndexModel> GetAllById(int Id)
@@ -187,7 +173,7 @@ namespace FinanceManagmentApplication.Services
                 var Transaction = await uow.Transactions.GetByIdAsync(Id);
                 var Model = Mapper.Map<TransactionIndexModel>(Transaction);
                 return Model;
-               
+
             }
         }
 
@@ -196,21 +182,19 @@ namespace FinanceManagmentApplication.Services
             using (var uow = UnitOfWorkFactory.Create())
             {
                 var validFilter = new PaginationFilter(filter.PageNumber, filter.PageSize);
-                var pagedData = Mapper.Map<List<TransactionIndexModel>>(uow.Transactions.GetPaginationTransactions(filter.PageNumber, filter.PageSize));
+                var pagedData = Mapper.Map<List<TransactionIndexModel>>(uow.Transactions.GetPaginationTransactions(filter.PageNumber, filter.PageSize, filter.ActionDate, filter.OperationId, filter.ProjectId, ScoreId: filter.ScoreId, CounterPartyId: filter.CounterPartyId));
                 var totalRecords = await uow.Transactions.Count();
                 var pagedReponse = PaginationHelper.CreatePagedReponse(pagedData, validFilter, totalRecords);
-
-
                 return pagedReponse;
             }
         }
 
-       
 
-       
+
+
     }
-           
-            
-        }
+
+
+}
 
   

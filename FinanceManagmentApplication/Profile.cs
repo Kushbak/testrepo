@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using FinanceManagmentApplication.DAL.Entities;
 using FinanceManagmentApplication.Models.CounterPartiesModel;
+using FinanceManagmentApplication.Models.FinanceActiveModels;
 using FinanceManagmentApplication.Models.OperationModels;
 using FinanceManagmentApplication.Models.OperationTypeModels;
 using FinanceManagmentApplication.Models.PaymentType;
@@ -67,12 +68,13 @@ namespace FinanceManagmentApplication
 
         private void TransactionMapping()
         {
-            CreateMap<Transaction, TransactionIndexModel>()
-                .ForMember(source => source.Score, target => target.MapFrom(src => src.Score.Code))
-                .ForMember(source => source.CounterPartyName, target => target.MapFrom(src => src.CounterParty.Name))
+            CreateMap<Transaction, FinanceActiveIndexModel>()
+                .ForMember(source => source.Score, target => target.MapFrom(src => src.Score.Name))
+                .ForMember(source => source.TargetEntity, target => target.MapFrom(src => src.CounterParty.Name))
                 .ForMember(source => source.OperationName, target => target.MapFrom(src => src.Operation.Name))
                 .ForMember(source => source.ProjectName, target => target.MapFrom(src => src.Project.Name))
-                .ForMember(source => source.TransactionType, target => target.MapFrom(src => src.Operation.OperationType.Name));
+                .ForMember(source => source.TransactionType, target => target.MapFrom(src => src.Operation.OperationType.Name))
+                .ForMember(source => source.ActionDate, target => target.MapFrom(src => src.ActionDate.ToString("d")));
             CreateMap<Transaction, TransactionDetailsModel>();
             CreateMap<TransactionCreateModel, Transaction>();
             CreateMap<TransactionEditModel, Transaction>();
@@ -93,12 +95,13 @@ namespace FinanceManagmentApplication
 
         private void RemittanceMapping()
         {
-            CreateMap<Remittance, RemittanceIndexModel>()
-               .ForMember(source => source.Score, target => target.MapFrom(src => src.Score.Code))
-               .ForMember(source => source.Score2, target => target.MapFrom(src => src.Score2.Code))
+            CreateMap<Remittance, FinanceActiveIndexModel>()
+               .ForMember(source => source.Score, target => target.MapFrom(src => src.Score.Name))
+               .ForMember(source => source.TargetEntity, target => target.MapFrom(src => src.Score2.Name))
                .ForMember(source => source.OperationName, target => target.MapFrom(src => src.Operation.Name))
                .ForMember(source => source.ProjectName, target => target.MapFrom(src => src.Project.Name))
-               .ForMember(source => source.TransactionType, target => target.MapFrom(src => src.Operation.OperationType.Name));
+               .ForMember(source => source.TransactionType, target => target.MapFrom(src => src.Operation.OperationType.Name))
+               .ForMember(source => source.ActionDate, target => target.MapFrom(src => src.ActionDate.ToString("d")));
             CreateMap<RemittanceCreateModel, Remittance>();
         }
 

@@ -22,7 +22,7 @@ namespace FinanceManagmentApplication.Models.TransactionModels
 
         public string CounterPartyName { get ; set; }
 
-
+        public string Discriminator { get; set; }
 
     }
 }

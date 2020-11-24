@@ -31,5 +31,7 @@ namespace FinanceManagmentApplication.DAL.Repositories
             return DbSet
                 .Include(i => i.PaymentType).ToList();
         }
+
+        
     }
 }

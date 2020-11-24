@@ -7,7 +7,7 @@ namespace FinanceManagmentApplication.Models.TransactionModels
 {
     public class TransactionDetailsModel
     {
-        public DateTime TransactionDate { get; set; }
+        public DateTime ActionDate { get; set; }
 
         public int Sum { get; set; }
 

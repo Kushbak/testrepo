@@ -62,7 +62,6 @@ namespace FinanceManagmentApplication.Services
                     expiration = token.ValidTo
                 };
 
-                
             }
 
             return null;

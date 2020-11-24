@@ -19,9 +19,6 @@ namespace FinanceManagmentApplication.Controllers
     [ApiController]
     public class AuthenticateController : ControllerBase
     {
-        private readonly UserManager<User> userManager;
-        private readonly RoleManager<Role> roleManager;
-        private readonly IConfiguration _configuration;
         private readonly IAuthenticateService authenticateService;
 
         public AuthenticateController(IAuthenticateService authenticateService)

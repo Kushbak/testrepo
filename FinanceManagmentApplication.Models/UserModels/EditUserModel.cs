@@ -4,10 +4,9 @@ using System.Text;
 
 namespace FinanceManagmentApplication.Models.UserModels
 {
-    public class UserEditModel
+    public class EditUserModel
     {
-        public int Id { get; set; }
-
         public string Email { get; set; }
+        public string Username { get; set; }
     }
 }

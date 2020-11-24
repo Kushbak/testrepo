@@ -9,6 +9,15 @@ namespace FinanceManagmentApplication.Filter
     {
         public int PageNumber { get; set; }
         public int PageSize { get; set; }
+
+
+        public DateTime? ActionDate { get; set; }
+        public int? OperationId { get; set; }
+        public int? ProjectId { get; set; }
+        public int? ScoreId { get; set; }
+        public int? CounterPartyId { get; set; }
+        public int? Score2Id { get; set; }
+
         public PaginationFilter()
         {
             this.PageNumber = 1;

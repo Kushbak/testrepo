@@ -25,7 +25,7 @@ namespace FinanceManagmentApplication.DAL.Repositories
             var Operation = DbSet.Where(i => i.Name == "внутренние переводы").FirstOrDefault();
             if (Operation == null)
             {
-                await CreateAsync(new Operation { Name ="Внутренние переводы", OperationTypeId = 3});
+                return await CreateAsync(new Operation { Name ="Внутренние переводы", OperationTypeId = 3});
             }
             return Operation.Id;
         }

@@ -10,7 +10,7 @@ namespace FinanceManagmentApplication.Models.RemittanceModels
     public class RemittanceCreateModel
     {
 
-        public DateTime Date { get; set; }
+        public DateTime ActionDate { get; set; }
 
         public int Sum { get; set; }
 

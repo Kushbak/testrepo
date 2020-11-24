@@ -44,7 +44,7 @@ namespace FinanceManagmentApplication
 
             services.AddCors( c => c.AddPolicy("AllowPolicy", builder => builder.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod()));
           
-            var ConnectionString = "host=satao.db.elephantsql.com;Port=5432;Database=ciwknvwy;Username=ciwknvwy;Password=Wy5bXX4cLYYKL4BBPemlyTgrh1qCT5lY";
+            var ConnectionString = "host=localhost;Port=5432;Database=FinanceDb;Username=postgres;Password=!Number98";
 
             services.AddSwaggerGen(c =>
             {
@@ -109,6 +109,8 @@ namespace FinanceManagmentApplication
             services.AddScoped<IRemittanceService, RemittanceService>();
 
             services.AddScoped<IAuthenticateService, AuthenticateService>();
+
+            services.AddScoped<IFinanceActionService, FinanceActionService>();
 
             services.AddControllers();
 

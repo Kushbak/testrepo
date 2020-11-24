@@ -2,14 +2,13 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace FinanceManagmentApplication.Models.RemittanceModels
+namespace FinanceManagmentApplication.Models.FinanceActiveModels
 {
-    public class RemittanceIndexModel
+    public class FinanceActiveIndexModel
     {
-
         public int Id { get; set; }
 
-        public DateTime ActionDate { get; set; }
+        public string ActionDate { get; set; }
 
         public int Sum { get; set; }
 
@@ -21,6 +20,8 @@ namespace FinanceManagmentApplication.Models.RemittanceModels
 
         public string Score { get; set; }
 
-        public string Score2 { get; set; }
+        public string TargetEntity { get; set; }
+
+        public string Discriminator { get; set; }
     }
 }

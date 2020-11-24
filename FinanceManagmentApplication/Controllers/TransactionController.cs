@@ -47,12 +47,12 @@ namespace FinanceManagmentApplication.Controllers
             return await TransactionService.GetCreateModel();
         }
 
-        [HttpGet]
-        [Route("Index")]
-        public async Task<ActionResult<PagedResponse<List<TransactionIndexModel>>>> Index([FromQuery] PaginationFilter filter)
-        {
-            return await TransactionService.IndexPagination(filter);
-        }
+        //[HttpGet]
+        //[Route("Index")]
+        //public async Task<ActionResult<PagedResponse<List<TransactionIndexModel>>>> Index(PaginationFilter filter)
+        //{
+        //    return await TransactionService.IndexPagination(filter);
+        //}
 
         [HttpGet("{id}")]
         public async Task<ActionResult<TransactionIndexModel>> Index(int Id)

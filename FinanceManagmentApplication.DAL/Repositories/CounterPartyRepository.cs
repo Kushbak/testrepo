@@ -26,7 +26,7 @@ namespace FinanceManagmentApplication.DAL.Repositories
             var CounterParty = DbSet.Where(i => i.Name.ToLower() == "без контрагента").FirstOrDefault();
             if (CounterParty == null)
             {
-                return await CreateAsync(new CounterParty { IsCompany = true, Name = "ОсОО Таргет" });
+                return await CreateAsync(new CounterParty { IsCompany = true, Name = "без контрагента" });
             }
             return CounterParty.Id;
         }
