@@ -10,7 +10,6 @@ namespace FinanceManagmentApplication.Services.Contracts
     public interface IUserService
     {
         Task<EditUserModel> GetEditModel(int Id);
-
         Task<UserDetailsModel> GetDetailsModel(int Id);
         Task<List<UserIndexModel>> GetAll();
         Task<Response> Edit(EditUserModel model, ClaimsPrincipal User);
