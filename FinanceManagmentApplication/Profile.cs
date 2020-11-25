@@ -14,6 +14,7 @@ using FinanceManagmentApplication.Models.RemittanceModels;
 using FinanceManagmentApplication.Models.ScoreModel;
 using FinanceManagmentApplication.Models.TransactionModels;
 using FinanceManagmentApplication.Models.UserModels;
+using FinanceManagmentApplication.Models.FinanceModels;
 
 namespace FinanceManagmentApplication
 {
@@ -63,6 +64,7 @@ namespace FinanceManagmentApplication
             CreateMap<OperationDetailsModel, Operation>();
             CreateMap<OperationEditModel, Operation>();
             CreateMap<Operation, OperationEditModel>();
+            CreateMap<Operation, OperationFinanceModel>();
            
         }
 

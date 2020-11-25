@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace FinanceManagmentApplication.Models.ProjectModels
+namespace FinanceManagmentApplication.Models.FinanceModels
 {
     public class ProjectFinanceModel
     {

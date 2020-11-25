@@ -1,4 +1,4 @@
-﻿using FinanceManagmentApplication.Models.ProjectModels;
+﻿using FinanceManagmentApplication.Models.FinanceModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,5 +9,7 @@ namespace FinanceManagmentApplication.Services.Contracts
     public interface IFinanceService
     {
         Task<List<ProjectFinanceModel>> GetFinanceInformationToProjects();
+
+        Task<List<OperationFinanceModel>> GetFinanceInformationToOperations();
     }
 }

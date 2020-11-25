@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using FinanceManagmentApplication.Models.ProjectModels;
+using FinanceManagmentApplication.Models.FinanceModels;
 using FinanceManagmentApplication.Services;
 using FinanceManagmentApplication.Services.Contracts;
 using Microsoft.AspNetCore.Http;
@@ -22,10 +22,17 @@ namespace FinanceManagmentApplication.Controllers
         }
 
         [HttpGet]
-        [Route("Index")]
-        public async Task<ActionResult<List<ProjectFinanceModel>>> Index()
+        [Route("Projects")]
+        public async Task<ActionResult<List<ProjectFinanceModel>>> Projects()
         {
             return await financeService.GetFinanceInformationToProjects();
+        }
+
+        [HttpGet]
+        [Route("Operations")]
+        public async Task<ActionResult<List<OperationFinanceModel>>> Operations()
+        {
+            return await financeService.GetFinanceInformationToOperations();
         }
     }
 }

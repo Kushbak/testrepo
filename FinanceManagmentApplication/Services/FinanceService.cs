@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using FinanceManagmentApplication.DAL.Entities;
 using FinanceManagmentApplication.DAL.Factories;
-using FinanceManagmentApplication.Models.ProjectModels;
+using FinanceManagmentApplication.Models.FinanceModels;
 using FinanceManagmentApplication.Services.Contracts;
 using System;
 using System.Collections.Generic;
@@ -29,11 +29,35 @@ namespace FinanceManagmentApplication.Services
                 foreach (var Project in Projects)
                 {
                     Models.Add(GetFinanceInformationToProject(Project));
-
                 }
 
                 return Models;
             }
+        }
+
+        public async Task<List<OperationFinanceModel>> GetFinanceInformationToOperations()
+        {
+            using (var uow = UnitOfWorkFactory.Create())
+            {
+                var Models = new List<OperationFinanceModel>();
+                var Operations = await uow.Operations.GetAllAsync();
+                var Transactions = await uow.FinanceActions.GetAllAsync();
+                foreach (var operation in Operations)
+                {
+                    Models.Add(GetFinanceInformationToOperation(operation, Transactions));
+                }
+
+                return Models;
+            }
+        }
+
+        public OperationFinanceModel GetFinanceInformationToOperation(Operation operation, List<FinanceAction> transactions)
+        {
+            var Model = Mapper.Map<OperationFinanceModel>(operation);
+            var OperationTransactions = transactions.Where(i => i.OperationId == operation.Id).ToList();
+            Model.OperationSum = OperationTransactions.Sum(i => i.Sum);
+            Model.OperationCount = OperationTransactions.Count();
+            return Model;
         }
 
         public ProjectFinanceModel GetFinanceInformationToProject(Project Project)
