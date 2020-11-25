@@ -101,8 +101,12 @@ namespace FinanceManagmentApplication.Services
                 }
 
                 var Operation = await uow.Operations.GetByIdAsync(Id);
+                if (Operation == null)
+                {
+                    return new Response { Status = StatusEnum.Error, Message = "Нет такого типа операций" };
+                }
                 await uow.Operations.RemoveAsync(Operation);
-                return new Response { Status = StatusEnum.Error };
+                return new Response { Status = StatusEnum.Accept, Message = "Запрос прошел успешно" };
             }
 
         }

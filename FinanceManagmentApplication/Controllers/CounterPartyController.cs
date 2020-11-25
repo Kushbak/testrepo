@@ -20,15 +20,34 @@ namespace FinanceManagmentApplication.Controllers
         {
             CounterPartyService = counterPartyService;
         }
-
+        /// <summary>
+        /// Get create model for a counterparty(only for a backend testing!!!)
+        /// </summary>
         [HttpGet]
         [Route("Create")]
         public async Task<ActionResult<CounterPartyCreateModel>> Create()
         {
             return await CounterPartyService.GetCreateModel();
         }
-
-        [HttpPost]
+        /// <summary>
+        /// Create a counterparty
+        /// </summary>
+        /// <remarks>
+        /// Sample request:
+        ///
+        ///     POST 
+        ///     {
+       ///         "name": "lalala",
+       ///         "isCompany": true,
+       ///         "userId": null}
+    ///
+    ///                            </remarks>
+    /// <param name="model"></param>
+    /// <returns>A token</returns>
+    /// <response code="200">Returns the token</response>
+    /// <response code="401">Wrong username or password</response>
+    /// <response code="400">Model is null</response>
+    [HttpPost]
         [Route("Create")]
         public async Task<IActionResult> Create(CounterPartyCreateModel model)
         {
@@ -40,7 +59,9 @@ namespace FinanceManagmentApplication.Controllers
 
             return Ok(Result);
         }
-
+        /// <summary>
+        /// Get edit model for a counterparty(only for a backend testing!!!)
+        /// </summary>
         [HttpGet]
         [Route("Edit")]
         public async Task<ActionResult<CounterPartyEditModel>> Edit(int Id)
@@ -56,8 +77,19 @@ namespace FinanceManagmentApplication.Controllers
             }
         }
 
-
-        [HttpPut]
+        /// <summary>
+        /// Edit a counterparty
+        /// </summary>
+        /// <remarks>
+        /// Sample request:
+        /// PUT
+        ///     {
+///                 "id": 3,
+///                 "name": "Lalalala",
+///                 "isCompany": true,
+///                 "userId": null
+///             }  </remarks>
+    [HttpPut]
         [Route("Edit")]
         public async Task<IActionResult> Edit(CounterPartyEditModel model)
         {
@@ -71,14 +103,25 @@ namespace FinanceManagmentApplication.Controllers
 
         }
 
-
+        /// <summary>
+        /// Get all counterparty
+        /// </summary>
         [HttpGet]
         [Route("Index")]
         public async Task<ActionResult<List<CounterPartyIndexModel>>> Index()
         {
             return await CounterPartyService.GetAll();
         }
-
+        /// <summary>
+        /// Delete a counterparty
+        /// </summary>
+        /// <remarks>
+        /// Sample request:
+        ///     DELETE 
+        ///     {
+        ///         "id": 3
+        ///     }
+        /// </remarks>
         [HttpDelete]
         [Route("Delete")]
         public async Task<IActionResult> Delete(int Id)

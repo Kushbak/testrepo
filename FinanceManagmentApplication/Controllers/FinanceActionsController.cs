@@ -21,7 +21,9 @@ namespace FinanceManagmentApplication.Controllers
         {
             FinanceActionService = financeActionService;
         }
-
+        /// <summary>
+        /// Full list of all transactions with a pagination and filtering.
+        /// </summary>
         [Route("Index")]
         [HttpGet]
         public async Task<ActionResult<PagedResponse<List<FinanceActiveIndexModel>>>> Index([FromQuery]PaginationFilter filter)

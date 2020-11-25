@@ -20,7 +20,10 @@ namespace FinanceManagmentApplication.Controllers
         {
             ScoreService = scoreService;
         }
-
+        /// <summary>
+        /// Get all scores
+        /// </summary>
+       
         [HttpGet]
         [Route("Scores")]
         public async Task<ActionResult<List<ScoreIndexModel>>> Index()
@@ -28,6 +31,10 @@ namespace FinanceManagmentApplication.Controllers
             return await ScoreService.GetAll();
         }
 
+
+        /// <summary>
+        /// Get score details information
+        /// </summary>
         [HttpGet]
         [Route("ScoresDetails")]
         public async Task<ActionResult<List<ScoreDetailsModel>>> DetailsIndex()
@@ -35,6 +42,11 @@ namespace FinanceManagmentApplication.Controllers
             return await ScoreService.GetAllDetails();
         }
 
+
+
+        /// <summary>
+        /// Get create model for score(only for a back developers)
+        /// </summary>
         [HttpGet]
         [Route("Create")]
         public async Task<ActionResult<ScoreCreateModel>> Create()
@@ -42,6 +54,21 @@ namespace FinanceManagmentApplication.Controllers
             return await ScoreService.GetCreateModel();
         }
 
+
+
+        /// <summary>
+        /// Create a score
+        /// </summary>
+        /// <remarks>
+        /// Sample request:
+        ///
+        ///     POST
+        ///     {
+        ///         "code": "123456789",
+            ///  "paymentTypeId": 1,
+        ///        "name": "NewScore",
+        ///
+        ///                            </remarks>
         [HttpPost]
         [Route("Create")]
         public async Task<IActionResult> Create(ScoreCreateModel model)
@@ -55,6 +82,10 @@ namespace FinanceManagmentApplication.Controllers
             return Ok(Result);
         }
 
+
+        /// <summary>
+        /// Get edit model for score(only for a back developers)
+        /// </summary>
         [HttpGet]
         [Route("Edit")]
         public async Task<ActionResult<ScoreEditModel>> Edit(int Id)
@@ -62,6 +93,21 @@ namespace FinanceManagmentApplication.Controllers
             return Ok(await ScoreService.GetEditModel(Id));
         }
 
+
+        /// <summary>
+        /// Edit a score
+        /// </summary>
+        /// <remarks>
+        /// Sample request:
+        ///
+        ///     POST
+        ///     {
+        ///     "id":4
+        ///         "code": "123456789",
+        ///         "paymentTypeId": 1,
+        ///         "name": "NewScoreEdit",
+        ///
+        ///      </remarks>
         [HttpPut]
         [Route("Edit")]
         public async Task<ActionResult<ScoreEditModel>> Edit(ScoreEditModel model)

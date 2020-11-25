@@ -29,18 +29,36 @@ namespace FinanceManagmentApplication.Controllers
             _userManager = userManager;
             UserService = userService;
         }
-        [HttpGet]
-        [Route("Index")]
-        public async Task<ActionResult<List<UserIndexModel>>> Index()
-        {
-            return await UserService.GetAll();
-        }
+
+        //[HttpGet]
+        //[Route("Index")]
+        //public async Task<ActionResult<List<UserIndexModel>>> Index()
+        //{
+        //    return await UserService.GetAll();
+        //}
 
         //[HttpGet("{id}")]
         //public async Task<ActionResult<UserIndexModel>> Index(int Id)
         //{
         //    return await UserService.GetById(Id);
         //}
+
+
+
+
+        /// <summary>
+        /// Get a user in user personal page.
+        /// </summary>
+        /// <remarks>
+        /// Sample request:
+        ///
+        ///     GET / Authorize: brear token
+        ///
+        /// </remarks>
+        /// <param name="model"></param>
+        /// <returns>A token</returns>
+        /// <response code="200">Returns the user's information</response>
+        /// <response code="401">Wrong token</response>
         [HttpGet]
         [Authorize]
         [Route("GetUser")]
@@ -51,6 +69,24 @@ namespace FinanceManagmentApplication.Controllers
         }
 
 
+        /// <summary>
+        ///Edit information about user
+        ///Username is should be unique
+        /// </summary>
+        /// <remarks>
+        /// Sample request:
+        ///
+        ///     PUT / Authorize: brear token
+        ///     {
+        ///     "Username":"Aidana",
+        ///     "Email":"Aidana@mail.ru"
+        ///     }
+        ///
+        /// </remarks>
+        /// <param name="model"></param>
+        /// <returns>A token</returns>
+        /// <response code="200">Request is success</response>
+        /// <response code="401">Wrong token</response>
         [HttpPut]
         [Authorize]
         [Route("Edit")]
@@ -64,6 +100,25 @@ namespace FinanceManagmentApplication.Controllers
             return Ok(Result);
         }
 
+
+
+        /// <summary>
+        ///Edit user password
+        /// </summary>
+        /// <remarks>
+        /// Sample request:
+        ///
+        ///     PUT / Authorize: brear token
+        ///     {
+        ///     "Oldpassword":"Aidana!1",
+        ///     "Newpassword":"Aidana!1new"
+        ///     }
+        ///
+        /// </remarks>
+        /// <param name="model"></param>
+        /// <returns>A token</returns>
+        /// <response code="200">Request is success</response>
+        /// <response code="401">Wrong token</response>
         [HttpPut]
         [Authorize]
         [Route("ChangePassword")]

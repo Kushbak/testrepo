@@ -21,11 +21,27 @@ namespace FinanceManagmentApplication.Controllers
         {
             ProjectService = projectService;
         }
+        /// <summary>
+        /// Get all project
+        /// </summary>
         [HttpGet]
         public async Task<ActionResult<List<ProjectIndexModel>>> Get()
         {  
             return await ProjectService.GetAll();
         }
+
+
+        /// <summary>
+        /// Create a project
+        /// </summary>
+        /// <remarks>
+        /// Sample request:
+        ///
+        ///     POST 
+        ///     { 
+        ///     "Name" : "Новый проект"  
+        ///     }
+        /// </remarks>
         [HttpPost]
         public async Task<IActionResult> Post(ProjectCreateModel model)
         {
@@ -39,6 +55,19 @@ namespace FinanceManagmentApplication.Controllers
             return Ok();
             
         }
+
+
+        /// <summary>
+        /// Delete a project
+        /// </summary>
+        /// <remarks>
+        /// Sample request:
+        ///
+        ///     DELETE
+        ///     { 
+        ///     "Id" : 4 
+        ///     }
+        /// </remarks>
         [HttpDelete]
         public async Task<IActionResult> Delete(int id)
         {
@@ -47,6 +76,19 @@ namespace FinanceManagmentApplication.Controllers
             return Ok();
         }
 
+
+
+        /// <summary>
+        /// Edit a project
+        /// </summary>
+        /// <remarks>
+        /// Sample request:
+        ///     PUT
+        ///     { 
+        ///     "Id" : 4 ,
+        ///     "Name" : "Другие проекты"
+        ///     }    
+        ///     </remarks>
         [HttpPut]
         public async Task<IActionResult> Put(ProjectIndexModel model)
         {

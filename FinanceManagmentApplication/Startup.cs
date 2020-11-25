@@ -26,6 +26,8 @@ using Swashbuckle.AspNetCore;
 using Newtonsoft.Json;
 using Microsoft.OpenApi.Models;
 using Microsoft.AspNetCore.Http;
+using System.Reflection;
+using System.IO;
 
 namespace FinanceManagmentApplication
 {
@@ -43,14 +45,18 @@ namespace FinanceManagmentApplication
         {
 
             services.AddCors( c => c.AddPolicy("AllowPolicy", builder => builder.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod()));
-
+        
             var ConnectionString = "host=satao.db.elephantsql.com;Port=5432;Database=ciwknvwy;Username=ciwknvwy;Password=Wy5bXX4cLYYKL4BBPemlyTgrh1qCT5lY";
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "My API", Version = "v1" });
+
+                var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+                var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+                c.IncludeXmlComments(xmlPath);
             });
 
-
+            
             var optionsBuilder = new DbContextOptionsBuilder();
             optionsBuilder.UseNpgsql(ConnectionString);
 

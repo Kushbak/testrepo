@@ -30,22 +30,51 @@ namespace FinanceManagmentApplication.Controllers
         {
             TransactionService = transactionService;
         }
-        
 
-        [HttpPost]
+        /// <summary>
+        /// Create a transaction
+        /// </summary>
+        /// <remarks>
+        /// Sample request:
+        ///
+        ///     POST / Create a transaction
+        ///     {
+       ///   "actionDate": "2020-11-25",
+ ///         "sum": 1250,
+ ///         "operationId": 1,
+ ///         "projectId": 1,
+ ///         "counterPartyId": 1,
+ ///          "scoreId": 1,
+ ///          "description": "lalala description"
+///             }
+    ///     
+    ///
+    /// </remarks>
+    /// <param name="model"></param>
+    /// <returns>success result "Transaction created successfully!"</returns>
+    /// <response code="200">Request is success</response>
+    /// <response code="400">Model is null</response>
+    /// <response code="500">Server error</response>
+    [HttpPost]
         [Route("Create")]
         public async Task<ActionResult<TransactionIndexModel>> Create(TransactionCreateModel model)
         {
             var Result = await TransactionService.Create(model, User);
             return Ok(Result);
-        }
+        }  
 
+
+
+        /// <summary>
+        /// Get create model for transaction(only for a back developers)
+        /// </summary>
         [HttpGet]
         [Route("Create")]
         public async Task<ActionResult<TransactionCreateModel>> Create()
         {
             return await TransactionService.GetCreateModel();
         }
+
 
         //[HttpGet]
         //[Route("Index")]
@@ -54,11 +83,40 @@ namespace FinanceManagmentApplication.Controllers
         //    return await TransactionService.IndexPagination(filter);
         //}
 
-        [HttpGet("{id}")]
-        public async Task<ActionResult<TransactionIndexModel>> Index(int Id)
-        {
-            return await TransactionService.GetAllById(Id);
-        }
+        //[HttpGet("{id}")]
+        //public async Task<ActionResult<TransactionIndexModel>> Index(int Id)
+        //{
+        //    return await TransactionService.GetAllById(Id);
+        //}
+
+
+
+
+        /// <summary>
+        /// Edit a transaction
+        /// </summary>
+        /// <remarks>
+        /// Sample request:
+        ///
+        ///     PUT / Edit a transaction
+        ///     {
+        ///     "id":12
+        ///   "actionDate": "2020-11-25",
+        ///         "sum": 1250,
+        ///        "operationId": 1,
+        ///         "projectId": 1,
+        ///         "counterPartyId": 1,
+        ///          "scoreId": 1,
+        ///          "description": "lalala description"
+        ///}
+        ///     
+        ///
+        /// </remarks>
+        /// <param name="model"></param>
+        /// <returns>success result "Transaction edited successfully!"</returns>
+        /// <response code="200">Request is success</response>
+        /// <response code="400">Model is null</response>
+        /// <response code="500">Server error</response>
         [HttpPut]
         [Route("Edit")]
         public async Task<IActionResult> Edit(TransactionEditModel model)
@@ -71,6 +129,10 @@ namespace FinanceManagmentApplication.Controllers
             return Ok(result);
         }
 
+
+        /// <summary>
+        /// Get edit model for transaction(only for a back developers)
+        /// </summary>
         [HttpGet]
         [Route("Edit")]
         public async Task<ActionResult<TransactionEditModel>> Edit(int Id)

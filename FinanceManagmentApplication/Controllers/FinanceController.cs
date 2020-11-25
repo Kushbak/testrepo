@@ -20,14 +20,18 @@ namespace FinanceManagmentApplication.Controllers
         {
             financeService = service;
         }
-
+        /// <summary>
+        ///Full finance list by projects
+        /// </summary>
         [HttpGet]
         [Route("Projects")]
         public async Task<ActionResult<List<ProjectFinanceModel>>> Projects()
         {
             return await financeService.GetFinanceInformationToProjects();
         }
-
+        /// <summary>
+        ///Full finance list by operations
+        /// </summary>
         [HttpGet]
         [Route("Operations")]
         public async Task<ActionResult<List<OperationFinanceModel>>> Operations()

@@ -25,8 +25,29 @@ namespace FinanceManagmentApplication.Controllers
         {
             this.authenticateService = authenticateService;
         }
-
+        /// <summary>
+        /// Authorize a user.
+        /// </summary>
+        /// <remarks>
+        /// Sample request:
+        ///
+        ///     POST / Authorize a user
+        ///     {
+        ///    
+        ///        "Username": "Employee",
+        ///        "Password": "Password!1"
+        ///     }
+        ///
+        /// </remarks>
+        /// <param name="model"></param>
+        /// <returns>A token</returns>
+        /// <response code="200">Returns the token</response>
+        /// <response code="401">Wrong username or password</response>
+        /// <response code="400">Model is null</response>
         [HttpPost]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        ///[ProducesResponseType(StatusCodes.Status400BadRequest)]
+        //[ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [Route("login")]
         public async Task<IActionResult> Login([FromBody] LoginModel model)
         {
@@ -41,13 +62,32 @@ namespace FinanceManagmentApplication.Controllers
             }
             return Unauthorized();
         }
-
-        [HttpPost]
+        /// <summary>
+        /// Register a user.
+        /// </summary>
+        /// <remarks>
+        /// Sample request:
+        ///
+        ///     POST / Register a user
+        ///     {
+        ///      "username": "Aidana",
+        ///        "email": "Aidana@gmail.com",
+        ///        "password": "Aidana!1"
+        ///        }
+    ///
+    /// 
+    /// </remarks>
+    /// <param name="model"></param>
+    /// <returns>success result "User created successfully!"</returns>
+    /// <response code="200">Request is success</response>
+    /// <response code="400">Model is null</response>
+    /// <response code="500">Server error</response>
+    [HttpPost]
         [Route("register")]
         public async Task<IActionResult> Register([FromBody] RegisterModel model)
         {
             var Result = await authenticateService.Register(model);
-            if (Result.Status != StatusEnum.Error)
+            if (Result.Status == StatusEnum.Error)
                 return StatusCode(StatusCodes.Status500InternalServerError, Response);
             return Ok(Result);
         }

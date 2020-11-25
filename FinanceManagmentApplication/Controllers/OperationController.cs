@@ -25,20 +25,34 @@ namespace FinanceManagmentApplication.Controllers
         }
 
 
-
+        /// <summary>
+        /// All operations - Type of finance transactions
+        /// </summary>
         [HttpGet]
         [Route("Index")]
         public async Task<ActionResult<List<OperationDetailsModel>>> Index()
         {
             return await OperationService.GetAll();
         }
+
+        /// <summary>
+        /// Create a operation
+        /// </summary>
+        /// <remarks>
+        /// Sample request:
+        ///
+        ///     POST 
+        ///     {        
+        ///     "name": "Какие-то доходы",
+        ///     "operationTypeId":1
+        ///     }                           </remarks>
         [HttpPost]
         [Route("Create")]
         public async Task<IActionResult> Post(OperationCreateModel model)
         {
             if (model == null)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = StatusEnum.Error, Message = "Ничего не оптравлено на сервер!" });
+                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = StatusEnum.Error, Message = "Ничего не отправлено на сервер!" });
             }
 
             var Result = await OperationService.Create(model);
@@ -49,12 +63,28 @@ namespace FinanceManagmentApplication.Controllers
             return Ok(Result);
 
         }
+        /// <summary>
+        /// Get create model for back testing
+        /// </summary>
         [HttpGet]
         [Route("Create")]
         public async Task<ActionResult<OperationCreateModel>> Create()
         {
             return await OperationService.GetCreateModel();
         }
+
+
+        /// <summary>
+        /// Delete a operation
+        /// </summary>
+        /// <remarks>
+        /// Sample request:
+        ///
+        ///     POST 
+        ///     {        
+        ///     "id": 24
+        ///     }
+        ///     </remarks>
         [HttpDelete]
         [Route("Delete")]
         public async Task<IActionResult> Delete(int id)
@@ -68,6 +98,20 @@ namespace FinanceManagmentApplication.Controllers
             return Ok(Result);
         }
 
+
+        /// <summary>
+        /// Edit a operation
+        /// </summary>
+        /// <remarks>
+        /// Sample request:
+        ///
+        ///     PUT 
+        ///     {        
+        ///     "id": 12,
+        ///     "Name" : "Измененный доход",
+        ///     "OperationTypeId":1
+        ///     }
+        ///</remarks>
         [HttpPut]
         [Route("Edit")]
         public async Task<IActionResult> Edit(OperationEditModel model)
@@ -79,6 +123,10 @@ namespace FinanceManagmentApplication.Controllers
             }
             return Ok(Result);
         }
+
+        /// <summary>
+        /// Get edit model for a back testing
+        /// </summary>
         [HttpGet]
         [Route("Edit")]
         public async Task<ActionResult<OperationEditModel>> Edit(int Id)

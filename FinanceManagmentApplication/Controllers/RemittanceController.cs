@@ -20,14 +20,34 @@ namespace FinanceManagmentApplication.Controllers
         public RemittanceController(IRemittanceService remittanceService)
         {
             RemittanceService = remittanceService;
-        }
+        } 
 
+        /// <summary>
+        /// Get create model for a remittance(only for a backend testing!!!)
+        /// </summary>
         [HttpGet]
         [Route("Create")]
         public async Task<ActionResult<RemittanceCreateModel>> Create()
         {
             return await RemittanceService.GetCreateModel();
         }
+
+
+        /// <summary>
+        /// Create a remittance
+        /// </summary>
+        /// <remarks>
+        /// Sample request:
+        ///
+        ///     POST 
+        ///     { {
+        /// "actionDate": "2020-11-25",
+        /// "sum": 1200,
+        /// "scoreId": 1,
+        /// "score2Id": 2,
+        /// "description": "testing remittance"
+        ///}
+        ///</remarks>
 
         [HttpPost]
         [Route("Create")]
