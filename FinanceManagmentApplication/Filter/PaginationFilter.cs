@@ -11,12 +11,13 @@ namespace FinanceManagmentApplication.Filter
         public int PageSize { get; set; }
 
 
-        public DateTime? ActionDate { get; set; }
-        public int? OperationId { get; set; }
-        public int? ProjectId { get; set; }
-        public int? ScoreId { get; set; }
-        public int? CounterPartyId { get; set; }
-        public int? Score2Id { get; set; }
+        public DateTime? StartDate { get; set; }
+        public DateTime? EndDate { get; set; }
+        public int[] OperationsId { get; set; }
+        public int[] ProjectsId { get; set; }
+        public int[] ScoresId { get; set; }
+        public int[] CounterPartiesId { get; set; }
+        public int[] Scores2Id { get; set; }
 
         public PaginationFilter()
         {

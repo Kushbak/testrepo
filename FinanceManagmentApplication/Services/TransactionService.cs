@@ -40,7 +40,14 @@ namespace FinanceManagmentApplication.Services
             {
                 var _User = await UserManager.FindByNameAsync(User.Identity.Name);
 
-
+                if (model.CounterPartyId == 0)
+                {
+                    model.CounterPartyId = await uow.CounterParties.GetNullCounterParty();
+                }
+                if (model.ProjectId == 0)
+                {
+                    model.ProjectId = await uow.Projects.GetNullProjectId();
+                }
                 if (!uow.Scores.Check(model.ScoreId))
                 {
                     return new Response { Status = StatusEnum.Error, Message = "В транзакции указан несуществующий счет" };
@@ -66,14 +73,7 @@ namespace FinanceManagmentApplication.Services
                 {
                     return new Response { Status = StatusEnum.Error, Message = "На счету недостаточно денег!" };
                 }
-                if (model.CounterPartyId == 0)
-                {
-                    model.CounterPartyId = await uow.CounterParties.GetNullCounterParty();
-                }
-                if (model.ProjectId == 0)
-                {
-                    model.ProjectId = await uow.Projects.GetNullProjectId();
-                }
+                
                 var Transaction = Mapper.Map<Transaction>(model);
                 Transaction.UserId = _User.Id;
                 await uow.Transactions.CreateAsync(Transaction);
@@ -182,7 +182,7 @@ namespace FinanceManagmentApplication.Services
             using (var uow = UnitOfWorkFactory.Create())
             {
                 var validFilter = new PaginationFilter(filter.PageNumber, filter.PageSize);
-                var pagedData = Mapper.Map<List<TransactionIndexModel>>(uow.Transactions.GetPaginationTransactions(filter.PageNumber, filter.PageSize, filter.ActionDate, filter.OperationId, filter.ProjectId, ScoreId: filter.ScoreId, CounterPartyId: filter.CounterPartyId));
+                var pagedData = Mapper.Map<List<TransactionIndexModel>>(uow.Transactions.GetPaginationTransactions(filter.PageNumber, filter.PageSize, filter.StartDate, OperationId: null, null, null, null));
                 var totalRecords = await uow.Transactions.Count();
                 var pagedReponse = PaginationHelper.CreatePagedReponse(pagedData, validFilter, totalRecords);
                 return pagedReponse;

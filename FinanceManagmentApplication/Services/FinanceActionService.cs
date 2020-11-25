@@ -28,8 +28,9 @@ namespace FinanceManagmentApplication.Services
             {
                 var FinanceActionsList = new List<FinanceActiveIndexModel>();
                 var FinanceActions = uow.FinanceActions.GetPaginationFinanceActions
-                    (PageNumber: filter.PageNumber, PageSize: filter.PageSize, OperationId: filter.OperationId, 
-                    ProjectId: filter.ProjectId, ScoreId: filter.ScoreId, Date: filter.ActionDate);
+                    (PageNumber: filter.PageNumber, PageSize: filter.PageSize, OperationsId: filter.OperationsId, 
+                    ProjectsId: filter.ProjectsId, ScoresId: filter.ScoresId, StartDate: filter.StartDate, EndDate: filter.EndDate,
+                    Scores2Id: filter.Scores2Id, CounterPartiesId: filter.CounterPartiesId);
                 foreach (var FinanceAction in FinanceActions.Item1)
                 {   
                     

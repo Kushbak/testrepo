@@ -24,18 +24,24 @@ namespace FinanceManagmentApplication.DAL.Repositories
                 .ToList();
         }
 
-        public (List<FinanceAction>, int) GetPaginationFinanceActions(int PageNumber, int PageSize, DateTime? Date, int? OperationId, int? ProjectId, int? ScoreId)
+        public (List<FinanceAction>, int) GetPaginationFinanceActions(int PageNumber, int PageSize, DateTime? StartDate, DateTime? EndDate, int[] OperationsId, int[] ProjectsId, int[] ScoresId, int[] CounterPartiesId, int[] Scores2Id)
         {
             
-            var Count = DbSet.Where(i => Date == null || (Date.Value.Day == i.ActionDate.Day && Date.Value.Year == i.ActionDate.Year && Date.Value.Month == i.ActionDate.Month))
-                .Where(i => OperationId == null || OperationId.Value == i.OperationId)
-                .Where(i => ProjectId == null || ProjectId.Value == i.ProjectId)
-                .Where(i => ScoreId == null || ScoreId.Value == i.ScoreId).Count();
+            var Count = DbSet.Where(i => (StartDate == null || StartDate < i.ActionDate) && (EndDate == null  || EndDate > i.ActionDate))
+                .Where(i => OperationsId == null || OperationsId.Any( a => a == i.OperationId))
+                .Where(i => ProjectsId == null || ProjectsId.Any(a => a == i.ProjectId))
+                .Where(i => ScoresId == null || ScoresId.Any(a => a == i.ScoreId))
+                .Where(i => CounterPartiesId == null || (i is Transaction && CounterPartiesId.Any(a => a == ((Transaction)i).CounterPartyId)))
+                .Where(i => Scores2Id == null || (i is Remittance && Scores2Id.Any( a => a == ((Remittance)i).Score2Id)))
+                .Count();
 
-            var FinanceActions = DbSet.Where(i => Date == null || (Date.Value.Day == i.ActionDate.Day && Date.Value.Year == i.ActionDate.Year && Date.Value.Month == i.ActionDate.Month))
-                .Where(i => OperationId == null || OperationId.Value == i.OperationId)
-                .Where(i => ProjectId == null || ProjectId.Value == i.ProjectId)
-                .Where(i => ScoreId == null || ScoreId.Value == i.ScoreId)
+
+            var FinanceActions = DbSet.Where(i => (StartDate == null || StartDate < i.ActionDate) && (EndDate == null || EndDate > i.ActionDate))
+                .Where(i => OperationsId == null || OperationsId.Any(a => a == i.OperationId))
+                .Where(i => ProjectsId == null || ProjectsId.Any(a => a == i.ProjectId))
+                .Where(i => ScoresId == null || ScoresId.Any(a => a == i.ScoreId))
+                .Where(i => CounterPartiesId == null || (i is Transaction && CounterPartiesId.Any(a => a == ((Transaction)i).CounterPartyId)))
+                .Where(i => Scores2Id == null || (i is Remittance && Scores2Id.Any(a => a == ((Remittance)i).Score2Id)))
                 .Skip((PageNumber - 1) * PageSize)
                        .Take(PageSize)
                        .Include(i => i.Operation)
@@ -46,16 +52,8 @@ namespace FinanceManagmentApplication.DAL.Repositories
                        .ToList();
 
             return (FinanceActions, Count);
+
         }
     }
 
-    class CounterHelper
-    {
-        public int Counter;
-
-        public int Increment()
-        {
-            return Counter++;
-        }
-    }
 }
