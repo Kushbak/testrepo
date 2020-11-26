@@ -44,7 +44,7 @@ namespace FinanceManagmentApplication
         public void ConfigureServices(IServiceCollection services)
         {
 
-            services.AddCors( c => c.AddPolicy("AllowPolicy", builder => builder.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod()));
+            services.AddCors( c => c.AddPolicy("AllowPolicy", builder => builder.WithOrigins("https://fms3-web.herokuapp.com").AllowAnyHeader().WithMethods("PUT", "DELETE", "GET", "POST")));
         
             var ConnectionString = "host=satao.db.elephantsql.com;Port=5432;Database=ciwknvwy;Username=ciwknvwy;Password=Wy5bXX4cLYYKL4BBPemlyTgrh1qCT5lY";
             services.AddSwaggerGen(c =>
@@ -141,7 +141,7 @@ namespace FinanceManagmentApplication
                 app.UseDeveloperExceptionPage();
             }
 
-            app.UseCors(builder => builder.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod());
+            app.UseCors("AllowPolicy");
 
             app.UseHttpsRedirection();
 
