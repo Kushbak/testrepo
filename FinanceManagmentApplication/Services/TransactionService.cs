@@ -97,6 +97,7 @@ namespace FinanceManagmentApplication.Services
             {
 
                 var Transaction = Mapper.Map<Transaction>(model);
+                Transaction.Discriminator = "Transaction";
                 if (model == null)
                     return new Response { Status = StatusEnum.Error, Message = "ничего на сервер не отправлено" };
                 if (!uow.Operations.Check(model.OperationId))
@@ -107,7 +108,7 @@ namespace FinanceManagmentApplication.Services
                     return new Response { Status = StatusEnum.Error, Message = "Нет такого счета!" };
                 var _User = await UserManager.FindByNameAsync(User.Identity.Name);
                 Transaction.UserId = _User.Id;
-                Transaction.ActionDate = Transaction.ActionDate.ToLocalTime();
+                Transaction.ActionDate = Transaction.ActionDate;
                 await uow.Transactions.UpdateAsync(Transaction);
                 return new Response { Status = StatusEnum.Accept, Message = "Редактирование транзакции прошло успешно." };
 
