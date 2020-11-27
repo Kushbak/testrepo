@@ -45,7 +45,7 @@ namespace FinanceManagmentApplication
         public void ConfigureServices(IServiceCollection services)
         {
 
-            services.AddCors( c => c.AddPolicy("AllowPolicy", builder => builder.AllowAnyOrigin().WithHeaders(HeaderNames.AccessControlAllowHeaders, "Content-Type").WithMethods("PUT", "DELETE", "GET", "POST")));
+            services.AddCors( c => c.AddPolicy("AllowPolicy", builder => builder.AllowAnyOrigin().WithHeaders(HeaderNames.AccessControlAllowHeaders, "Content-Type").AllowAnyMethod()));;
         
             var ConnectionString = "host=satao.db.elephantsql.com;Port=5432;Database=ciwknvwy;Username=ciwknvwy;Password=Wy5bXX4cLYYKL4BBPemlyTgrh1qCT5lY";
             services.AddSwaggerGen(c =>
