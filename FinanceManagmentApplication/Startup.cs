@@ -142,10 +142,11 @@ namespace FinanceManagmentApplication
                 app.UseDeveloperExceptionPage();
             }
 
-            app.UseCors("AllowPolicy");
+            
 
             app.UseHttpsRedirection();
 
+            app.UseCors("AllowPolicy");
 
             app.UseRouting();
 
