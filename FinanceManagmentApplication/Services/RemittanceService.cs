@@ -2,9 +2,12 @@
 using FinanceManagmentApplication.Builders;
 using FinanceManagmentApplication.DAL.Entities;
 using FinanceManagmentApplication.DAL.Factories;
+using FinanceManagmentApplication.Exceptions;
 using FinanceManagmentApplication.Filter;
 using FinanceManagmentApplication.HelperModel;
 using FinanceManagmentApplication.Helpers;
+using FinanceManagmentApplication.Helpers.RemittanceEditHandlers;
+using FinanceManagmentApplication.Helpers.RemittanceEditHandlers.Contracts;
 using FinanceManagmentApplication.Models.ErrorModels;
 using FinanceManagmentApplication.Models.OperationModels;
 using FinanceManagmentApplication.Models.ProjectModels;
@@ -162,42 +165,17 @@ namespace FinanceManagmentApplication.Services
 
         private async Task<(bool, string)> CheckEditScore(RemittanceEditHelperModel model)
         {
-            using (var uow = UnitOfWorkFactory.Create())
+            try
             {
-                (bool, string) Result = (false, null);
-                if (model.IsSumEdit)
-                {
-                    Result = FinanceActionsHelper.SumEdit(model);
-                    if (Result.Item1)
-                    {
-                        await uow.Scores.UpdateAsync(model.NewScore1);
-                        await uow.Scores.UpdateAsync(model.NewScore2);
-                    }
-                }
-
-
-                if (model.IsScoreEdit)
-                    Result = FinanceActionsHelper.TwoScoresEdit(model);
-
-                if (model.IsScoreAndSumEdit)
-                    Result = FinanceActionsHelper.TwoSumAndScoreEdit(model);
-                
-                if (Result.Item1)
-                {
-                    if (model.OldScore1 != null)
-                    {
-                        await uow.Scores.UpdateAsync(model.OldScore1);
-                        await uow.Scores.UpdateAsync(model.NewScore1);
-                    }
-                    if (model.OldScore2 != null)
-                    {
-                        await uow.Scores.UpdateAsync(model.OldScore2);
-                        await uow.Scores.UpdateAsync(model.NewScore2);
-                    }
-                }
-
-                return Result;
+                RemittanceEditBaseHandler handler = new RemittanceEditScoreHanlder();
+                handler.HandleRequest(model);
+                return (true, null);
             }
+            catch (RemittanceException re)
+            {
+                return (false, re.Message);
+            }
+
         }
 
         

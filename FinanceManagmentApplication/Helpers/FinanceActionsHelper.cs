@@ -21,45 +21,6 @@ namespace FinanceManagmentApplication.Helpers
             NewScore.Balance -= Sum;
         }
 
-        private static void TransactionScoreEdit(Score OldScore, Score NewScore, int TransactionSum, int OperationTypeId)
-        {
-            int Expense = 2;
-            int Income = 1;
-
-            if ((NewScore.Balance < TransactionSum) && OperationTypeId == Expense)
-                throw new RemittanceException($"На счету {NewScore.Code} недостаточно денег.");
-            if ((OldScore.Balance < TransactionSum) && OperationTypeId == Income)
-                throw new RemittanceException($"На счету {OldScore.Code} недостаточно денег.");
-            if (OperationTypeId != Income && OperationTypeId != Expense)
-                return;
-
-            OldScore.Balance += OperationTypeId == Expense ? +TransactionSum : -TransactionSum;
-            NewScore.Balance -= OperationTypeId == Income ? +TransactionSum: -TransactionSum;
-        }
-
-        public static void TransactionSumEdit(TransactionEditHelperModel model)
-        {
-            int Expense = 2;
-            int Income = 1;
-
-            model.NewScore.Balance += model.NewOperationTypeId == Income ? model.GetTransactionDifNew_Old : 0;
-            model.NewScore.Balance += model.NewOperationTypeId == Expense ? -model.GetTransactionDifNew_Old : 0;
-        }
-
-        public static void TransactionOperationEdit(TransactionEditHelperModel model)
-        {
-            int Expense = 2;
-            int Income = 1;
-            if (model.NewOperationTypeId == Expense)
-            {
-                model.NewScore.Balance -= (model.OldTransactionSum + model.NewTransactionSum);
-            }
-            if (model.NewOperationTypeId == Income)
-            {
-                model.NewScore.Balance += (model.OldTransactionSum + model.NewTransactionSum);
-            }
-        }
-
         public static (bool, string) TwoScoresEdit(RemittanceEditHelperModel model)
         {
             try

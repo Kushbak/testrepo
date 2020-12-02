@@ -23,7 +23,7 @@ namespace FinanceManagmentApplication.HelperModel
         public bool IsSumEdit {
             get
             {
-                return OldScore1 == null && OldScore2 == null;
+                return NewTransactionSum != OldTransactionSum;
             }
         }
 
@@ -35,11 +35,19 @@ namespace FinanceManagmentApplication.HelperModel
             }
         }
 
-        public bool IsScoreAndSumEdit
+        public bool IsScore1Edit
         {
             get
             {
-                return NewTransactionSum != OldTransactionSum && (OldScore2 != null || OldScore1 != null);
+                return NewScore1 != null && OldScore1 != null;
+            }
+        }
+
+        public bool IsScore2Edit
+        {
+            get
+            {
+                return NewScore2 != null && OldScore2 != null;
             }
         }
 
