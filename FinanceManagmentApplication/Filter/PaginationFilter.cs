@@ -27,7 +27,7 @@ namespace FinanceManagmentApplication.Filter
         public PaginationFilter(int pageNumber, int pageSize)
         {
             this.PageNumber = pageNumber < 1 ? 1 : pageNumber;
-            this.PageSize = pageSize > 10 ? 10 : pageSize;
+            this.PageSize = pageSize < 10 ? 10 : pageSize;
         }
     }
 

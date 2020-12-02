@@ -105,6 +105,7 @@ namespace FinanceManagmentApplication
                .ForMember(source => source.TransactionType, target => target.MapFrom(src => src.Operation.OperationType.Name))
                .ForMember(source => source.ActionDate, target => target.MapFrom(src => src.ActionDate.ToString("d")));
             CreateMap<RemittanceCreateModel, Remittance>();
+            CreateMap<RemittanceEditModel, Remittance>();
         }
 
         private void PaymentTypeMapper()

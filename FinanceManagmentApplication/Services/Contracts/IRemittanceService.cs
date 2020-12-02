@@ -18,5 +18,7 @@ namespace FinanceManagmentApplication.Services.Contracts
         Task<List<RemittanceIndexModel>> GetAll();
 
         Task<PagedResponse<List<RemittanceIndexModel>>> IndexPagination(PaginationFilter filter);
+
+        Task<Response> Edit(RemittanceEditModel model, ClaimsPrincipal User);
     }
 }

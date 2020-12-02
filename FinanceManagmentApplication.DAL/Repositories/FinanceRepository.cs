@@ -42,17 +42,22 @@ namespace FinanceManagmentApplication.DAL.Repositories
                 .Where(i => ScoresId == null || ScoresId.Any(a => a == i.ScoreId))
                 .Where(i => CounterPartiesId == null || (i is Transaction && CounterPartiesId.Any(a => a == ((Transaction)i).CounterPartyId)))
                 .Where(i => Scores2Id == null || (i is Remittance && Scores2Id.Any(a => a == ((Remittance)i).Score2Id)))
+                .OrderByDescending(i => i.ActionDate)
                 .Skip((PageNumber - 1) * PageSize)
                        .Take(PageSize)
                        .Include(i => i.Operation)
                         .Include(i => i.Project)
                         .Include(i => i.Score)
                         .Include(i => i.Operation.OperationType)
-                        .OrderBy(i => i.ActionDate)
                        .ToList();
 
             return (FinanceActions, Count);
 
+        }
+
+        public int GetSumFinanceAction(int Id)
+        {
+            return DbSet.Where(i => i.Id == Id).Select(i => i.Sum).FirstOrDefault();
         }
     }
 

@@ -21,6 +21,11 @@ using System.Net.WebSockets;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using FinanceManagmentApplication.Wrappers;
+using System;
+using FinanceManagmentApplication.Exceptions;
+using FinanceManagmentApplication.Helpers.TransactionEditHandlers;
+using FinanceManagmentApplication.HelperModel;
+using FinanceManagmentApplication.Builders;
 
 namespace FinanceManagmentApplication.Services
 {
@@ -41,35 +46,22 @@ namespace FinanceManagmentApplication.Services
                 var _User = await UserManager.FindByNameAsync(User.Identity.Name);
 
                 if (model.CounterPartyId == 0)
-                {
                     model.CounterPartyId = await uow.CounterParties.GetNullCounterParty();
-                }
                 if (model.ProjectId == 0)
-                {
                     model.ProjectId = await uow.Projects.GetNullProjectId();
-                }
                 if (!uow.Scores.Check(model.ScoreId))
-                {
                     return new Response { Status = StatusEnum.Error, Message = "В транзакции указан несуществующий счет" };
-                }
-
                 if (!uow.Operations.Check(model.OperationId))
-                {
                     return new Response { Status = StatusEnum.Error, Message = "В транзакции указана несуществующая операция!" };
-                }
-
                 if (!uow.Projects.Check(model.ProjectId))
-                {
                     return new Response { Status = StatusEnum.Error, Message = "В транзакции указан несуществующий проект!" };
-                }
                 if (!uow.CounterParties.Check(model.CounterPartyId))
-                {
                     return new Response { Status = StatusEnum.Error, Message = "В транзакции указан несуществующий контрагент!" };
-                }
+  
                 var Score = await uow.Scores.GetByIdAsync(model.ScoreId);
                 var Operation = await uow.Operations.GetByIdAsync(model.OperationId);
 
-                if (!validateSum(model.Sum, Score.Balance, Operation.OperationTypeId))
+                if (!await validateSum(model.Sum, Score, Operation.OperationTypeId))
                 {
                     return new Response { Status = StatusEnum.Error, Message = "На счету недостаточно денег!" };
                 }
@@ -106,7 +98,42 @@ namespace FinanceManagmentApplication.Services
                     return new Response { Status = StatusEnum.Error, Message = "Нет такого проекта!" };
                 if (!uow.Scores.Check(model.ScoreId))
                     return new Response { Status = StatusEnum.Error, Message = "Нет такого счета!" };
+
+                Score OldScore = null;
+                Operation OldOperation = null;
+
+                var Operation = await uow.Operations.GetByIdAsync(model.OperationId);
+                var Score = await uow.Scores.GetByIdAsync(model.ScoreId);
+                var OldIds = uow.Transactions.GetScoreIdAndOperationId(Transaction.Id);
+                var OldSum = uow.FinanceActions.GetSumFinanceAction(Transaction.Id);
+
+                if (Operation.Id != OldIds.Item1)
+                    OldOperation = await uow.Operations.GetByIdAsync(OldIds.Item1);
+                if(Score.Id != OldIds.Item2)
+                    OldScore = await uow.Scores.GetByIdAsync(OldIds.Item2);
+
+                var HelperModel = new TransactionEditHelperModelBuilder()
+                    .SetNewOperationTypeId(Operation.OperationTypeId)
+                    .SetOldOperationTypeId(OldOperation != null ? OldOperation.OperationTypeId : Operation.OperationTypeId)
+                    .SetNewScore1(Score)
+                    .SetOldScore1(OldScore)
+                    .SetNewTransactionSum(Transaction.Sum)
+                    .SetOldTransactionSum(OldSum)
+                    .Build();
+
+                var CheckScoreEdit = await RedactAndCheckTransaction(HelperModel);
+                if (!CheckScoreEdit.Item1)
+                {
+                    return new Response { Status = StatusEnum.Error, Message = "На счету недостаточно денег для редактируемой суммы" };
+                }
+
+                await uow.Scores.UpdateAsync(Score);
+                if (OldScore != null)
+                {
+                    await uow.Scores.UpdateAsync(OldScore);
+                }
                 var _User = await UserManager.FindByNameAsync(User.Identity.Name);
+        
                 Transaction.UserId = _User.Id;
                 Transaction.ActionDate = Transaction.ActionDate;
                 await uow.Transactions.UpdateAsync(Transaction);
@@ -152,17 +179,40 @@ namespace FinanceManagmentApplication.Services
             }
         }
 
-        private bool validateSum(int TransactionSum, int ScoreSum, int OperationType)
+        private async Task<(bool, string)> RedactAndCheckTransaction(TransactionEditHelperModel model)
         {
-            int Income = 1;
-            int Expense = 2;
-
-            if (OperationType == Expense)
+            try
             {
-                return TransactionSum <= ScoreSum;
+                var Handler = new TransactionOperationEditHanlder();
+                Handler.HandleRequest(model);
+                return (true, null);
             }
+            catch (TransactionException e)
+            {
+                return (false, e.Message);
+            }
+        }
 
-            return true;
+        private async Task<bool> validateSum(int TransactionSum, Score Score, int OperationType)
+        {
+            using (var uow = UnitOfWorkFactory.Create())
+            {
+                int Income = 1;
+                int Expense = 2;
+
+                if (OperationType == Expense)
+                {
+                    if (TransactionSum > Score.Balance)
+                        return false;
+                    Score.Balance -= TransactionSum;
+                }
+                else if(OperationType == Income)
+                {
+                    Score.Balance += TransactionSum;
+                }
+                await uow.Scores.UpdateAsync(Score);
+                return true;
+            }
 
         }
 
@@ -189,6 +239,8 @@ namespace FinanceManagmentApplication.Services
                 return pagedReponse;
             }
         }
+
+      
 
 
 

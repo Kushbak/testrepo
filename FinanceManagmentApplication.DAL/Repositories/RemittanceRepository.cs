@@ -38,5 +38,12 @@ namespace FinanceManagmentApplication.DAL.Repositories
                         .Include(i => i.Operation.OperationType)
                        .ToList();
         }
+
+        public (int,int) GetRemmiranceScoreId(int Id)
+        {
+            int FirstScoreId = DbSet.Where(i => i.Id == Id).Select(i => i.ScoreId).FirstOrDefault();
+            int SecondScoreId = DbSet.Where(i => i.Id == Id).Select(i => i.Score2Id).FirstOrDefault();
+            return (FirstScoreId, SecondScoreId);
+        }
     }
 }

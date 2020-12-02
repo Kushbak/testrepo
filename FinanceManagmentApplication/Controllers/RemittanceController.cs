@@ -57,6 +57,14 @@ namespace FinanceManagmentApplication.Controllers
             return Ok(Result);
         }
 
+        [HttpPut]
+        [Route("Edit")]
+        public async Task<IActionResult> Edit(RemittanceEditModel model)
+        {
+            var Result = await RemittanceService.Edit(model, User);
+            return Ok(Result);
+        }
+
         //[HttpGet]
         //[Route("Index")]
         //public async Task<ActionResult<PagedResponse<List<RemittanceIndexModel>>>> Index(PaginationFilter paginationFilter)

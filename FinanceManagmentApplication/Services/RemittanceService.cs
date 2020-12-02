@@ -1,7 +1,9 @@
 ﻿using AutoMapper;
+using FinanceManagmentApplication.Builders;
 using FinanceManagmentApplication.DAL.Entities;
 using FinanceManagmentApplication.DAL.Factories;
 using FinanceManagmentApplication.Filter;
+using FinanceManagmentApplication.HelperModel;
 using FinanceManagmentApplication.Helpers;
 using FinanceManagmentApplication.Models.ErrorModels;
 using FinanceManagmentApplication.Models.OperationModels;
@@ -47,22 +49,22 @@ namespace FinanceManagmentApplication.Services
             using (var uow = UnitOfWorkFactory.Create())
             {
                 var _User = await UserManager.FindByNameAsync(User.Identity.Name);
+                var Score = await uow.Scores.GetByIdAsync(model.ScoreId);
+                var Score2 = await uow.Scores.GetByIdAsync(model.Score2Id);
+
 
                 if (model.Score2Id == model.ScoreId)
                 {
                     return new Response { Status = StatusEnum.Error, Message = "Перевод осуществляется на один и тот же счет!" };
                 }
-                if (!uow.Scores.Check(model.ScoreId) && !uow.Scores.Check(model.Score2Id))
-                {
-                    return new Response { Status = StatusEnum.Error, Message = "В переводе указан несуществующий счет" };
-                }
+                if (!uow.Scores.Check(model.ScoreId))
+                    return new Response { Status = StatusEnum.Error, Message = $"Нет такого счета! ({Score.Name})" };
+                if (!uow.Scores.Check(model.Score2Id))
+                    return new Response { Status = StatusEnum.Error, Message = $"Нет такого счета! ({Score2.Name})" };
 
-                var Score = await uow.Scores.GetByIdAsync(model.ScoreId);
-                var Score2 = await uow.Scores.GetByIdAsync(model.Score2Id);
-
-                if (!validateSum(model.Sum, Score.Balance, 3) && !validateSum(model.Sum, Score2.Balance, 3))
+                if (!await validateSum(model.Sum, Score, Score2))
                 {
-                    return new Response { Status = StatusEnum.Error, Message = "На счету недостаточно денег!" };
+                    return new Response { Status = StatusEnum.Error, Message = $"На счету {Score.Name} недостаточно денег!" };
                 }
 
                 var Remittance = Mapper.Map<Remittance>(model);
@@ -101,16 +103,120 @@ namespace FinanceManagmentApplication.Services
             }
         }
 
-        private bool validateSum(int TransactionSum, int ScoreSum, int OperationType)
+        public async Task<Response> Edit(RemittanceEditModel model, ClaimsPrincipal User)
         {
-            int Transfer = 3;
-
-            if (OperationType == Transfer)
+            using (var uow = UnitOfWorkFactory.Create())
             {
-                return TransactionSum <= ScoreSum;
-            }
+                if (model == null)
+                    return new Response { Status = StatusEnum.Error, Message = "ничего на сервер не отправлено" };
+                if (model.Score2Id == model.ScoreId)
+                    return new Response { Status = StatusEnum.Error, Message = "Перевод осуществляется на один и тот же счет!" };
+                if (!uow.Scores.Check(model.ScoreId))
+                    return new Response { Status = StatusEnum.Error, Message = $"Нет такого счета!" };
+                if(!uow.Scores.Check(model.Score2Id))
+                    return new Response { Status = StatusEnum.Error, Message = $"Нет такого счета!" };
 
-            return true;
+                Score OldScore1 = null;
+                Score OldScore2 = null;
+                Score NewScore1 = await uow.Scores.GetByIdAsync(model.ScoreId);
+                Score NewScore2 = await uow.Scores.GetByIdAsync(model.Score2Id);
+
+                var Remittance = Mapper.Map<Remittance>(model);
+                Remittance.Discriminator = "Remittance";
+
+                var OldScoresId = uow.Remittances.GetRemmiranceScoreId(Remittance.Id);
+                
+
+                if (OldScoresId.Item1 != Remittance.ScoreId)
+                    OldScore1 = await uow.Scores.GetByIdAsync(OldScoresId.Item1);
+
+                if (OldScoresId.Item2 != Remittance.Score2Id)
+                    OldScore2 = await uow.Scores.GetByIdAsync(OldScoresId.Item2);
+
+                var OldSum = uow.FinanceActions.GetSumFinanceAction(Remittance.Id);
+
+                var HelperModel = new RemittanceEditHelperModelBuilder()
+                    .SetOldScore1(OldScore1)
+                    .SetOldScore2(OldScore2)
+                    .SetNewScore1(NewScore1)
+                    .SetNewScore2(NewScore2)
+                    .SetOldTransactionSum(OldSum)
+                    .SetNewTransactionSum(Remittance.Sum)
+                    .Build();
+
+                var Result = await CheckEditScore(HelperModel);
+
+                if (!Result.Item1)
+                    return new Response { Status = StatusEnum.Error, Message = Result.Item2 };
+
+                var _User = await UserManager.FindByNameAsync(User.Identity.Name);
+                Remittance.UserId = _User.Id;
+                Remittance.ProjectId = await uow.Projects.GetNullProjectId();
+                Remittance.OperationId = await uow.Operations.GetTransferOperationId();
+
+                await uow.Remittances.UpdateAsync(Remittance);
+
+                return new Response { Status = StatusEnum.Accept, Message = "Редактирование перевода прошло успешно." };
+            }
+        }
+
+        private async Task<(bool, string)> CheckEditScore(RemittanceEditHelperModel model)
+        {
+            using (var uow = UnitOfWorkFactory.Create())
+            {
+                (bool, string) Result = (false, null);
+                if (model.IsSumEdit)
+                {
+                    Result = FinanceActionsHelper.SumEdit(model);
+                    if (Result.Item1)
+                    {
+                        await uow.Scores.UpdateAsync(model.NewScore1);
+                        await uow.Scores.UpdateAsync(model.NewScore2);
+                    }
+                }
+
+
+                if (model.IsScoreEdit)
+                    Result = FinanceActionsHelper.TwoScoresEdit(model);
+
+                if (model.IsScoreAndSumEdit)
+                    Result = FinanceActionsHelper.TwoSumAndScoreEdit(model);
+                
+                if (Result.Item1)
+                {
+                    if (model.OldScore1 != null)
+                    {
+                        await uow.Scores.UpdateAsync(model.OldScore1);
+                        await uow.Scores.UpdateAsync(model.NewScore1);
+                    }
+                    if (model.OldScore2 != null)
+                    {
+                        await uow.Scores.UpdateAsync(model.OldScore2);
+                        await uow.Scores.UpdateAsync(model.NewScore2);
+                    }
+                }
+
+                return Result;
+            }
+        }
+
+        
+
+        private async Task<bool> validateSum(int TransactionSum, Score Score1, Score Score2)
+        {
+            using (var uow = UnitOfWorkFactory.Create())
+            {
+
+                if (TransactionSum <= Score1.Balance)
+                {
+                    Score1.Balance -= TransactionSum;
+                    Score2.Balance += TransactionSum;
+                    await uow.Scores.UpdateAsync(Score1);
+                    await uow.Scores.UpdateAsync(Score2);
+                    return true;
+                }
+                return false;
+            }
 
         }
     }

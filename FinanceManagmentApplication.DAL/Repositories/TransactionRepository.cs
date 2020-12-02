@@ -89,5 +89,17 @@ namespace FinanceManagmentApplication.DAL.Repositories
                 .Include(i => i.Operation.OperationType)
                 .FirstOrDefault();
         }
+
+        public (int, int) GetScoreIdAndOperationId(int Id)
+        {
+            var OperationId = DbSet.Where(i => i.Id == Id)
+                .Select(i => i.OperationId).FirstOrDefault();
+            var ScoreId = DbSet.Where(i => i.Id == Id)
+                .Select(i => i.ScoreId).FirstOrDefault();
+
+            return (OperationId, ScoreId);
+
+        }
+
     }
 }

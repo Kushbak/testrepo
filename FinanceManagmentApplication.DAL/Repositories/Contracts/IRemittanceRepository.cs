@@ -10,5 +10,7 @@ namespace FinanceManagmentApplication.DAL.Repositories.Contracts
         List<Remittance> GetFullRemittances();
 
         List<Remittance> GetPaginationTransactions(int PageNumber, int PageSize);
+
+        (int, int) GetRemmiranceScoreId(int Id);
     }
 }
