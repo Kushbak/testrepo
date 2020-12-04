@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="8.1.1" />
+    <PackageReference Include="Microsoft.AspNetCore.WebUtilities" Version="2.2.0" />
+    <PackageReference Include="Microsoft.IdentityModel.Tokens" Version="6.8.0" />
+    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.8.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\FinanceManagmentApplication.DAL\FinanceManagmentApplication.DAL.csproj" />
+    <ProjectReference Include="..\FinanceManagmentApplication.Models\FinanceManagmentApplication.Models.csproj" />
+    <ProjectReference Include="..\FinanceManagmentApplication.Tools\FinanceManagmentApplication.Tools.csproj" />
+  </ItemGroup>
+
+</Project>
