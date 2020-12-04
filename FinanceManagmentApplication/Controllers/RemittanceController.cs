@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using FinanceManagmentApplication.BL.Services.Contracts;
 using FinanceManagmentApplication.Filter;
 using FinanceManagmentApplication.Models.RemittanceModels;
-using FinanceManagmentApplication.Services.Contracts;
-using FinanceManagmentApplication.Wrappers;
+using FinanceManagmentApplication.WebModels.Wrappers;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -63,6 +63,17 @@ namespace FinanceManagmentApplication.Controllers
         {
             var Result = await RemittanceService.Edit(model, User);
             return Ok(Result);
+        }
+
+        [HttpGet]
+        [Route("Edit")]
+        public async Task<IActionResult> Edit(int? Id)
+        {
+            if (Id.HasValue)
+            {
+                return Ok(await RemittanceService.GetEditModel(Id.Value));
+            }
+            return StatusCode(StatusCodes.Status500InternalServerError, "Error!");
         }
 
         //[HttpGet]

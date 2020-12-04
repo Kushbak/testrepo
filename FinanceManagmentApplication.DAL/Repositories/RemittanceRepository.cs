@@ -27,6 +27,15 @@ namespace FinanceManagmentApplication.DAL.Repositories
                 .ToList();
         }
 
+        public Remittance GetFullRemittanceToScore(int Id)
+        {
+            return DbSet
+                .Where(i => i.Id == Id)
+                .Include(i => i.Score)
+                .Include(i => i.Score2)
+                .FirstOrDefault();
+        }
+
         public List<Remittance> GetPaginationTransactions(int PageNumber, int PageSize)
         {
             return DbSet.Skip((PageNumber - 1) * PageSize)

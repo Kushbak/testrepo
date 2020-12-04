@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using FinanceManagmentApplication.Models.CounterPartiesModel;
-using FinanceManagmentApplication.Models.ErrorModels;
-using FinanceManagmentApplication.Services.Contracts;
+using FinanceManagmentApplication.Models.WebModels;
+using FinanceManagmentApplication.BL.Services.Contracts;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using FinanceManagmentApplication.Models.ErrorModels;
 
 namespace FinanceManagmentApplication.Controllers
 {

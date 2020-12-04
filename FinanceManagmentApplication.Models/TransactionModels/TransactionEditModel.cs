@@ -17,11 +17,19 @@ namespace FinanceManagmentApplication.Models.TransactionModels
 
         public int Sum { get; set; }
 
+        public string OperationName { get; set; }
+
         public int OperationId { get; set; }
+
+        public string ProjectName { get; set; }
 
         public int ProjectId { get; set; }
 
+        public string ScoreName { get; set; }
+
         public int ScoreId { get; set; }
+
+        public string CounterPartyName { get; set; }
 
         public int CounterPartyId { get; set; }
 

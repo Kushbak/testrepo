@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using FinanceManagmentApplication.Models.FinanceModels;
-using FinanceManagmentApplication.Services;
-using FinanceManagmentApplication.Services.Contracts;
+using FinanceManagmentApplication.BL.Services;
+using FinanceManagmentApplication.BL.Services.Contracts;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 

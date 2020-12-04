@@ -10,11 +10,12 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.AspNetCore.Authorization;
 using FinanceManagmentApplication.Models.UserModels;
-using FinanceManagmentApplication.Services;
-using FinanceManagmentApplication.Services.Contracts;
+using FinanceManagmentApplication.BL.Services;
+using FinanceManagmentApplication.BL.Services.Contracts;
 using Microsoft.AspNetCore.Identity;
 using FinanceManagmentApplication.Models.ErrorModels;
 using System.Security.Claims;
+using FinanceManagmentApplication.Models.WebModels;
 
 namespace FinanceManagmentApplication.Controllers
 {

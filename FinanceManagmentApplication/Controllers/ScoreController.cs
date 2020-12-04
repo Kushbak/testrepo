@@ -2,9 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using FinanceManagmentApplication.BL.Services.Contracts;
 using FinanceManagmentApplication.Models.ErrorModels;
 using FinanceManagmentApplication.Models.ScoreModel;
-using FinanceManagmentApplication.Services.Contracts;
+using FinanceManagmentApplication.Models.WebModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -25,7 +26,7 @@ namespace FinanceManagmentApplication.Controllers
         /// </summary>
        
         [HttpGet]
-        [Route("Scores")]
+        [Route("Index")]
         public async Task<ActionResult<List<ScoreIndexModel>>> Index()
         {
             return await ScoreService.GetAll();

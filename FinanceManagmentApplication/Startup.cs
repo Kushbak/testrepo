@@ -8,8 +8,6 @@ using FinanceManagmentApplication.DAL.Context;
 using FinanceManagmentApplication.DAL.Entities;
 using FinanceManagmentApplication.DAL.Factories;
 using FinanceManagmentApplication.DAL.Seed;
-using FinanceManagmentApplication.Services;
-using FinanceManagmentApplication.Services.Contracts;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -29,6 +27,9 @@ using Microsoft.AspNetCore.Http;
 using System.Reflection;
 using System.IO;
 using Microsoft.Net.Http.Headers;
+using FinanceManagmentApplication.BL;
+using FinanceManagmentApplication.BL.Services.Contracts;
+using FinanceManagmentApplication.BL.Services;
 
 namespace FinanceManagmentApplication
 {
@@ -117,6 +118,7 @@ namespace FinanceManagmentApplication
             services.AddScoped<IAuthenticateService, AuthenticateService>();
 
             services.AddScoped<IFinanceActionService, FinanceActionService>();
+
 
             services.AddControllers();
 

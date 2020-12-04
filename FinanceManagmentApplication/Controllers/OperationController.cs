@@ -6,10 +6,11 @@ using FinanceManagmentApplication.DAL.Entities;
 using FinanceManagmentApplication.Models.ErrorModels;
 using FinanceManagmentApplication.Models.OperationModels;
 using FinanceManagmentApplication.Models.ProjectModels;
-using FinanceManagmentApplication.Services;
-using FinanceManagmentApplication.Services.Contracts;
+using FinanceManagmentApplication.BL.Services;
+using FinanceManagmentApplication.BL.Services.Contracts;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using FinanceManagmentApplication.Models.WebModels;
 
 namespace FinanceManagmentApplication.Controllers
 {

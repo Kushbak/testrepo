@@ -56,7 +56,6 @@ namespace FinanceManagmentApplication.DAL.Repositories
                 .Include(i => i.Project)
                 .Include(i => i.Score)
                 .Include(i => i.CounterParty)
-                .Include(i => i.User)
                 .FirstOrDefault();
         }
 

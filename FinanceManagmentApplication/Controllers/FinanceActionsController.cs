@@ -4,8 +4,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using FinanceManagmentApplication.Filter;
 using FinanceManagmentApplication.Models.FinanceActiveModels;
-using FinanceManagmentApplication.Services.Contracts;
-using FinanceManagmentApplication.Wrappers;
+using FinanceManagmentApplication.BL.Services.Contracts;
+using FinanceManagmentApplication.WebModels.Wrappers;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
