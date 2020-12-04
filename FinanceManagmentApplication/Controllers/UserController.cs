@@ -30,7 +30,17 @@ namespace FinanceManagmentApplication.Controllers
             _userManager = userManager;
             UserService = userService;
         }
-
+        /// <summary>
+        /// Get all user(just for testing).
+        /// </summary>
+        /// <remarks>
+        /// Sample request:
+        ///
+        ///     GET 
+        ///
+        /// </remarks>
+        /// <returns>List of all user</returns>
+        /// <response code="200">Return all user</response>
         [HttpGet]
         [Route("Index")]
         public async Task<ActionResult<List<UserIndexModel>>> Index()
@@ -90,7 +100,7 @@ namespace FinanceManagmentApplication.Controllers
     /// <returns>A token</returns>
     /// <response code="200">Request is success</response>
     /// <response code="401">Wrong token</response>
-    [HttpPut]
+        [HttpPut]
         [Authorize]
         [Route("Edit")]
         public async Task<IActionResult> Edit(EditUserModel model)

@@ -26,6 +26,7 @@ namespace FinanceManagmentApplication.DAL.Context
         public DbSet<CounterParty> CounterParties { get; set; }
 
         public DbSet<Project> Projects { get; set; }
+        public DbSet<User> Users{ get; set; }
 
         public ApplicationDbContext(DbContextOptions dbContextOptions) : base(dbContextOptions)
         { 

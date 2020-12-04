@@ -117,7 +117,9 @@ namespace FinanceManagmentApplication
 
             services.AddScoped<IAuthenticateService, AuthenticateService>();
 
-            services.AddScoped<IFinanceActionService, FinanceActionService>();
+            services.AddScoped<IFinanceActionService, FinanceActionService>(); 
+
+            services.AddScoped<IUserService, UserService>();
 
             services.AddControllers();
 
@@ -128,7 +130,7 @@ namespace FinanceManagmentApplication
             //        opt.JsonSerializerOptions.ReadCommentHandling = ReferenceLoopHandling.Ignore;
             //    });
             //;
-
+            services.AddControllers(options => options.SuppressImplicitRequiredAttributeForNonNullableReferenceTypes = true);
             Mapper.Initialize(cfg => cfg.AddProfile(new MapperProfile()));
             services.AddHttpContextAccessor();
 
@@ -178,6 +180,7 @@ namespace FinanceManagmentApplication
                 DataInitializer.CounterPartyInitialize(uow.CounterParties).ConfigureAwait(false).GetAwaiter().GetResult();
                 DataInitializer.ScoreInitialize(uow.Scores).ConfigureAwait(false).GetAwaiter().GetResult();
                 DataInitializer.TransactionInitialize(uow.Transactions).ConfigureAwait(false).GetAwaiter().GetResult();
+               
             }
 
 

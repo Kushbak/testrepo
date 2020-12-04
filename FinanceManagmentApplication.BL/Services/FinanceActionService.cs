@@ -3,17 +3,16 @@ using FinanceManagmentApplication.BL.Services.Contracts;
 using FinanceManagmentApplication.DAL.Entities;
 using FinanceManagmentApplication.DAL.Factories;
 using FinanceManagmentApplication.Filter;
-using FinanceManagmentApplication.Helpers;
 using FinanceManagmentApplication.Models.ErrorModels;
 using FinanceManagmentApplication.Models.FinanceActiveModels;
-using FinanceManagmentApplication.Services.Contracts;
-using FinanceManagmentApplication.Wrappers;
 using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using FinanceManagmentApplication.Tools.Helpers;
+using FinanceManagmentApplication.WebModels.Wrappers;
 
 namespace FinanceManagmentApplication.BL.Services
 {

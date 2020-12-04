@@ -5,8 +5,8 @@ using System.Threading.Tasks;
 using FinanceManagmentApplication.BL.Services.Contracts;
 using FinanceManagmentApplication.Filter;
 using FinanceManagmentApplication.Models.RemittanceModels;
-using FinanceManagmentApplication.Services.Contracts;
-using FinanceManagmentApplication.Wrappers;
+using FinanceManagmentApplication.WebModels.Wrappers;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -35,19 +35,19 @@ namespace FinanceManagmentApplication.Controllers
 
 
         /// <summary>
-        /// Create a remittance
+        /// Create a remittance(with token)
         /// </summary>
         /// <remarks>
         /// Sample request:
         ///
-        ///     POST 
         ///     { 
         /// "actionDate": "2020-11-25",
         /// "sum": 1200,
         /// "scoreId": 1,
         /// "score2Id": 2,
         /// "description": "testing remittance"
-        ///}
+        ///       }
+        ///       
         ///</remarks>
 
         [HttpPost]

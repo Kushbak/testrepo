@@ -33,23 +33,21 @@ namespace FinanceManagmentApplication.Controllers
         }
 
         /// <summary>
-        /// Create a transaction
+        /// Create a transaction(with token)
         /// </summary>
         /// <remarks>
         /// Sample request:
         ///
         ///     POST / Create a transaction
         ///     {
-       ///   "actionDate": "2020-11-25",
- ///         "sum": 1250,
- ///         "operationId": 1,
- ///         "projectId": 1,
- ///         "counterPartyId": 1,
- ///          "scoreId": 1,
- ///          "description": "lalala description"
-///             }
-    ///     
-    ///
+       ///         "actionDate": "2020-11-25",
+       ///         "sum": 1250,
+       ///         "operationId": 1,
+      ///          "projectId": 1,
+      ///          "counterPartyId": 1,
+      ///          "scoreId": 1,
+      ///          "description": "lalala description"
+      ///             }
     /// </remarks>
     /// <param name="model"></param>
     /// <returns>success result "Transaction created successfully!"</returns>
@@ -57,8 +55,8 @@ namespace FinanceManagmentApplication.Controllers
     /// <response code="400">Model is null</response>
     ///<response code="401">Unauthorized</response>
     /// <response code="500">Server error</response>
-    [HttpPost]
-    [Authorize]
+        [HttpPost]
+        [Authorize]
         [Route("Create")]
         public async Task<ActionResult<TransactionIndexModel>> Create(TransactionCreateModel model)
         {

@@ -90,7 +90,7 @@ namespace FinanceManagmentApplication.Controllers
 ///                 "isCompany": true,
 ///                 "userId": null
 ///             }  </remarks>
-    [HttpPut]
+      [HttpPut]
         [Route("Edit")]
         public async Task<IActionResult> Edit(CounterPartyEditModel model)
         {

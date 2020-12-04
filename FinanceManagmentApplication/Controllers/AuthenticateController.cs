@@ -61,6 +61,8 @@ namespace FinanceManagmentApplication.Controllers
             }
             return Unauthorized();
         }
+
+
         /// <summary>
         /// Register a user.
         /// </summary>
@@ -74,8 +76,7 @@ namespace FinanceManagmentApplication.Controllers
         ///         "Password":"Password!1",
         ///         "Email" :"Aidana@gmail.com",
         ///         "Surname":"Jusupbekova",
-        ///         "Name":"Aidana"
-
+        ///         "Name":"Aidana
     ///        }
     ///
     /// 
