@@ -4,10 +4,8 @@ using System.Text;
 
 namespace FinanceManagmentApplication.Models.FinanceActiveModels
 {
-    public class FinanceActiveIndexModel
+       public class FinanceActiveUserIndexModel
     {
-        public int Id { get; set; }
-
         public string ActionDate { get; set; }
 
         public int Sum { get; set; }

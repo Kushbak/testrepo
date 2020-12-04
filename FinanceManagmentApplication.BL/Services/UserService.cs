@@ -84,6 +84,8 @@ namespace FinanceManagmentApplication.BL.Services
             {
                 user.Email = model.Email;
                 user.UserName = model.Username;
+                user.Surname = model.Surname;
+                user.Name = model.Name;
                 var result = await UserManager.UpdateAsync(user);
                 if (result.Succeeded)
                 {

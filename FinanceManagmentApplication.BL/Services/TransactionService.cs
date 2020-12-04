@@ -233,7 +233,7 @@ namespace FinanceManagmentApplication.BL.Services
             using (var uow = UnitOfWorkFactory.Create())
             {
                 var validFilter = new PaginationFilter(filter.PageNumber, filter.PageSize);
-                var pagedData = Mapper.Map<List<TransactionIndexModel>>(uow.Transactions.GetPaginationTransactions(filter.PageNumber, filter.PageSize, filter.StartDate, OperationId: null, null, null, null));
+                var pagedData = Mapper.Map<List<TransactionIndexModel>>(uow.Transactions.GetPaginationTransactions(filter.PageNumber, filter.PageSize, filter.StartDate, OperationId: null, null, null, null, null));
                 var totalRecords = await uow.Transactions.Count();
                 var pagedReponse = PaginationHelper.CreatePagedReponse(pagedData, validFilter, totalRecords);
                 return pagedReponse;

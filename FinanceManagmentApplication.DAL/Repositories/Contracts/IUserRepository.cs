@@ -7,5 +7,6 @@ namespace FinanceManagmentApplication.DAL.Repositories.Contracts
 {
     public interface IUserRepository: IRepository<User>
     {
+
     }
 }

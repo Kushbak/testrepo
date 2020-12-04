@@ -17,6 +17,7 @@ namespace FinanceManagmentApplication.Models.RemittanceModels
         public int ScoreId { get; set; }
 
         public int Score2Id { get; set; }
+        //public int UserId { get; set; }
 
         public string Description { get; set; }
     }

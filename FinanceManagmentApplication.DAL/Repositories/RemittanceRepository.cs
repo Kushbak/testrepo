@@ -45,6 +45,7 @@ namespace FinanceManagmentApplication.DAL.Repositories
                         .Include(i => i.Score)
                         .Include(i => i.Score2)
                         .Include(i => i.Operation.OperationType)
+                        .Include(i => i.User)
                        .ToList();
         }
 

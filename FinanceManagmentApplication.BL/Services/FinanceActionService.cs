@@ -3,23 +3,29 @@ using FinanceManagmentApplication.BL.Services.Contracts;
 using FinanceManagmentApplication.DAL.Entities;
 using FinanceManagmentApplication.DAL.Factories;
 using FinanceManagmentApplication.Filter;
-using FinanceManagmentApplication.Tools.Helpers;
+using FinanceManagmentApplication.Helpers;
+using FinanceManagmentApplication.Models.ErrorModels;
 using FinanceManagmentApplication.Models.FinanceActiveModels;
-using FinanceManagmentApplication.WebModels.Wrappers;
+using FinanceManagmentApplication.Services.Contracts;
+using FinanceManagmentApplication.Wrappers;
+using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace FinanceManagmentApplication.BL.Services
 {
-    public class FinanceActionService: IFinanceActionService
+    public class FinanceActionService : IFinanceActionService
     {
-        private IUnitOfWorkFactory UnitOfWorkFactory { get; }
 
-        public FinanceActionService(IUnitOfWorkFactory unitOfWorkFactory)
+        private IUnitOfWorkFactory UnitOfWorkFactory { get; }
+        private readonly UserManager<User> UserManager;
+        public FinanceActionService(IUnitOfWorkFactory unitOfWorkFactory, UserManager<User> userManager)
         {
             UnitOfWorkFactory = unitOfWorkFactory;
+            UserManager = userManager;
         }
 
         public async Task<PagedResponse<List<FinanceActiveIndexModel>>> FinanceActionPagination(PaginationFilter filter)
@@ -28,18 +34,18 @@ namespace FinanceManagmentApplication.BL.Services
             {
                 var FinanceActionsList = new List<FinanceActiveIndexModel>();
                 var FinanceActions = uow.FinanceActions.GetPaginationFinanceActions
-                    (PageNumber: filter.PageNumber, PageSize: filter.PageSize, OperationsId: filter.OperationsId, 
+                    (PageNumber: filter.PageNumber, PageSize: filter.PageSize, OperationsId: filter.OperationsId,
                     ProjectsId: filter.ProjectsId, ScoresId: filter.ScoresId, StartDate: filter.StartDate, EndDate: filter.EndDate,
-                    Scores2Id: filter.Scores2Id, CounterPartiesId: filter.CounterPartiesId);
+                    Scores2Id: filter.Scores2Id, CounterPartiesId: filter.CounterPartiesId, UsersId: filter.UsersId);
                 foreach (var FinanceAction in FinanceActions.Item1)
-                {   
-                    
+                {
+
                     if (FinanceAction.Discriminator.ToLower() == "transaction")
                     {
                         var Transaction = FinanceAction as Transaction;
-                        Transaction.CounterParty = await  uow.CounterParties.GetByIdAsync(Transaction.CounterPartyId);
+                        Transaction.CounterParty = await uow.CounterParties.GetByIdAsync(Transaction.CounterPartyId);
                         FinanceActionsList.Add(Mapper.Map<FinanceActiveIndexModel>(Transaction));
-                        
+
                     }
                     else if (FinanceAction.Discriminator.ToLower() == "remittance")
                     {
@@ -57,6 +63,10 @@ namespace FinanceManagmentApplication.BL.Services
             }
         }
 
+
+    }
         
     }
-}
+ 
+
+        

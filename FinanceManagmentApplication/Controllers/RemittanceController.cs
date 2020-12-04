@@ -5,7 +5,8 @@ using System.Threading.Tasks;
 using FinanceManagmentApplication.BL.Services.Contracts;
 using FinanceManagmentApplication.Filter;
 using FinanceManagmentApplication.Models.RemittanceModels;
-using FinanceManagmentApplication.WebModels.Wrappers;
+using FinanceManagmentApplication.Services.Contracts;
+using FinanceManagmentApplication.Wrappers;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -40,7 +41,7 @@ namespace FinanceManagmentApplication.Controllers
         /// Sample request:
         ///
         ///     POST 
-        ///     { {
+        ///     { 
         /// "actionDate": "2020-11-25",
         /// "sum": 1200,
         /// "scoreId": 1,
@@ -50,6 +51,7 @@ namespace FinanceManagmentApplication.Controllers
         ///</remarks>
 
         [HttpPost]
+        [Authorize]
         [Route("Create")]
         public async Task<IActionResult> Create(RemittanceCreateModel model)
         {

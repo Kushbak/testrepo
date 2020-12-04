@@ -76,7 +76,10 @@ namespace FinanceManagmentApplication.BL.Services
             {
                 Email = model.Email,
                 SecurityStamp = Guid.NewGuid().ToString(),
-                UserName = model.Username
+                UserName = model.Username,
+                Surname = model.Surname,
+                Name = model.Name
+
             };
             var result = await userManager.CreateAsync(user, model.Password);
             if (!result.Succeeded)

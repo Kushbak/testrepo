@@ -31,19 +31,19 @@ namespace FinanceManagmentApplication.Controllers
             UserService = userService;
         }
 
-        //[HttpGet]
-        //[Route("Index")]
-        //public async Task<ActionResult<List<UserIndexModel>>> Index()
-        //{
-        //    return await UserService.GetAll();
-        //}
+        [HttpGet]
+        [Route("Index")]
+        public async Task<ActionResult<List<UserIndexModel>>> Index()
+        {
+            return await UserService.GetAll();
+        }
 
         //[HttpGet("{id}")]
         //public async Task<ActionResult<UserIndexModel>> Index(int Id)
         //{
         //    return await UserService.GetById(Id);
         //}
-
+        
 
 
 
@@ -77,18 +77,20 @@ namespace FinanceManagmentApplication.Controllers
         /// <remarks>
         /// Sample request:
         ///
-        ///     PUT / Authorize: brear token
+        ///     PUT / Authorize: brearer token
         ///     {
-        ///     "Username":"Aidana",
-        ///     "Email":"Aidana@mail.ru"
-        ///     }
-        ///
-        /// </remarks>
-        /// <param name="model"></param>
-        /// <returns>A token</returns>
-        /// <response code="200">Request is success</response>
-        /// <response code="401">Wrong token</response>
-        [HttpPut]
+        ///    "username": "jusupbekova",
+        ///    "email": "Aidana@gmail.com",
+        ///    "surname": "Jusupbekova",
+        ///    "name": "Aidana"
+        ///}
+    ///
+    /// </remarks>
+    /// <param name="model"></param>
+    /// <returns>A token</returns>
+    /// <response code="200">Request is success</response>
+    /// <response code="401">Wrong token</response>
+    [HttpPut]
         [Authorize]
         [Route("Edit")]
         public async Task<IActionResult> Edit(EditUserModel model)
@@ -109,7 +111,7 @@ namespace FinanceManagmentApplication.Controllers
         /// <remarks>
         /// Sample request:
         ///
-        ///     PUT / Authorize: brear token
+        ///     PUT / Authorize: brearer token
         ///     {
         ///     "Oldpassword":"Aidana!1",
         ///     "Newpassword":"Aidana!1new"
@@ -132,6 +134,6 @@ namespace FinanceManagmentApplication.Controllers
             }
             return Ok(Result);
         }
-
+       
     }
 }

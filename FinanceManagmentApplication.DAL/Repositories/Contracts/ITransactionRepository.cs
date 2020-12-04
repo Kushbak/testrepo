@@ -21,7 +21,7 @@ namespace FinanceManagmentApplication.DAL.Repositories.Contracts
 
         bool CheckTransactionToCounterPart(int CounterPartyId);
 
-        List<Transaction> GetPaginationTransactions(int PageNumber, int PageSize, DateTime? Date, int? OperationId, int? ProjectId, int? ScoreId, int? CounterPartyId);
+        List<Transaction> GetPaginationTransactions(int PageNumber, int PageSize, DateTime? Date, int? OperationId, int? ProjectId, int? ScoreId, int? CounterPartyId, int? UserId);
 
         (int, int) GetScoreIdAndOperationId(int Id);
 

@@ -55,8 +55,10 @@ namespace FinanceManagmentApplication.Controllers
     /// <returns>success result "Transaction created successfully!"</returns>
     /// <response code="200">Request is success</response>
     /// <response code="400">Model is null</response>
+    ///<response code="401">Unauthorized</response>
     /// <response code="500">Server error</response>
     [HttpPost]
+    [Authorize]
         [Route("Create")]
         public async Task<ActionResult<TransactionIndexModel>> Create(TransactionCreateModel model)
         {

@@ -1,6 +1,8 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Identity;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace FinanceManagmentApplication.Filter
@@ -9,8 +11,6 @@ namespace FinanceManagmentApplication.Filter
     {
         public int PageNumber { get; set; }
         public int PageSize { get; set; }
-
-
         public DateTime? StartDate { get; set; }
         public DateTime? EndDate { get; set; }
         public int[] OperationsId { get; set; }
@@ -18,6 +18,7 @@ namespace FinanceManagmentApplication.Filter
         public int[] ScoresId { get; set; }
         public int[] CounterPartiesId { get; set; }
         public int[] Scores2Id { get; set; }
+        public int[] UsersId { get; set; }
 
         public PaginationFilter()
         {
@@ -29,6 +30,7 @@ namespace FinanceManagmentApplication.Filter
             this.PageNumber = pageNumber < 1 ? 1 : pageNumber;
             this.PageSize = pageSize < 10 ? 10 : pageSize;
         }
+  
     }
 
 }

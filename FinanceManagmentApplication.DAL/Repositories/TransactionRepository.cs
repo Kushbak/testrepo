@@ -17,12 +17,13 @@ namespace FinanceManagmentApplication.DAL.Repositories
             DbSet = applicationDbContext.Transactions;
         }
 
-        public List<Transaction> GetPaginationTransactions(int PageNumber, int PageSize, DateTime? Date, int? OperationId, int? ProjectId, int? ScoreId, int? CounterPartyId)
+        public List<Transaction> GetPaginationTransactions(int PageNumber, int PageSize, DateTime? Date, int? OperationId, int? ProjectId, int? ScoreId, int? CounterPartyId, int? UserId)
         { 
             return DbSet.Where(i => Date == null || Date.Value == i.ActionDate )
                 .Where(i => OperationId == null || OperationId.Value == i.OperationId)
                 .Where(i => ProjectId == null || ProjectId.Value == i.ProjectId)
                 .Where(i => ScoreId == null || ScoreId.Value == i.ScoreId)
+                .Where(i => UserId == null || UserId.Value == i.UserId)
                 .Where(i => CounterPartyId == null || CounterPartyId.Value == i.CounterPartyId)
                 .Skip((PageNumber - 1) * PageSize)
                        .Take(PageSize)
@@ -31,6 +32,7 @@ namespace FinanceManagmentApplication.DAL.Repositories
                         .Include(i => i.Score)
                         .Include(i => i.CounterParty)
                         .Include(i => i.Operation.OperationType)
+                        .Include(i => i.User)
                        .ToList();
         }
 
@@ -67,6 +69,7 @@ namespace FinanceManagmentApplication.DAL.Repositories
                 .Include(i => i.Score)
                 .Include(i => i.CounterParty)
                 .Include(i => i.Operation.OperationType)
+                .Include(i => i.User)
                 .ToList();
         }
 
@@ -86,6 +89,7 @@ namespace FinanceManagmentApplication.DAL.Repositories
                 .Include(i => i.Score)
                 .Include(i => i.CounterParty)
                 .Include(i => i.Operation.OperationType)
+                .Include(i => i.User)
                 .FirstOrDefault();
         }
 

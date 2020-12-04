@@ -55,6 +55,8 @@ namespace FinanceManagmentApplication
         private void UserMapping()
         {
             CreateMap<User, UserIndexModel>();
+            CreateMap<User, FinanceActiveUserIndexModel>();
+
         }
         private void OperationMapping()
         {
@@ -71,6 +73,13 @@ namespace FinanceManagmentApplication
         private void TransactionMapping()
         {
             CreateMap<Transaction, FinanceActiveIndexModel>()
+                .ForMember(source => source.Score, target => target.MapFrom(src => src.Score.Name))
+                .ForMember(source => source.TargetEntity, target => target.MapFrom(src => src.CounterParty.Name))
+                .ForMember(source => source.OperationName, target => target.MapFrom(src => src.Operation.Name))
+                .ForMember(source => source.ProjectName, target => target.MapFrom(src => src.Project.Name))
+                .ForMember(source => source.TransactionType, target => target.MapFrom(src => src.Operation.OperationType.Name))
+                .ForMember(source => source.ActionDate, target => target.MapFrom(src => src.ActionDate.ToString("d")));
+            CreateMap<Transaction, FinanceActiveUserIndexModel>()
                 .ForMember(source => source.Score, target => target.MapFrom(src => src.Score.Name))
                 .ForMember(source => source.TargetEntity, target => target.MapFrom(src => src.CounterParty.Name))
                 .ForMember(source => source.OperationName, target => target.MapFrom(src => src.Operation.Name))
@@ -109,6 +118,14 @@ namespace FinanceManagmentApplication
                .ForMember(source => source.ProjectName, target => target.MapFrom(src => src.Project.Name))
                .ForMember(source => source.TransactionType, target => target.MapFrom(src => src.Operation.OperationType.Name))
                .ForMember(source => source.ActionDate, target => target.MapFrom(src => src.ActionDate.ToString("d")));
+            CreateMap<Remittance, FinanceActiveUserIndexModel>()
+               .ForMember(source => source.Score, target => target.MapFrom(src => src.Score.Name))
+               .ForMember(source => source.TargetEntity, target => target.MapFrom(src => src.Score2.Name))
+               .ForMember(source => source.OperationName, target => target.MapFrom(src => src.Operation.Name))
+               .ForMember(source => source.ProjectName, target => target.MapFrom(src => src.Project.Name))
+               .ForMember(source => source.TransactionType, target => target.MapFrom(src => src.Operation.OperationType.Name))
+               .ForMember(source => source.ActionDate, target => target.MapFrom(src => src.ActionDate.ToString("d")));
+            // .ForMember(source => source.UserName, target => target.MapFrom(src => src.User.UserName));
             CreateMap<RemittanceCreateModel, Remittance>();
             CreateMap<RemittanceEditModel, Remittance>();
             CreateMap<Remittance, RemittanceEditModel>()
