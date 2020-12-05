@@ -70,13 +70,14 @@ namespace FinanceManagmentApplication.Controllers
         /// <returns>A token</returns>
         /// <response code="200">Returns the user's information</response>
         /// <response code="401">Wrong token</response>
-        [HttpGet]
+        
         [Authorize]
+        [HttpGet]
         [Route("GetUser")]
-        public async Task<ActionResult<UserIndexModel>> GetUser(UserIndexModel model)
+        public async Task<ActionResult<UserIndexModel>> GetUser([FromQuery] UserIndexModel model)
         {
             var Result = await UserService.GetUser(model, User);
-            return Ok(Result);
+            return Result;
         }
 
 
