@@ -70,16 +70,9 @@ namespace FinanceManagmentApplication.BL.Services
                 foreach (var Transaction in Transactions)
                 {
                     if (Transaction.Operation.OperationTypeId == 1)
-                    {
                         Model.Income += Transaction.Sum;
-                    }
                     else if (Transaction.Operation.OperationTypeId == 2)
-                    {
                         Model.Expense += Transaction.Sum;
-                    }
-
-
-                    
                 }
 
                 Model.Profit = Model.Income - Model.Expense;

@@ -1,6 +1,5 @@
 ﻿using FinanceManagmentApplication.DAL.Entities;
 using FinanceManagmentApplication.Models.HelperModel;
-using FinanceManagmentApplication.Models.HelperModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
