@@ -69,9 +69,9 @@ namespace FinanceManagmentApplication.BL.Services
                 byte[] fileBytes = System.IO.File.ReadAllBytes(Files);
                 System.IO.File.WriteAllBytes(Files, fileBytes);
                 MemoryStream ms = new MemoryStream(fileBytes);
-                File.Delete(path);
-                if (format != "xlsx")
-                    File.Delete(path2);
+                //File.Delete(path);
+                //if (format != "xlsx")
+                //    File.Delete(path2);
 
                 return fileBytes;
             }
