@@ -25,10 +25,6 @@
     <ProjectReference Include="..\FinanceManagmentApplication.Models\FinanceManagmentApplication.Models.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Documents\" />
-  </ItemGroup>
-
 <PropertyGroup>
   <GenerateDocumentationFile>true</GenerateDocumentationFile>
   <NoWarn>$(NoWarn);1591</NoWarn>
