@@ -4,11 +4,11 @@ using System.Text;
 
 namespace FinanceManagmentApplication.Models.TransactionModels
 {
-    public class TransactionIndexModel
+    public class TransactionExcelModel
     {
         public int Id { get; set; }
 
-        public DateTime TransactionDate { get; set; }
+        public DateTime ActionDate { get; set; }
 
         public int Sum { get; set; }
 
@@ -21,8 +21,6 @@ namespace FinanceManagmentApplication.Models.TransactionModels
         public string Score { get; set; }
 
         public string CounterPartyName { get ; set; }
-
-        public string Discriminator { get; set; }
 
     }
 }
