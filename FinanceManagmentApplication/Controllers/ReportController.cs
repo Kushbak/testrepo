@@ -24,8 +24,15 @@ namespace FinanceManagmentApplication.Controllers
         [Route("GetRemittanceExcelReport")]
         public async Task<IActionResult> GetRemittanceExcelReport()
         {
-            var fileBytes = await ExportService.RemittanceExport("Documents/", "Remittances", "xlsx");
-            return File(fileBytes, System.Net.Mime.MediaTypeNames.Application.Octet, "Remittances.xlsx");
+            try
+            {
+                var fileBytes = await ExportService.RemittanceExport("Documents/", "Remittances", "xlsx");
+                return File(fileBytes, System.Net.Mime.MediaTypeNames.Application.Octet, "Remittances.xlsx");
+            }
+            catch(Exception e)
+            {
+                return Ok(e.Message);
+            }
         }
 
         [HttpGet]
