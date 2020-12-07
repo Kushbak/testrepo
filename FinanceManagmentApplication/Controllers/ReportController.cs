@@ -26,8 +26,8 @@ namespace FinanceManagmentApplication.Controllers
         {
             try
             {
-                var fileBytes = await ExportService.RemittanceExport("Documents/", "Remittances", "xlsx");
-                return File(fileBytes, System.Net.Mime.MediaTypeNames.Application.Octet, "Remittances.xlsx");
+                var fileBytes = new byte[10];
+                return File(fileBytes, System.Net.Mime.MediaTypeNames.Application.Octet, "Remittances");
             }
             catch(Exception e)
             {
@@ -39,8 +39,15 @@ namespace FinanceManagmentApplication.Controllers
         [Route("GetRemittancePdfReport")]
         public async Task<IActionResult> GetRemittancePdfReport()
         {
-            var fileBytes = await ExportService.RemittanceExport("Documents/", "Remittances", "pdf");
-            return File(fileBytes, System.Net.Mime.MediaTypeNames.Application.Octet, "Remittances.pdf");
+            try
+            {
+                var fileBytes = await ExportService.RemittanceExport("Documents/", "Remittances", "pdf");
+                return File(fileBytes, System.Net.Mime.MediaTypeNames.Application.Octet, "Remittances.pdf");
+            }
+            catch (Exception e)
+            {
+                return Ok(e.Message);
+            }
         }
 
         [HttpGet]
