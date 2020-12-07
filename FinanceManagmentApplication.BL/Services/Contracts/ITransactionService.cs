@@ -14,9 +14,9 @@ namespace FinanceManagmentApplication.BL.Services.Contracts
     {
         Task<Response> Create(TransactionCreateModel model, ClaimsPrincipal User);
 
-        Task<List<TransactionIndexModel>> GetAll();
+        Task<List<TransactionExcelModel>> GetAll();
      //   Task<List<TransactionIndexModel>> PaginationGetAll();
-        Task<TransactionIndexModel> GetAllById (int Id);
+        Task<TransactionExcelModel> GetAllById (int Id);
 
         Task<TransactionCreateModel> GetCreateModel();
 
@@ -26,7 +26,7 @@ namespace FinanceManagmentApplication.BL.Services.Contracts
 
         Task<TransactionDetailsModel> GetDetailsModel(int Id);
 
-        Task<PagedResponse<List<TransactionIndexModel>>>  IndexPagination(PaginationFilter filter);
+        Task<PagedResponse<List<TransactionExcelModel>>>  IndexPagination(PaginationFilter filter);
 
     }
 }

@@ -20,7 +20,7 @@ namespace FinanceManagmentApplication.Controllers
             FinanceActionService = financeActionService;
         }
         /// <summary>
-        /// Full list of all transactions with a pagination and filtering.
+        /// Full list of all transactions with a pagination and filtering.(Не актуально)
         /// </summary> 
         
 

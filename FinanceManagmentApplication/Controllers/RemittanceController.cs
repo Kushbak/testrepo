@@ -59,6 +59,12 @@ namespace FinanceManagmentApplication.Controllers
             return Ok(Result);
         }
 
+
+        /// <summary>
+        /// Редактирование внутреннего перевода.
+        /// При редактровании суммы, или счетов перевода,
+        /// происходит синхроназация счетов по нынешним данным.
+        /// </summary>
         [HttpPut]
         [Route("Edit")]
         public async Task<IActionResult> Edit(RemittanceEditModel model)
@@ -77,6 +83,11 @@ namespace FinanceManagmentApplication.Controllers
             }
             return StatusCode(StatusCodes.Status500InternalServerError, "Error!");
         }
+
+        //public async Task<IActionResult> Get()
+        //{
+        //    return File();
+        //}
 
         //[HttpGet]
         //[Route("Index")]

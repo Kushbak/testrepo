@@ -162,16 +162,16 @@ namespace FinanceManagmentApplication.BL.Services
             }
         }
 
-        public async Task<List<TransactionIndexModel>> GetAll()
+        public async Task<List<TransactionExcelModel>> GetAll()
         {
             using (var uow = UnitOfWorkFactory.Create())
             {
                 var Transactions = await uow.Transactions.GetAllAsync();
-                var Models = new List<TransactionIndexModel>();
+                var Models = new List<TransactionExcelModel>();
                 foreach (var Transaction in Transactions)
                 {
 
-                    var Model = Mapper.Map<TransactionIndexModel>(Transaction);
+                    var Model = Mapper.Map<TransactionExcelModel>(Transaction);
                     Models.Add(Model);
                 }
 
@@ -216,24 +216,24 @@ namespace FinanceManagmentApplication.BL.Services
 
         }
 
-        public async Task<TransactionIndexModel> GetAllById(int Id)
+        public async Task<TransactionExcelModel> GetAllById(int Id)
         {
             using (var uow = UnitOfWorkFactory.Create())
             {
 
                 var Transaction = await uow.Transactions.GetByIdAsync(Id);
-                var Model = Mapper.Map<TransactionIndexModel>(Transaction);
+                var Model = Mapper.Map<TransactionExcelModel>(Transaction);
                 return Model;
 
             }
         }
 
-        public async Task<PagedResponse<List<TransactionIndexModel>>> IndexPagination(PaginationFilter filter)
+        public async Task<PagedResponse<List<TransactionExcelModel>>> IndexPagination(PaginationFilter filter)
         {
             using (var uow = UnitOfWorkFactory.Create())
             {
                 var validFilter = new PaginationFilter(filter.PageNumber, filter.PageSize);
-                var pagedData = Mapper.Map<List<TransactionIndexModel>>(uow.Transactions.GetPaginationTransactions(filter.PageNumber, filter.PageSize, filter.StartDate, OperationId: null, null, null, null, null));
+                var pagedData = Mapper.Map<List<TransactionExcelModel>>(uow.Transactions.GetPaginationTransactions(filter.PageNumber, filter.PageSize, filter.StartDate, OperationId: null, null, null, null, null));
                 var totalRecords = await uow.Transactions.Count();
                 var pagedReponse = PaginationHelper.CreatePagedReponse(pagedData, validFilter, totalRecords);
                 return pagedReponse;

@@ -77,8 +77,7 @@ namespace FinanceManagmentApplication
                 .ForMember(source => source.TargetEntity, target => target.MapFrom(src => src.CounterParty.Name))
                 .ForMember(source => source.OperationName, target => target.MapFrom(src => src.Operation.Name))
                 .ForMember(source => source.ProjectName, target => target.MapFrom(src => src.Project.Name))
-                .ForMember(source => source.TransactionType, target => target.MapFrom(src => src.Operation.OperationType.Name))
-                .ForMember(source => source.ActionDate, target => target.MapFrom(src => src.ActionDate.ToString("d")));
+                .ForMember(source => source.TransactionType, target => target.MapFrom(src => src.Operation.OperationType.Name));
             CreateMap<Transaction, FinanceActiveUserIndexModel>()
                 .ForMember(source => source.Score, target => target.MapFrom(src => src.Score.Name))
                 .ForMember(source => source.TargetEntity, target => target.MapFrom(src => src.CounterParty.Name))
@@ -94,6 +93,13 @@ namespace FinanceManagmentApplication
                 .ForMember(source => source.OperationName, target => target.MapFrom(src => src.Operation.Name))
                 .ForMember(source => source.ProjectName, target => target.MapFrom(src => src.Project.Name))
                 .ForMember(source => source.ScoreName, target => target.MapFrom(src => src.Score.Name));
+
+            CreateMap<Transaction, TransactionExcelModel>()
+                .ForMember(source => source.Score, target => target.MapFrom(src => src.Score.Name))
+                .ForMember(source => source.CounterPartyName, target => target.MapFrom(src => src.CounterParty.Name))
+                .ForMember(source => source.OperationName, target => target.MapFrom(src => src.Operation.Name))
+                .ForMember(source => source.ProjectName, target => target.MapFrom(src => src.Project.Name))
+                .ForMember(source => source.TransactionType, target => target.MapFrom(src => src.Operation.OperationType.Name));
 
 
         }
@@ -124,6 +130,11 @@ namespace FinanceManagmentApplication
             CreateMap<Remittance, RemittanceEditModel>()
                 .ForMember(source => source.Score1Name, target => target.MapFrom(src => src.Score.Name))
                 .ForMember(source => source.Score2Name, target => target.MapFrom(src => src.Score2.Name));
+
+            CreateMap<Remittance, RemittanceExcelModel>()
+                .ForMember(source => source.Score, target => target.MapFrom(src => src.Score.Name))
+               .ForMember(source => source.Score2, target => target.MapFrom(src => src.Score2.Name))
+               .ForMember(source => source.Sum, target => target.MapFrom(src => src.Sum.ToString()));
         }
 
         private void PaymentTypeMapper()

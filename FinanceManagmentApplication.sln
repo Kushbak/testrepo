@@ -13,7 +13,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FinanceManagmentApplication
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FinanceManagmentApplication.Tools", "FinanceManagmentApplication.Tools\FinanceManagmentApplication.Tools.csproj", "{D2E9AFF7-BECF-4424-9E79-E616FBE19F9C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FinanceManagmentApplication.Units", "FinanceManagmentApplication.Units\FinanceManagmentApplication.Units.csproj", "{B88FD393-2350-49AF-BA51-867DA754A4CE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FinanceManagmentApplication.Units", "FinanceManagmentApplication.Units\FinanceManagmentApplication.Units.csproj", "{B88FD393-2350-49AF-BA51-867DA754A4CE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FinanceManagmentApplication.Documents", "FinanceManagmentApplication.Documents\FinanceManagmentApplication.Documents.csproj", "{39A68F9F-AB63-4BCE-9955-703BD541E1D4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -45,6 +47,10 @@ Global
 		{B88FD393-2350-49AF-BA51-867DA754A4CE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B88FD393-2350-49AF-BA51-867DA754A4CE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B88FD393-2350-49AF-BA51-867DA754A4CE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{39A68F9F-AB63-4BCE-9955-703BD541E1D4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{39A68F9F-AB63-4BCE-9955-703BD541E1D4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{39A68F9F-AB63-4BCE-9955-703BD541E1D4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{39A68F9F-AB63-4BCE-9955-703BD541E1D4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

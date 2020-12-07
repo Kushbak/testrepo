@@ -69,7 +69,7 @@ namespace FinanceManagmentApplication.DAL.Repositories
                 .Include(i => i.Score)
                 .Include(i => i.CounterParty)
                 .Include(i => i.Operation.OperationType)
-                .Include(i => i.User)
+                .OrderByDescending(i => i.ActionDate)
                 .ToList();
         }
 

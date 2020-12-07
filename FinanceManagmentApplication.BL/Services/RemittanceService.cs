@@ -140,14 +140,14 @@ namespace FinanceManagmentApplication.BL.Services
 
                 var OldSum = uow.FinanceActions.GetSumFinanceAction(Remittance.Id);
 
-                var HelperModel = new RemittanceEditHelperModelBuilder().Build();
-                    //.SetOldScore1(OldScore1)
-                    //.SetOldScore2(OldScore2)
-                    //.SetNewScore1(NewScore1)
-                    //.SetNewScore2(NewScore2)
-                    //.SetOldTransactionSum(OldSum)
-                    //.SetNewTransactionSum(Remittance.Sum)
-                    //.Build();
+                var HelperModel = new RemittanceEditHelperModelBuilder()
+                    .SetOldScore1(OldScore1)
+                    .SetOldScore2(OldScore2)
+                    .SetNewScore1(NewScore1)
+                    .SetNewScore2(NewScore2)
+                    .SetOldTransactionSum(OldSum)
+                    .SetNewTransactionSum(Remittance.Sum)
+                    .Build();
 
                 var Result = await CheckEditScore(HelperModel);
 

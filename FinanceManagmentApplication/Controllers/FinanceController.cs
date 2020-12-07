@@ -21,7 +21,7 @@ namespace FinanceManagmentApplication.Controllers
             financeService = service;
         }
         /// <summary>
-        ///Full finance list by projects
+        ///Выдает статистику по каждому проекту
         /// </summary>
         [HttpGet]
         [Route("Projects")]
@@ -30,7 +30,7 @@ namespace FinanceManagmentApplication.Controllers
             return await financeService.GetFinanceInformationToProjects();
         }
         /// <summary>
-        ///Full finance list by operations
+        ///Выдает статистику по каждой операции
         /// </summary>
         [HttpGet]
         [Route("Operations")]

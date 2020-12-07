@@ -121,6 +121,8 @@ namespace FinanceManagmentApplication
 
             services.AddScoped<IUserService, UserService>();
 
+            services.AddScoped<IExportService, ExportService>();
+
             services.AddControllers();
 
             //services.AddMvc()

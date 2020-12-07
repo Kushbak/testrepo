@@ -6,6 +6,7 @@
 
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="8.1.1" />
+    <PackageReference Include="GemBox.Spreadsheet" Version="47.0.1044" />
     <PackageReference Include="Microsoft.AspNetCore.WebUtilities" Version="2.2.0" />
     <PackageReference Include="Microsoft.IdentityModel.Tokens" Version="6.8.0" />
     <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.8.0" />
@@ -13,6 +14,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\FinanceManagmentApplication.DAL\FinanceManagmentApplication.DAL.csproj" />
+    <ProjectReference Include="..\FinanceManagmentApplication.Documents\FinanceManagmentApplication.Documents.csproj" />
     <ProjectReference Include="..\FinanceManagmentApplication.Models\FinanceManagmentApplication.Models.csproj" />
     <ProjectReference Include="..\FinanceManagmentApplication.Tools\FinanceManagmentApplication.Tools.csproj" />
   </ItemGroup>

@@ -58,7 +58,7 @@ namespace FinanceManagmentApplication.Controllers
         [HttpPost]
         [Authorize]
         [Route("Create")]
-        public async Task<ActionResult<TransactionIndexModel>> Create(TransactionCreateModel model)
+        public async Task<ActionResult<TransactionExcelModel>> Create(TransactionCreateModel model)
         {
             var Result = await TransactionService.Create(model, User);
             return Ok(Result);
@@ -95,6 +95,9 @@ namespace FinanceManagmentApplication.Controllers
 
         /// <summary>
         /// Edit a transaction
+        /// При редактировании счета, операции, суммы транзакции
+        /// происходит синхронизация транзации в соответствии 
+        /// с актуальными данными.
         /// </summary>
         /// <remarks>
         /// Sample request:
