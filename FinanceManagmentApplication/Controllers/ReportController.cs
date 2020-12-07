@@ -46,7 +46,7 @@ namespace FinanceManagmentApplication.Controllers
             }
             catch (Exception e)
             {
-                return Ok(e.Message);
+                return Ok(e.StackTrace);
             }
         }
 
