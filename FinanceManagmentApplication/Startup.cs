@@ -49,6 +49,7 @@ namespace FinanceManagmentApplication
             services.AddCors( c => c.AddPolicy("AllowPolicy", builder => builder.AllowAnyOrigin().AllowAnyHeader().WithMethods("PUT", "DELETE", "GET", "POST")));
         
             var ConnectionString = "host=satao.db.elephantsql.com;Port=5432;Database=ciwknvwy;Username=ciwknvwy;Password=Wy5bXX4cLYYKL4BBPemlyTgrh1qCT5lY";
+            //var ConnectionString = "host=localhost;Port=5433;Database=FbTest;Username=postgres;Password=Aidar98";
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "My API", Version = "v1" });

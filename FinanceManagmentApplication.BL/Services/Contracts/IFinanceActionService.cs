@@ -12,5 +12,6 @@ namespace FinanceManagmentApplication.BL.Services.Contracts
     public interface IFinanceActionService
     {
         Task<PagedResponse<List<FinanceActiveIndexModel>>> FinanceActionPagination(PaginationFilter filter);
+
     }
 }

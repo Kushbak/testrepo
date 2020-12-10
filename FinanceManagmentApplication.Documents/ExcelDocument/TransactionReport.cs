@@ -4,17 +4,17 @@ using DocumentFormat.OpenXml.Spreadsheet;
 using FinanceManagmentApplication.Models.TransactionModels;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Text;
 
 namespace FinanceManagmentApplication.Documents.ExcelDocument
 {
     public class TransactionReport
     {
-        public void CreateExcelDoc(string filePath, List<TransactionExcelModel> transactions)
+        public MemoryStream CreateExcelDoc(List<TransactionExcelModel> transactions, MemoryStream mem)
         {
-
-            using (SpreadsheetDocument document = SpreadsheetDocument.Create(filePath, SpreadsheetDocumentType.Workbook))
-            {
+            SpreadsheetDocument document = SpreadsheetDocument.Create(mem, SpreadsheetDocumentType.Workbook);
+            
                 WorkbookPart workbookPart = document.AddWorkbookPart();
                 workbookPart.Workbook = new Workbook();
 
@@ -127,7 +127,9 @@ namespace FinanceManagmentApplication.Documents.ExcelDocument
                 }
 
                 worksheetPart.Worksheet.Save();
-            }
+                document.Close();
+
+            return mem;
         }
 
         private Cell ConstructCell(string value, CellValues dataType, uint styleIndex = 0)

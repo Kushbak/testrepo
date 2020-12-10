@@ -2,6 +2,7 @@
 using FinanceManagmentApplication.BL.Services.Contracts;
 using FinanceManagmentApplication.DAL.Factories;
 using FinanceManagmentApplication.Documents.ExcelDocument;
+using FinanceManagmentApplication.Filter;
 using FinanceManagmentApplication.Models.RemittanceModels;
 using FinanceManagmentApplication.Models.TransactionModels;
 using GemBox.Spreadsheet;
@@ -15,67 +16,73 @@ namespace FinanceManagmentApplication.BL.Services
 {
     public class ExportService: IExportService
     {   
+        private IFinanceActionService FinanceActionService { get; }
+
         private IUnitOfWorkFactory UnitOfWorkFactory { get; }
 
-        public ExportService(IUnitOfWorkFactory unitOfWorkFactory)
+        public ExportService(IFinanceActionService financeActionService, IUnitOfWorkFactory unitOfWorkFactory)
         {
+            FinanceActionService = financeActionService;
             UnitOfWorkFactory = unitOfWorkFactory;
         }
 
-        public async Task<byte[]> RemittanceExport(string Path, string Name, string format)
+        //Генерацию отчетов отдельно для переводов и транзакций, оставим до лучших времен.
+
+        //public async Task<byte[]> RemittanceExport()        
+        //{
+        //    using (var uow = UnitOfWorkFactory.Create())
+        //    {
+        //        using (MemoryStream ms = new MemoryStream())
+        //        {
+        //            var Remittances = uow.Remittances.GetFullRemittances();
+        //            var Models = Mapper.Map<List<RemittanceExcelModel>>(Remittances);
+        //            var Report = new RemittanceReport();
+        //            var array = Report.CreateExcelDoc(Models, ms);
+
+        //            var bytes = array.ToArray();
+
+        //            return bytes;
+        //        }
+        //    }
+        //}
+
+        //public async Task<byte[]> TransactionExport()
+        //{
+        //    using (var uow = UnitOfWorkFactory.Create())
+        //    {
+        //        using (MemoryStream ms = new MemoryStream())
+        //        {
+        //            var Transactions = uow.Transactions.GetTransactionsToIndex();
+        //            var Models = Mapper.Map<List<TransactionExcelModel>>(Transactions);
+        //            var Report = new TransactionReport();
+        //            var array = Report.CreateExcelDoc(Models, ms);
+
+        //            var bytes = array.ToArray();
+
+        //            return bytes;
+        //        }
+
+        //    }
+        //}
+
+        public async Task<byte[]> FinanceActionsReport(PaginationFilter filter)
         {
             using (var uow = UnitOfWorkFactory.Create())
             {
-                var path = Path + Name + ".xlsx";
-                var path2 = Path + Name + "." + format;
-                var Remittances = uow.Remittances.GetFullRemittances();
-                var Models = Mapper.Map<List<RemittanceExcelModel>>(Remittances);
-                var Report = new RemittanceReport();
-                Report.CreateExcelDoc(path, Models);
-                SpreadsheetInfo.SetLicense("FREE-LIMITED-KEY");
-                ExcelFile workbook = ExcelFile.Load(path);
-                SpreadsheetInfo.SetLicense("FREE-LIMITED-KEY");
-                workbook.Save(path2);
+                using (MemoryStream ms = new MemoryStream())
+                {
+                    filter.PageNumber = 1;
+                    filter.PageSize = await uow.FinanceActions.Count();
+                    var Models = await FinanceActionService.FinanceActionPagination(filter);
+                    var Report = new FinanceActionReport();
+                    var array = Report.CreateExcelDoc(Models.Data, ms);
 
-                string Files = path2;
-                byte[] fileBytes = System.IO.File.ReadAllBytes(Files);
-                System.IO.File.WriteAllBytes(Files, fileBytes);
-                MemoryStream ms = new MemoryStream(fileBytes);
-                File.Delete(path);
-                if(format != "xlsx")
-                    File.Delete(path2);
+                    var bytes = array.ToArray();
 
-                return fileBytes;
+                    return bytes;
+                }
             }
-        }
 
-        public async Task<byte[]> TransactionExport(string Path, string Name, string format)
-        {
-            using (var uow = UnitOfWorkFactory.Create())
-            {
-                var path = Path + Name + ".xlsx";
-                var path2 = Path + Name + "." + format;
-                var Transactions = uow.Transactions.GetTransactionsToIndex();
-                var Models = Mapper.Map<List<TransactionExcelModel>>(Transactions);
-                var Report = new TransactionReport();
-                Report.CreateExcelDoc(path, Models);
-
-                SpreadsheetInfo.SetLicense("FREE-LIMITED-KEY");
-                ExcelFile workbook = ExcelFile.Load(path);
-                SpreadsheetInfo.SetLicense("FREE-LIMITED-KEY");
-                workbook.Save(path2);
-
-                string Files = path2;
-                byte[] fileBytes = System.IO.File.ReadAllBytes(Files);
-                System.IO.File.WriteAllBytes(Files, fileBytes);
-                MemoryStream ms = new MemoryStream(fileBytes);
-                //File.Delete(path);
-                //if (format != "xlsx")
-                //    File.Delete(path2);
-
-                return fileBytes;
-
-            }
         }
     }
 }

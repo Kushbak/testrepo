@@ -4,6 +4,7 @@ using DocumentFormat.OpenXml.Spreadsheet;
 using FinanceManagmentApplication.Models.RemittanceModels;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,11 +14,13 @@ namespace FinanceManagmentApplication.Documents.ExcelDocument
 {
     public class RemittanceReport
     {
-        public void CreateExcelDoc(string filePath, List<RemittanceExcelModel> Remittances)
+        public MemoryStream CreateExcelDoc(List<RemittanceExcelModel> Remittances, MemoryStream mem)
         {   
 
-            using (SpreadsheetDocument document = SpreadsheetDocument.Create(filePath, SpreadsheetDocumentType.Workbook))
-            {
+            
+                SpreadsheetDocument document = SpreadsheetDocument.
+                    Create(mem, SpreadsheetDocumentType.Workbook);
+
                 WorkbookPart workbookPart = document.AddWorkbookPart();
                 workbookPart.Workbook = new Workbook();
 
@@ -94,7 +97,8 @@ namespace FinanceManagmentApplication.Documents.ExcelDocument
                 }
 
                 worksheetPart.Worksheet.Save();
-            }
+                document.Close();
+                return mem;
         }
 
         private Cell ConstructCell(string value, CellValues dataType, uint styleIndex = 0)
