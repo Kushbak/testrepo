@@ -105,7 +105,7 @@ namespace FinanceManagmentApplication.Controllers
         ///     PUT / Edit a transaction
         ///     {
         ///     "id":12
-        ///   "actionDate": "2020-11-25",
+        ///    "actionDate": "2020-11-25",
         ///         "sum": 1250,
         ///        "operationId": 1,
         ///         "projectId": 1,

@@ -73,7 +73,7 @@ namespace FinanceManagmentApplication.BL.Services
             }
             else
             {
-                throw new NotEntityFoundException();
+                return null;
             }
         }
 
@@ -82,10 +82,22 @@ namespace FinanceManagmentApplication.BL.Services
             User user = await UserManager.FindByNameAsync(User.Identity.Name);
             if (user != null)
             {
-                user.Email = model.Email;
-                user.UserName = model.Username;
-                user.Surname = model.Surname;
-                user.Name = model.Name;
+                if(model.Email!=null)
+                {
+                    user.Email = model.Email;
+                }
+                if (model.Username != null)
+                {
+                    user.UserName = model.Username;
+                }
+                if (model.Surname != null)
+                {
+                    user.Surname = model.Surname;
+                }
+                if (model.Name != null)
+                {
+                    user.Name = model.Name;
+                }
                 var result = await UserManager.UpdateAsync(user);
                 if (result.Succeeded)
                 {

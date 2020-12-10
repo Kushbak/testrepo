@@ -77,6 +77,10 @@ namespace FinanceManagmentApplication.Controllers
         public async Task<ActionResult<UserIndexModel>> GetUser([FromQuery] UserIndexModel model)
         {
             var Result = await UserService.GetUser(model, User);
+            if(Result==null)
+            {
+                return StatusCode(StatusCodes.Status401Unauthorized, Result);
+            }
             return Result;
         }
 
@@ -84,6 +88,7 @@ namespace FinanceManagmentApplication.Controllers
         /// <summary>
         ///Edit information about user
         ///Username is should be unique
+        ///Можно изменять информацию выборочно
         /// </summary>
         /// <remarks>
         /// Sample request:
