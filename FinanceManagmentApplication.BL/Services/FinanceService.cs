@@ -7,6 +7,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using FinanceManagmentApplication.Models.FinanceActiveModels;
+using FinanceManagmentApplication.Models.FilterModels;
 
 namespace FinanceManagmentApplication.BL.Services
 {
@@ -78,6 +80,45 @@ namespace FinanceManagmentApplication.BL.Services
                 Model.Profit = Model.Income - Model.Expense;
 
                 return Model;
+            }
+        }
+
+        public async Task<List<FinanceActiveIndexModel>> GetStatisticsData(StatisticFilter filter)
+        {
+            using (var uow = UnitOfWorkFactory.Create())
+            {
+
+                List<FinanceActiveIndexModel> FinanceActionsList = new List<FinanceActiveIndexModel>(); 
+                var FinanceActions = uow.FinanceActions.GetFinanceActionsForStatistics(
+                    StartDate: filter.StartDate,
+                    EndDate: filter.EndDate,
+                    OperationsId: filter.OperationsId,
+                    ProjectsId: filter.ProjectsId,
+                    ScoresId: filter.ScoresId,
+                    Scores2Id: filter.Scores2Id,
+                    CounterPartiesId: filter.CounterPartiesId
+                    );
+
+                foreach (var FinanceAction in FinanceActions)
+                {
+
+                    if (FinanceAction.Discriminator.ToLower() == "transaction")
+                    {
+                        var Transaction = FinanceAction as Transaction;
+                        Transaction.CounterParty = await uow.CounterParties.GetByIdAsync(Transaction.CounterPartyId);
+                        FinanceActionsList.Add(Mapper.Map<FinanceActiveIndexModel>(Transaction));
+
+                    }
+                    else if (FinanceAction.Discriminator.ToLower() == "remittance")
+                    {
+                        var Remittance = FinanceAction as Remittance;
+                        Remittance.Score2 = await uow.Scores.GetByIdAsync(Remittance.Score2Id);
+                        FinanceActionsList.Add(Mapper.Map<FinanceActiveIndexModel>(Remittance));
+                    }
+                }
+
+                return Mapper.Map<List<FinanceActiveIndexModel>>(FinanceActions);
+
             }
         }
     }

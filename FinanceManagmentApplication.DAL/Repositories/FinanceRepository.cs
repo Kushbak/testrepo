@@ -59,6 +59,24 @@ namespace FinanceManagmentApplication.DAL.Repositories
 
         }
 
+        public List<FinanceAction> GetFinanceActionsForStatistics(DateTime? StartDate, DateTime? EndDate, int[] OperationsId, int[] ProjectsId, int[] ScoresId, int[] Scores2Id, int[] CounterPartiesId)
+        {
+            return DbSet.Where(i => (StartDate == null || StartDate < i.ActionDate) && (EndDate == null || EndDate > i.ActionDate))
+                .Where(i => OperationsId == null || OperationsId.Any(a => a == i.OperationId))
+                .Where(i => ProjectsId == null || ProjectsId.Any(a => a == i.ProjectId))
+                .Where(i => ScoresId == null || ScoresId.Any(a => a == i.ScoreId))
+                .Where(i => CounterPartiesId == null || (i is Transaction && CounterPartiesId.Any(a => a == ((Transaction)i).CounterPartyId)))
+                .Where(i => Scores2Id == null || (i is Remittance && Scores2Id.Any(a => a == ((Remittance)i).Score2Id)))
+                        .Include(i => i.Operation)
+                        .Include(i => i.Project)
+                        .Include(i => i.Score)
+                        .Include(i => i.Operation.OperationType)
+                        .OrderBy(i => i.ActionDate)
+                .ToList();
+        }
+
+
+
         public int GetSumFinanceAction(int Id)
         {
             return DbSet.Where(i => i.Id == Id).Select(i => i.Sum).FirstOrDefault();

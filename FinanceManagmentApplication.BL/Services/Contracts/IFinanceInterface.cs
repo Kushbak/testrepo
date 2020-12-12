@@ -1,4 +1,6 @@
-﻿using FinanceManagmentApplication.Models.FinanceModels;
+﻿using FinanceManagmentApplication.Models.FilterModels;
+using FinanceManagmentApplication.Models.FinanceActiveModels;
+using FinanceManagmentApplication.Models.FinanceModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,5 +13,7 @@ namespace FinanceManagmentApplication.BL.Services.Contracts
         Task<List<ProjectFinanceModel>> GetFinanceInformationToProjects();
 
         Task<List<OperationFinanceModel>> GetFinanceInformationToOperations();
+
+        Task<List<FinanceActiveIndexModel>> GetStatisticsData(StatisticFilter filter);
     }
 }

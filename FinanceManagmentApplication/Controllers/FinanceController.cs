@@ -7,6 +7,8 @@ using FinanceManagmentApplication.BL.Services;
 using FinanceManagmentApplication.BL.Services.Contracts;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using FinanceManagmentApplication.Models.FilterModels;
+using FinanceManagmentApplication.Models.FinanceActiveModels;
 
 namespace FinanceManagmentApplication.Controllers
 {
@@ -37,6 +39,13 @@ namespace FinanceManagmentApplication.Controllers
         public async Task<ActionResult<List<OperationFinanceModel>>> Operations()
         {
             return await financeService.GetFinanceInformationToOperations();
+        }
+
+        [HttpGet]
+        [Route("Statistics")]
+        public async Task<ActionResult<List<FinanceActiveIndexModel>>> Statistics([FromQuery] StatisticFilter filter)
+        {
+            return await financeService.GetStatisticsData(filter);
         }
     }
 }
