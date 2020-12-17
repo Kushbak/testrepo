@@ -77,7 +77,7 @@ namespace FinanceManagmentApplication.Controllers
             var Result = await ScoreService.Create(model);
             if (Result.Status == StatusEnum.Error)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, Result);
+                return StatusCode(StatusCodes.Status200OK, Result);
             }
 
             return Ok(Result);
@@ -117,7 +117,7 @@ namespace FinanceManagmentApplication.Controllers
             var Result = await ScoreService.Edit(model);
             if (Result.Status == StatusEnum.Error)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, Result);
+                return StatusCode(StatusCodes.Status200OK, Result);
             }
 
             return Ok(Result);

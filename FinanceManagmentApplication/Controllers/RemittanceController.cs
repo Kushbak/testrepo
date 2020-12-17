@@ -81,7 +81,7 @@ namespace FinanceManagmentApplication.Controllers
             {
                 return Ok(await RemittanceService.GetEditModel(Id.Value));
             }
-            return StatusCode(StatusCodes.Status500InternalServerError, "Error!");
+            return StatusCode(StatusCodes.Status200OK, "Error!");
         }
 
         //public async Task<IActionResult> Get()

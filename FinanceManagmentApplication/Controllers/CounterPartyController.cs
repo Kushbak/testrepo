@@ -55,7 +55,7 @@ namespace FinanceManagmentApplication.Controllers
             var Result = await CounterPartyService.Create(model);
             if (Result.Status == StatusEnum.Error)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, Result);
+                return StatusCode(StatusCodes.Status200OK, Result);
             }
 
             return Ok(Result);
@@ -74,7 +74,7 @@ namespace FinanceManagmentApplication.Controllers
             }
             catch (NotEntityFoundException)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status=StatusEnum.Error, Message="Нет контрагента с таким Id"});
+                return StatusCode(StatusCodes.Status200OK, new Response { Status=StatusEnum.Error, Message="Нет контрагента с таким Id"});
             }
         }
 
@@ -97,7 +97,7 @@ namespace FinanceManagmentApplication.Controllers
             var Result = await CounterPartyService.Edit(model);
             if (Result.Status == StatusEnum.Error)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, Result);
+                return StatusCode(StatusCodes.Status200OK, Result);
             }
 
             return Ok(Result);
@@ -133,7 +133,7 @@ namespace FinanceManagmentApplication.Controllers
                 return Ok();
             }
 
-            return StatusCode(StatusCodes.Status500InternalServerError, Result);
+            return StatusCode(StatusCodes.Status200OK, Result);
         }
     }
 }

@@ -53,13 +53,13 @@ namespace FinanceManagmentApplication.Controllers
         {
             if (model == null)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = StatusEnum.Error, Message = "Ничего не отправлено на сервер!" });
+                return StatusCode(StatusCodes.Status200OK, new Response { Status = StatusEnum.Error, Message = "Ничего не отправлено на сервер!" });
             }
 
             var Result = await OperationService.Create(model);
             if (Result.Status == StatusEnum.Error)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, Result );
+                return StatusCode(StatusCodes.Status200OK, Result );
             }
             return Ok(Result);
 

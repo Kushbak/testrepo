@@ -48,7 +48,7 @@ namespace FinanceManagmentApplication.Controllers
         {
             if (model == null)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = StatusEnum.Error, Message = "Project already exists!" });
+                return StatusCode(StatusCodes.Status200OK, new Response { Status = StatusEnum.Error, Message = "Project already exists!" });
             }
 
             await ProjectService.Create(model);

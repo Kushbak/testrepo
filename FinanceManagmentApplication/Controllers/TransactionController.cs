@@ -128,7 +128,7 @@ namespace FinanceManagmentApplication.Controllers
             var result = await TransactionService.Edit(model, User);
             if (result.Status == StatusEnum.Error)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, result);
+                return StatusCode(StatusCodes.Status200OK, result);
             }
             return Ok(result);
         }
