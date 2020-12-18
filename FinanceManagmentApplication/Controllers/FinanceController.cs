@@ -47,5 +47,12 @@ namespace FinanceManagmentApplication.Controllers
         {
             return await financeService.GetStatisticsData(filter);
         }
+
+        [HttpGet]
+        [Route("Settings")]
+        public async Task<ActionResult> Settings()
+        {
+            return Ok(await financeService.GetSettingsModel());
+        }
     }
 }

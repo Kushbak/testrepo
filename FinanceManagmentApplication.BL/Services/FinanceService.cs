@@ -9,6 +9,10 @@ using System.Linq;
 using System.Threading.Tasks;
 using FinanceManagmentApplication.Models.FinanceActiveModels;
 using FinanceManagmentApplication.Models.FilterModels;
+using FinanceManagmentApplication.Models.CounterPartiesModel;
+using FinanceManagmentApplication.Models.ScoreModel;
+using FinanceManagmentApplication.Models.ProjectModels;
+using FinanceManagmentApplication.Models.OperationModels;
 
 namespace FinanceManagmentApplication.BL.Services
 {
@@ -119,6 +123,20 @@ namespace FinanceManagmentApplication.BL.Services
 
                 return Mapper.Map<List<FinanceActiveIndexModel>>(FinanceActions);
 
+            }
+        }
+
+        public async Task<FinanceSettingsModel> GetSettingsModel()
+        {
+            using (var uow = UnitOfWorkFactory.Create())
+            {
+                var Model = new FinanceSettingsModel();
+                Model.CounterParties = Mapper.Map<List<CounterPartyIndexModel>>(await uow.CounterParties.GetAllAsync());
+                Model.Projects = Mapper.Map<List<ProjectIndexModel>>(await uow.Projects.GetAllAsync());
+                Model.Operations = Mapper.Map<List<OperationIndexModel>>(await uow.Operations.GetAllAsync());
+                Model.Scores = Mapper.Map<List<ScoreIndexModel>>(await uow.Scores.GetAllAsync());
+
+                return Model;
             }
         }
     }

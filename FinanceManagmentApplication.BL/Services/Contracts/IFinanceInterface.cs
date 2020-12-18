@@ -15,5 +15,7 @@ namespace FinanceManagmentApplication.BL.Services.Contracts
         Task<List<OperationFinanceModel>> GetFinanceInformationToOperations();
 
         Task<List<FinanceActiveIndexModel>> GetStatisticsData(StatisticFilter filter);
+
+        Task<FinanceSettingsModel> GetSettingsModel();
     }
 }
