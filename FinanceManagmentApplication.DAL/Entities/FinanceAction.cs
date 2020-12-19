@@ -32,5 +32,7 @@ namespace FinanceManagmentApplication.DAL.Entities
         public string Description { get; set; }
 
         public string Discriminator { get; set; }
+
+        public bool IsDelete { get; set; }
     }
 }

@@ -99,12 +99,11 @@ namespace FinanceManagmentApplication.BL.Services
             {
                 if (!uow.Scores.Check(Id))
                     return new Response { Status = StatusEnum.Error, Message="Нет такого счета!"};
-                if (uow.Transactions.CheckToScore(Id))
-                { 
-                    return new Response { Status = StatusEnum.Error, Message = "На этот счет есть транзакции, его нельзя удалить!" };
-                }
                 var Score = await uow.Scores.GetByIdAsync(Id);
-                await uow.Scores.RemoveAsync(Score);
+                if(Score.Balance > 0)
+                    return new Response { Status = StatusEnum.Error, Message = "На счету уже есть деньги, его нельзя удалить" };
+                Score.IsDelete = true;
+                await uow.Scores.UpdateAsync(Score);
                 return new Response { Status = StatusEnum.Error, Message = "Счет удален успешно" };
             }
         }

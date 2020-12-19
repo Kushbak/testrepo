@@ -19,6 +19,8 @@ namespace FinanceManagmentApplication.DAL.Entities
 
         public int Balance { get; set; }
 
+        public bool IsDelete { get; set; }
+
         public IEnumerable<FinanceAction> FinanceActions { get; set; }
 
         public IEnumerable<Remittance> Remittances { get; set; }

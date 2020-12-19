@@ -17,5 +17,7 @@ namespace FinanceManagmentApplication.DAL.Entities
         public int? UserId { get; set; }
 
         public IEnumerable<Transaction> Transactions { get; set; }
+
+        public bool IsDelete { get; set; }
     }
 }

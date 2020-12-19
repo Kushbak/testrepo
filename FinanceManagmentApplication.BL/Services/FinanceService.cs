@@ -100,7 +100,8 @@ namespace FinanceManagmentApplication.BL.Services
                     ProjectsId: filter.ProjectsId,
                     ScoresId: filter.ScoresId,
                     Scores2Id: filter.Scores2Id,
-                    CounterPartiesId: filter.CounterPartiesId
+                    CounterPartiesId: filter.CounterPartiesId,
+                    OperationTypesId: filter.OperationTypesId
                     );
 
                 foreach (var FinanceAction in FinanceActions)

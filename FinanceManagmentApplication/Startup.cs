@@ -47,8 +47,8 @@ namespace FinanceManagmentApplication
         {
 
             services.AddCors( c => c.AddPolicy("AllowPolicy", builder => builder.AllowAnyOrigin().AllowAnyHeader().WithMethods("PUT", "DELETE", "GET", "POST")));
-        
-            var ConnectionString = "host=satao.db.elephantsql.com;Port=5432;Database=ciwknvwy;Username=ciwknvwy;Password=Wy5bXX4cLYYKL4BBPemlyTgrh1qCT5lY";
+
+            var ConnectionString = "host=rosie.db.elephantsql.com;Port=5432;Database=sehybfes;Username=sehybfes;Password=htEQHoBMlPprC5LZaipm7Kwr7bSYSiN4";
             //var ConnectionString = "host=localhost;Port=5433;Database=FbTest;Username=postgres;Password=Aidar98";
             services.AddSwaggerGen(c =>
             {
@@ -182,7 +182,6 @@ namespace FinanceManagmentApplication
                 DataInitializer.PaymentTypeInitialize(uow.PaymentTypes).ConfigureAwait(false).GetAwaiter().GetResult();
                 DataInitializer.CounterPartyInitialize(uow.CounterParties).ConfigureAwait(false).GetAwaiter().GetResult();
                 DataInitializer.ScoreInitialize(uow.Scores).ConfigureAwait(false).GetAwaiter().GetResult();
-                DataInitializer.TransactionInitialize(uow.Transactions).ConfigureAwait(false).GetAwaiter().GetResult();
                
             }
 

@@ -15,5 +15,7 @@ namespace FinanceManagmentApplication.DAL.Entities
         public int OperationTypeId { get; set; }
 
         public IEnumerable<FinanceAction> Transactions { get; set; }
+
+        public bool IsDelete { get; set; }
     }
 }

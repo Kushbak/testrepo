@@ -24,11 +24,11 @@ namespace FinanceManagmentApplication.DAL.Repositories
                 .ToList();
         }
 
-        public (List<FinanceAction>, int) GetPaginationFinanceActions(int PageNumber, int PageSize, DateTime? StartDate, DateTime? EndDate, int[] OperationsId, int[] ProjectsId, int[] ScoresId, int[] CounterPartiesId, int[] Scores2Id , int[] UsersId)
+        public (List<FinanceAction>, int) GetPaginationFinanceActions(int PageNumber, int PageSize, DateTime? StartDate, DateTime? EndDate, int[] OperationsId, int[] ProjectsId, int[] ScoresId, int[] CounterPartiesId, int[] Scores2Id , int[] UsersId, int[] OperationTypesId)
         {
             
             var Count = DbSet.Where(i => (StartDate == null || StartDate < i.ActionDate) && (EndDate == null  || EndDate > i.ActionDate))
-                .Where(i => OperationsId == null || OperationsId.Any( a => a == i.OperationId))
+                .Where(i => OperationTypesId != null ? OperationTypesId.Any(o => i.Operation.OperationTypeId == o) : OperationsId == null || OperationsId.Any(a => a == i.OperationId))
                 .Where(i => ProjectsId == null || ProjectsId.Any(a => a == i.ProjectId))
                 .Where(i => ScoresId == null || ScoresId.Any(a => a == i.ScoreId))
                 .Where(i => UsersId == null || UsersId.Any(a => a == i.UserId))
@@ -38,14 +38,14 @@ namespace FinanceManagmentApplication.DAL.Repositories
 
 
             var FinanceActions = DbSet.Where(i => (StartDate == null || StartDate < i.ActionDate) && (EndDate == null || EndDate > i.ActionDate))
-                .Where(i => OperationsId == null || OperationsId.Any(a => a == i.OperationId))
+                .Where(i => OperationTypesId != null ? OperationTypesId.Any(o => i.Operation.OperationTypeId == o) : OperationsId == null || OperationsId.Any(a => a == i.OperationId))
                 .Where(i => ProjectsId == null || ProjectsId.Any(a => a == i.ProjectId))
                 .Where(i => ScoresId == null || ScoresId.Any(a => a == i.ScoreId))
                 .Where(i => UsersId == null || UsersId.Any(a => a == i.UserId))
                 .Where(i => CounterPartiesId == null || (i is Transaction && CounterPartiesId.Any(a => a == ((Transaction)i).CounterPartyId)))
                 .Where(i => Scores2Id == null || (i is Remittance && Scores2Id.Any(a => a == ((Remittance)i).Score2Id)))
                 .OrderByDescending(i => i.ActionDate)
-                .Skip((PageNumber - 1) * PageSize)
+                .Skip((PageNumber - 1) * PageSize)  
                        .Take(PageSize)
                        .Include(i => i.Operation)
                         .Include(i => i.Project)
@@ -59,10 +59,10 @@ namespace FinanceManagmentApplication.DAL.Repositories
 
         }
 
-        public List<FinanceAction> GetFinanceActionsForStatistics(DateTime? StartDate, DateTime? EndDate, int[] OperationsId, int[] ProjectsId, int[] ScoresId, int[] Scores2Id, int[] CounterPartiesId)
+        public List<FinanceAction> GetFinanceActionsForStatistics(DateTime? StartDate, DateTime? EndDate, int[] OperationsId, int[] ProjectsId, int[] ScoresId, int[] Scores2Id, int[] CounterPartiesId, int[] OperationTypesId)
         {
             return DbSet.Where(i => (StartDate == null || StartDate < i.ActionDate) && (EndDate == null || EndDate > i.ActionDate))
-                .Where(i => OperationsId == null || OperationsId.Any(a => a == i.OperationId))
+                .Where(i => OperationTypesId == null ? OperationTypesId.Any(o => i.Operation.OperationTypeId == o) :  OperationsId == null || OperationsId.Any(a => a == i.OperationId))
                 .Where(i => ProjectsId == null || ProjectsId.Any(a => a == i.ProjectId))
                 .Where(i => ScoresId == null || ScoresId.Any(a => a == i.ScoreId))
                 .Where(i => CounterPartiesId == null || (i is Transaction && CounterPartiesId.Any(a => a == ((Transaction)i).CounterPartyId)))

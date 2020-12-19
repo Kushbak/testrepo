@@ -35,7 +35,7 @@ namespace FinanceManagmentApplication.BL.Services
                 var FinanceActions = uow.FinanceActions.GetPaginationFinanceActions
                     (PageNumber: filter.PageNumber, PageSize: filter.PageSize, OperationsId: filter.OperationsId,
                     ProjectsId: filter.ProjectsId, ScoresId: filter.ScoresId, StartDate: filter.StartDate, EndDate: filter.EndDate,
-                    Scores2Id: filter.Scores2Id, CounterPartiesId: filter.CounterPartiesId, UsersId: filter.UsersId);
+                    Scores2Id: filter.Scores2Id, CounterPartiesId: filter.CounterPartiesId, UsersId: filter.UsersId, OperationTypesId: filter.OperationTypesId);
                 foreach (var FinanceAction in FinanceActions.Item1)
                 {
 

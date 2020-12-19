@@ -10,6 +10,8 @@ namespace FinanceManagmentApplication.DAL.Entities
 
         public string Name { get; set; }
 
+        public bool IsDelete { get; set; }
+
         public IEnumerable<Score> Scores { get; set; }
     }
 }

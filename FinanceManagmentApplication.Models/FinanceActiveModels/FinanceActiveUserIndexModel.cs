@@ -11,6 +11,7 @@ namespace FinanceManagmentApplication.Models.FinanceActiveModels
         public int Sum { get; set; }
 
         public string UserName { get; set; }
+
         public string OperationName { get; set; }
 
         public string TransactionType { get; set; }

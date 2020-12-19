@@ -19,6 +19,7 @@ namespace FinanceManagmentApplication.Filter
         public int[] CounterPartiesId { get; set; }
         public int[] Scores2Id { get; set; }
         public int[] UsersId { get; set; }
+        public int[] OperationTypesId { get; set; }
 
         public PaginationFilter()
         {

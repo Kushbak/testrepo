@@ -29,6 +29,9 @@ namespace FinanceManagmentApplication.DAL.Migrations
                     b.Property<bool>("IsCompany")
                         .HasColumnType("boolean");
 
+                    b.Property<bool>("IsDelete")
+                        .HasColumnType("boolean");
+
                     b.Property<string>("Name")
                         .HasColumnType("text");
 
@@ -58,6 +61,9 @@ namespace FinanceManagmentApplication.DAL.Migrations
                     b.Property<string>("Discriminator")
                         .IsRequired()
                         .HasColumnType("text");
+
+                    b.Property<bool>("IsDelete")
+                        .HasColumnType("boolean");
 
                     b.Property<int>("OperationId")
                         .HasColumnType("integer");
@@ -96,6 +102,9 @@ namespace FinanceManagmentApplication.DAL.Migrations
                         .HasColumnType("integer")
                         .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
+                    b.Property<bool>("IsDelete")
+                        .HasColumnType("boolean");
+
                     b.Property<string>("Name")
                         .HasColumnType("text");
 
@@ -116,6 +125,9 @@ namespace FinanceManagmentApplication.DAL.Migrations
                         .HasColumnType("integer")
                         .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
+                    b.Property<bool>("IsDelete")
+                        .HasColumnType("boolean");
+
                     b.Property<string>("Name")
                         .HasColumnType("text");
 
@@ -131,6 +143,9 @@ namespace FinanceManagmentApplication.DAL.Migrations
                         .HasColumnType("integer")
                         .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
+                    b.Property<bool>("IsDelete")
+                        .HasColumnType("boolean");
+
                     b.Property<string>("Name")
                         .HasColumnType("text");
 
@@ -145,6 +160,9 @@ namespace FinanceManagmentApplication.DAL.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("integer")
                         .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+
+                    b.Property<bool>("IsDelete")
+                        .HasColumnType("boolean");
 
                     b.Property<string>("Name")
                         .HasColumnType("text");
@@ -164,6 +182,9 @@ namespace FinanceManagmentApplication.DAL.Migrations
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
                         .HasColumnType("text");
+
+                    b.Property<bool>("IsDelete")
+                        .HasColumnType("boolean");
 
                     b.Property<string>("Name")
                         .HasColumnType("character varying(256)")
@@ -194,6 +215,9 @@ namespace FinanceManagmentApplication.DAL.Migrations
 
                     b.Property<string>("Code")
                         .HasColumnType("text");
+
+                    b.Property<bool>("IsDelete")
+                        .HasColumnType("boolean");
 
                     b.Property<string>("Name")
                         .HasColumnType("text");
@@ -227,6 +251,9 @@ namespace FinanceManagmentApplication.DAL.Migrations
                         .HasMaxLength(256);
 
                     b.Property<bool>("EmailConfirmed")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("IsDelete")
                         .HasColumnType("boolean");
 
                     b.Property<bool>("LockoutEnabled")

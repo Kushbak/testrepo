@@ -106,12 +106,9 @@ namespace FinanceManagmentApplication.BL.Services
         {
             using (var uow = UnitOfWorkFactory.Create())
             {
-                if (uow.Transactions.CheckTransactionToCounterPart(Id))
-                {
-                    return new Response { Status = StatusEnum.Error, Message = "На данного контрагента уже заведены транзакции. Удаление невозможно" };
-                }
                 var CounterParty = await uow.CounterParties.GetByIdAsync(Id);
-                await uow.CounterParties.RemoveAsync(CounterParty);
+                CounterParty.IsDelete = true;
+                await uow.CounterParties.UpdateAsync(CounterParty);
 
                 return new Response { Status = StatusEnum.Error };
             }

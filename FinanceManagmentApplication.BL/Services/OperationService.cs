@@ -96,17 +96,13 @@ namespace FinanceManagmentApplication.BL.Services
         {
             using (var uow = UnitOfWorkFactory.Create())
             {
-                if (uow.Transactions.CheckTransactionToOperation(Id))
-                {
-                    return new Response { Status = StatusEnum.Error, Message = "Этот тип операции связан с транзакциями. Удаление невозможно" };
-                }
-
                 var Operation = await uow.Operations.GetByIdAsync(Id);
                 if (Operation == null)
                 {
                     return new Response { Status = StatusEnum.Error, Message = "Нет такого типа операций" };
                 }
-                await uow.Operations.RemoveAsync(Operation);
+                Operation.IsDelete = true;
+                await uow.Operations.UpdateAsync(Operation);
                 return new Response { Status = StatusEnum.Accept, Message = "Запрос прошел успешно" };
             }
 

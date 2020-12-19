@@ -13,5 +13,6 @@ namespace FinanceManagmentApplication.Models.FilterModels
         public int[] ScoresId { get; set; }
         public int[] CounterPartiesId { get; set; }
         public int[] Scores2Id { get; set; }
+        public int[] OperationTypesId { get; set; }
     }
 }

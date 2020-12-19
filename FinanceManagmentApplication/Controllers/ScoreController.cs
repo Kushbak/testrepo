@@ -123,7 +123,13 @@ namespace FinanceManagmentApplication.Controllers
             return Ok(Result);
         }
 
-
+        [HttpDelete]
+        [Route("Delete")]
+        public async Task<ActionResult<ScoreEditModel>> Delete(int? Id)
+        {
+            var Result = await ScoreService.Delete(Id.Value);
+            return Ok(Result);
+        }
 
 
     }

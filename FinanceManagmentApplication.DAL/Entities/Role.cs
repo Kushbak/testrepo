@@ -7,6 +7,6 @@ namespace FinanceManagmentApplication.DAL.Entities
 {
     public class Role:IdentityRole<int>, IEntity
     {
-
+        public bool IsDelete { get; set; }
     }
 }

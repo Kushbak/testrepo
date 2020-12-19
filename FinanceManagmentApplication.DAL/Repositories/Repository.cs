@@ -4,6 +4,7 @@ using FinanceManagmentApplication.DAL.Repositories.Contracts;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -30,7 +31,7 @@ namespace FinanceManagmentApplication.DAL.Repositories
 
         public async Task<List<T>> GetAllAsync()
         {
-            return await DbSet.ToListAsync();
+            return await DbSet.Where(E => !E.IsDelete).ToListAsync();
         }
 
         public virtual async Task<T> GetByIdAsync(int id)

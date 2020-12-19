@@ -42,7 +42,8 @@ namespace FinanceManagmentApplication.BL.Services
             using (var uow = _unitOfWorkFactory.Create())
             {
                 var Project = await uow.Projects.GetByIdAsync(Id);
-                await uow.Projects.RemoveAsync(Project);
+                Project.IsDelete = true;
+                await uow.Projects.UpdateAsync(Project);
             }
         }
 

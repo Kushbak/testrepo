@@ -9,8 +9,8 @@ namespace FinanceManagmentApplication.DAL.Repositories.Contracts
     {
         List<FinanceAction> GetFinanceActionsToOperation(int ProjectId);
         int GetSumFinanceAction(int Id);
-        (List<FinanceAction>, int) GetPaginationFinanceActions(int PageNumber, int PageSize, DateTime? StartDate, DateTime? EndDate, int[] OperationsId, int[] ProjectsId, int[] ScoresId, int[] CounterPartiesId, int[] Scores2Id, int[] UsersId);
-        List<FinanceAction> GetFinanceActionsForStatistics(DateTime? StartDate, DateTime? EndDate, int[] OperationsId, int[] ProjectsId, int[] ScoresId, int[] Scores2Id, int[] CounterPartiesId);
+        (List<FinanceAction>, int) GetPaginationFinanceActions(int PageNumber, int PageSize, DateTime? StartDate, DateTime? EndDate, int[] OperationsId, int[] ProjectsId, int[] ScoresId, int[] CounterPartiesId, int[] Scores2Id, int[] UsersId, int[] OperationTypesId);
+        List<FinanceAction> GetFinanceActionsForStatistics(DateTime? StartDate, DateTime? EndDate, int[] OperationsId, int[] ProjectsId, int[] ScoresId, int[] Scores2Id, int[] CounterPartiesId, int[] OperationTypesId);
 
 
     }
