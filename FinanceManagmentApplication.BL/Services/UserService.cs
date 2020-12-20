@@ -11,6 +11,10 @@ using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using FinanceManagmentApplication.Models.WebModels;
+using Microsoft.IdentityModel.Tokens;
+using System.IdentityModel.Tokens.Jwt;
+using System.Text;
+using Microsoft.Extensions.Configuration;
 
 namespace FinanceManagmentApplication.BL.Services
 {
@@ -18,12 +22,16 @@ namespace FinanceManagmentApplication.BL.Services
     {
 
         private readonly UserManager<User> UserManager;
+        private readonly SignInManager<User> SignInManager;
+        private readonly IConfiguration _configuration;
         private DAL.Factories.IUnitOfWorkFactory UnitOfWorkFactory { get; }
 
-        public UserService(IUnitOfWorkFactory unitOfWorkFactory, UserManager<User> userManager)
+        public UserService(IUnitOfWorkFactory unitOfWorkFactory, UserManager<User> userManager, SignInManager<User> signInManager, IConfiguration configuration)
         {
             UnitOfWorkFactory = unitOfWorkFactory;
             UserManager = userManager;
+            SignInManager = signInManager;
+            _configuration = configuration;
         }
 
         public async Task<List<UserIndexModel>> GetAll()
@@ -77,7 +85,7 @@ namespace FinanceManagmentApplication.BL.Services
             }
         }
 
-        public async Task<Response> Edit(EditUserModel model, ClaimsPrincipal User)
+        public async Task<TokenModel> Edit(EditUserModel model, ClaimsPrincipal User)
         {
             User user = await UserManager.FindByNameAsync(User.Identity.Name);
             if (user != null)
@@ -101,16 +109,16 @@ namespace FinanceManagmentApplication.BL.Services
                 var result = await UserManager.UpdateAsync(user);
                 if (result.Succeeded)
                 {
-                    return new Response { Status = StatusEnum.Accept, Message = "Редактирование информации о пользователе прошло успешно." };
+                    return await GenerateToken(user);
                 }
                 else
                 {
-                    return new Response { Status = StatusEnum.Error, Message = "Такой логин уже существует" };
+                    throw new Exception("Такой логин уже существует");
                 }
             }
             else
             {
-                return new Response { Status = StatusEnum.Error, Message = "Такого пользователя нет в базе данных" };
+                throw new Exception("Такой логин уже существует");
             }
         }
         public async Task<Response> ChangePassword(ChangePasswordUserModel model, ClaimsPrincipal User)
@@ -133,6 +141,46 @@ namespace FinanceManagmentApplication.BL.Services
             {
                 return new Response { Status = StatusEnum.Error, Message = "Такого пользователя нет в базе данных" };
             }
+        }
+
+        private async Task<TokenModel> GenerateToken(User user)
+        {
+            var userRoles = await UserManager.GetRolesAsync(user);
+
+
+
+            var authClaims = new List<Claim>
+                {
+                    new Claim(ClaimTypes.Name, user.UserName),
+                    new Claim(ClaimTypes.Email, user.Email),
+                    new Claim(ClaimTypes.Surname, user.Surname),
+                    new Claim(ClaimTypes.NameIdentifier, user.Name),
+
+                    new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+                };
+
+
+            foreach (var userRole in userRoles)
+            {
+                authClaims.Add(new Claim(ClaimTypes.Role, userRole));
+            }
+
+            var authSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JWT:Secret"]));
+
+            var token = new JwtSecurityToken(
+                issuer: _configuration["JWT:ValidIssuer"],
+                audience: _configuration["JWT:ValidAudience"],
+                expires: DateTime.Now.AddHours(3),
+                claims: authClaims,
+                signingCredentials: new SigningCredentials(authSigningKey, SecurityAlgorithms.HmacSha256)
+                );
+
+            return new TokenModel
+            {
+                token = new JwtSecurityTokenHandler().WriteToken(token),
+                expiration = token.ValidTo
+            };
+
         }
     }
 }

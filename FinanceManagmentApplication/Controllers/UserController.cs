@@ -111,12 +111,21 @@ namespace FinanceManagmentApplication.Controllers
         [Route("Edit")]
         public async Task<IActionResult> Edit(EditUserModel model)
         {
-            var Result = await UserService.Edit(model, User);
-            if (Result.Status == StatusEnum.Error)
+            try
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, Result);
+                var Result = await UserService.Edit(model, User);
+                return Ok(Result);
             }
-            return Ok(Result);
+            catch (UserEditException e)
+            {
+                return Ok(new Response { Status = StatusEnum.Error, Message = e.Message });
+            }
+            catch
+            {
+                return Ok(new Response { Status = StatusEnum.Error, Message = "Неизвестная ошибка"});
+            }
+
+            
         }
 
 

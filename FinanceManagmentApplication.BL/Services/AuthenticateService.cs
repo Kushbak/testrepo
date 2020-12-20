@@ -33,6 +33,8 @@ namespace FinanceManagmentApplication.BL.Services
             {
                 var userRoles = await userManager.GetRolesAsync(user);
 
+
+
                 var authClaims = new List<Claim>
                 {
                     new Claim(ClaimTypes.Name, user.UserName),
@@ -42,6 +44,7 @@ namespace FinanceManagmentApplication.BL.Services
 
                     new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
                 };
+
 
                 foreach (var userRole in userRoles)
                 {

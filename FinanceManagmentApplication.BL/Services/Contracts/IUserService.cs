@@ -13,7 +13,7 @@ namespace FinanceManagmentApplication.BL.Services.Contracts
         Task<EditUserModel> GetEditModel(int Id);
         Task<UserDetailsModel> GetDetailsModel(int Id);
         Task<List<UserIndexModel>> GetAll();
-        Task<Response> Edit(EditUserModel model, ClaimsPrincipal User);
+        Task<TokenModel> Edit(EditUserModel model, ClaimsPrincipal User);
         Task<Response> ChangePassword(ChangePasswordUserModel model, ClaimsPrincipal User);
         Task<UserIndexModel> GetUser(UserIndexModel model, ClaimsPrincipal User);
 
