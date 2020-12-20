@@ -73,10 +73,10 @@ namespace FinanceManagmentApplication
         private void TransactionMapping()
         {
             CreateMap<Transaction, FinanceActiveIndexModel>()
-                .ForMember(source => source.Score, target => target.MapFrom(src => src.Score.IsDelete ? "Счет удален" : src.Score.Name))
-                .ForMember(source => source.TargetEntity, target => target.MapFrom(src => src.CounterParty.IsDelete ? "Контрагент удален" : src.CounterParty.Name))
-                .ForMember(source => source.OperationName, target => target.MapFrom(src => src.Operation.IsDelete ? "Операция удалена" : src.Operation.Name))
-                .ForMember(source => source.ProjectName, target => target.MapFrom(src => src.Project.IsDelete ? "Проект удален" : src.Project.Name))
+                .ForMember(source => source.Score, target => target.MapFrom(src => src.Score.IsDelete ? src.Score.Name + "( удален)" : src.Score.Name))
+                .ForMember(source => source.TargetEntity, target => target.MapFrom(src => src.CounterParty.IsDelete ? src.CounterParty.Name + "( удален)" : src.CounterParty.Name))
+                .ForMember(source => source.OperationName, target => target.MapFrom(src => src.Operation.IsDelete ? "( удалена)" : src.Operation.Name))
+                .ForMember(source => source.ProjectName, target => target.MapFrom(src => src.Project.IsDelete ? "( удален)" : src.Project.Name))
                 .ForMember(source => source.TransactionType, target => target.MapFrom(src => src.Operation.OperationType.Name));
             CreateMap<Transaction, FinanceActiveUserIndexModel>()
                 .ForMember(source => source.Score, target => target.MapFrom(src => src.Score.Name))
@@ -118,10 +118,10 @@ namespace FinanceManagmentApplication
         private void RemittanceMapping()
         {
             CreateMap<Remittance, FinanceActiveIndexModel>()
-               .ForMember(source => source.Score, target => target.MapFrom(src => src.Score.IsDelete ? "Счет удален" : src.Score.Name))
-               .ForMember(source => source.TargetEntity, target => target.MapFrom(src => src.Score2.IsDelete ? "Счет удален" : src.Score2.Name))
-               .ForMember(source => source.OperationName, target => target.MapFrom(src => src.Operation.IsDelete ? "Операция удалена" : src.Operation.Name))
-               .ForMember(source => source.ProjectName, target => target.MapFrom(src => src.Project.IsDelete ? "Проект удален" : src.Project.Name))
+               .ForMember(source => source.Score, target => target.MapFrom(src => src.Score.IsDelete ? src.Score.Name + "( удален)" : src.Score.Name))
+               .ForMember(source => source.TargetEntity, target => target.MapFrom(src => src.Score2.IsDelete ? "( удален)" : src.Score2.Name))
+               .ForMember(source => source.OperationName, target => target.MapFrom(src => src.Operation.IsDelete ? "( удалена)" : src.Operation.Name))
+               .ForMember(source => source.ProjectName, target => target.MapFrom(src => src.Project.IsDelete ? "( удален)" : src.Project.Name))
                .ForMember(source => source.TransactionType, target => target.MapFrom(src => src.Operation.OperationType.Name))
                .ForMember(source => source.ActionDate, target => target.MapFrom(src => src.ActionDate.ToString("d")))
                .ForMember(source => source.UserName, target => target.MapFrom(src => src.User.UserName));
