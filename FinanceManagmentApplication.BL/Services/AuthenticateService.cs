@@ -90,7 +90,7 @@ namespace FinanceManagmentApplication.BL.Services
             var result = await userManager.CreateAsync(user, model.Password);
             if (!result.Succeeded)
                 new Response { Status = StatusEnum.Error };
-
+            await userManager.AddToRoleAsync(user, "employee");
             return new Response { Status = StatusEnum.Accept, Message = "User created successfully!" };
         }
 

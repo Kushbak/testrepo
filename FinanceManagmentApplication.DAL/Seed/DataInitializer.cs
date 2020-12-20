@@ -55,13 +55,16 @@ namespace FinanceManagmentApplication.DAL.Seed
             }
             if (await userManager.FindByNameAsync(adminEmail) == null)
             {
-                User admin = new User { Email = adminEmail, UserName = adminEmail };
+                User admin = new User { Email = adminEmail, UserName = "Admin", Name="Айдар", Surname="Сырдыбаев"};
+                admin.Surname = "Сырдыбаев";
+                admin.Name = "Айдар";
+
                 IdentityResult result = await userManager.CreateAsync(admin, password);
                 if (result.Succeeded)
                 {
                     await userManager.AddToRoleAsync(admin, "admin");
                 }
-                User Employee = new User { Email = "employee@gmail.com", UserName = "employee" };
+                User Employee = new User { Email = "employee@gmail.com", UserName = "employee", Name = "Бактыбек", Surname = "Рогович" };
                 IdentityResult result2 = await userManager.CreateAsync(Employee, password);
                 if (result2.Succeeded)
                 {
