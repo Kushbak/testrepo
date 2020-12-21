@@ -34,8 +34,8 @@ namespace FinanceManagmentApplication.BL.Handlers.TransactionEditHandlers
                 throw new TransactionException("Нет такого типа операций!");
 
 
-            Model.OldScore.Balance -= Model.OldOperationTypeId == Income ? Model.NewTransactionSum : 0;
-            Model.OldScore.Balance += Model.OldOperationTypeId == Expense ? Model.NewTransactionSum : 0;
+            Model.OldScore.Balance -= Model.NewOperationTypeId == Income ? Model.NewTransactionSum : 0;
+            Model.OldScore.Balance += Model.NewOperationTypeId == Expense ? Model.NewTransactionSum : 0;
 
             Model.NewScore.Balance += Model.NewOperationTypeId == Income ? Model.NewTransactionSum : 0;
             Model.NewScore.Balance -= Model.NewOperationTypeId == Expense ? Model.NewTransactionSum : 0;

@@ -22,15 +22,24 @@ namespace FinanceManagmentApplication.BL.Handlers.TransactionEditHandlers
                 return;
             }
 
-            if (Model.OldOperationTypeId == 1 && Model.OldScore.Balance < Model.OldTransactionSum
+            if (Model.OldScore != null && Model.OldOperationTypeId == 1 && Model.OldScore.Balance < Model.OldTransactionSum
                 && !Model.IsEditScore && !Model.IsEditSum)
                 throw new TransactionException("Недостаточно средств на счете!");
             if (Model.NewOperationTypeId == 2 && Model.NewScore.Balance < Model.NewTransactionSum
                     && !Model.IsEditScore && !Model.IsEditSum)
                 throw new TransactionException("Недостаточно средств на счете!");
 
-            Model.NewScore.Balance += Model.NewOperationTypeId == Income ? Model.NewTransactionSum * 2 : 0;
-            Model.NewScore.Balance -= Model.NewOperationTypeId == Expense ? Model.NewTransactionSum * 2 : 0;
+
+            if (Model.OldScore == null)
+            {
+                Model.NewScore.Balance += Model.NewOperationTypeId == Income && Model.IsEditOperationType ? Model.NewTransactionSum * 2 : 0;
+                Model.NewScore.Balance -= Model.NewOperationTypeId == Expense && Model.IsEditOperationType ? Model.NewTransactionSum * 2 : 0;
+            }
+            else
+            {
+                Model.OldScore.Balance += Model.NewOperationTypeId == Income && Model.IsEditOperationType ? Model.NewTransactionSum * 2 : 0;
+                Model.OldScore.Balance -= Model.NewOperationTypeId == Expense && Model.IsEditOperationType ? Model.NewTransactionSum * 2 : 0;
+            }
 
             Successor.HandleRequest(Model);
         }
